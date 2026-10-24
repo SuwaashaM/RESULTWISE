@@ -153,3 +153,23 @@ def _inject(tr: str, facts: dict) -> str:
     d, m, y = facts["due"].split("/")
     wrong = f"{m}/{d}/{y}" if d != m else f"{int(d) % 28 + 1:02d}/{m}/{y}"
     return tr.replace(facts["due"], wrong)
+
+
+# Words that would reveal a finding or diagnosis. Patient messages must only name the test and how to book it.
+CLINICAL_WORDS = ["cancer", "malignan", "tumour", "tumor", "carcinoma", "metasta", "nodule", "lesion", "mass",
+                  "lvef", "ejection fraction", "cardiotoxic", "osteopor", "osteopen", "t-score", "suspicious",
+                  "recurrence", "abnormal", "u3", "u4", "u5", "r4", "r5", "m4", "bi-rads"]
+
+
+def source_check(text_en: str, facts: dict) -> list[tuple[str, bool]]:
+    """Every fact in the English message must come from the confirmed follow-up (the 'source'), and nothing more."""
+    low = text_en.lower()
+    found = [w for w in CLINICAL_WORDS if re.search(rf"(?<![a-z]){re.escape(w)}", low)]
+    dates = re.findall(r"\b\d{2}/\d{2}/\d{4}\b", text_en)
+    return [
+        (f"Due date {facts['due']} matches the confirmed follow-up", facts["due"] in text_en
+         and all(d == facts["due"] for d in dates)),
+        (f"Booking number {facts['phone']} matches the responsible hospital", facts["phone"] in text_en),
+        (f"Names the test: {facts['test']}", facts["test"].split(" (")[0].lower() in low),
+        ("No finding, result or diagnosis wording" + (f" (found: {', '.join(found)})" if found else ""), not found),
+    ]

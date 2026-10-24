@@ -252,3 +252,14 @@ def test_gemini_uses_low_latency_settings(monkeypatch):
                         {"choices": [{"message": {"content": "OK"}}]})
     llm.complete("gemini", "s", "u", key="k")
     assert seen["reasoning_effort"] == "low" and seen["model"] == llm.COMPAT["gemini"][2]
+
+
+def test_source_check_blocks_diagnosis_and_wrong_facts():
+    facts = {"first_name": "Halina", "test": "heart scan (echocardiogram)", "due": "02/11/2026", "phone": "01632 960 202"}
+    p, t = {"name": "Halina Nowak"}, {"due_date": "2026-11-02", "test": "echocardiogram"}
+    en, f = messages.draft_english(p, t, "01632 960 202")
+    assert all(ok for _, ok in messages.source_check(en, f))
+    bad = en.replace("02/11/2026", "09/11/2026") + " Your LVEF has dropped."
+    res = dict(messages.source_check(bad, facts))
+    assert not all(res.values())
+    assert any("found: lvef" in k for k in res)

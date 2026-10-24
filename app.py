@@ -513,9 +513,27 @@ elif page == "Review and approve":
                     else:
                         tr, back, ok, notes = None, "", True, []
                         st.info("The English message on the left is exactly what the patient receives.")
+                checks = messages.source_check(en, facts)
+                html('<div class="rw-src"><div class="k">SOURCE CHECK &middot; ENGLISH MESSAGE AGAINST THE CONFIRMED '
+                     'FOLLOW-UP</div>' + "".join(
+                         f'<div style="color:{ui.TEAL if ok_ else ui.RED};font-size:.88rem;margin:.15rem 0">'
+                         f'{"&#10003;" if ok_ else "&#10007;"} {ui.esc(lbl)}</div>' for lbl, ok_ in checks) + "</div>")
+                sources_ok = all(ok_ for _, ok_ in checks)
+                with st.expander("Preview what the patient receives"):
+                    shown = tr if (lang != "English" and tr and tr != en) else en
+                    shown_lang = lang if shown != en else "English"
+                    if p["channel"] == "app":
+                        html(ui.phone(shown, shown_lang, f"Your care team, {trow['responsible_trust']}"))
+                    else:
+                        html(ui.letter(shown, shown_lang, p["name"], trow["responsible_trust"]))
+                    st.caption(f"Sent by {p['channel']}. The patient can switch language, use easy read, larger text "
+                               "or read aloud in their Patient view.")
+                # the key includes the text, so editing the English clears the tick: editing requires approval again
                 checked_msg = st.checkbox("I have checked the message, translation and next steps against the source "
-                                          "report and the confirmed follow-up.", key=f"chk{tid}_{hash(en)}")
+                                          "report and the confirmed follow-up.",
+                                          key=f"chk{tid}_{abs(hash(en)) % 10**8}")
                 why = ("Confirm the follow-up first (Report & AI result tab)." if not confirmed
+                       else "Fix the items marked with a cross in the source check." if not sources_ok
                        else "Translate and pass the safety check first." if not ok
                        else "Tick the box above to confirm you have checked it." if not checked_msg else "")
                 a1, a2 = st.columns([2, 5])
@@ -524,7 +542,8 @@ elif page == "Review and approve":
                                           edited=(en != (draft["text_en"] if draft else default_en)))
                     st.session_state.pop(ck, None)
                     st.rerun()
-                a2.caption(why or "Approval is recorded with your name and time. Editing the English needs a new check.")
+                a2.caption(why or "Approval is recorded with your name and time. Editing the message clears the tick, "
+                                  "so any edit needs approving again.")
 
         # ---------------- tab 3: who can see it, and everything that happened
         with tab3:
