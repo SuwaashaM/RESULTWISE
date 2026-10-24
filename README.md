@@ -130,11 +130,33 @@ Start with *Settings → Reset demo* (simulated date Sun 25 Oct 2026).
 6. **Back to Clinician (15s).** The reply is on the worklist. Every step is in the audit log.
 7. **Equity + Evaluation (25s).** Who is being missed; held-out accuracy offline vs Claude.
 
+## Evaluation results
+
+How well does each engine find the follow-ups in a report? Each synthetic report has correct answers attached
+(test, due date, urgency). The **held-out set** (10 reports) was written after the offline rules were built and
+never used to tune them, so it is the fair test.
+
+| Held-out set (10 reports, 9 follow-ups) | AI (Gemini `gemini-3.5-flash-lite`) | Offline keyword rules |
+|---|---|---|
+| **Recall**: follow-ups found | **100%** | 22% |
+| **Precision**: found items that were real | 90% | 100% |
+| **Urgent recall**: urgent follow-ups found | **100%** | 50% |
+| Timeframe correct (of those found) | 100% | 100% |
+| Urgency correct (of those found) | 89% | 100% |
+
+On the 104 development reports the offline rules were tuned on, they score 97% recall, 100% precision and 100%
+urgent recall. That drops to 22% on unfamiliar wording, which is why the AI reads the reports and the rules
+are only the fallback.
+
+**Caveat:** a small, synthetic test set written by our team. Real validation on de-identified real reports
+would be needed before any clinical use. Reproduce with `python eval.py --engine offline` or
+`--engine gemini` (needs `GEMINI_API_KEY`), or on the app's *Evaluation* page.
+
 ## Tests
 
 ```bash
 pip install pytest
-pytest -q          # 27 tests: extraction, schema validation, mocked Claude path (hallucination check,
+pytest -q          # 33 tests: extraction, schema validation, mocked Claude path (hallucination check,
                    # bad JSON fallback, no temperature), cross-trust tracking, escalation, urgent never messaged,
                    # translation fact check, easy read, patient replies, FHIR export, report format
 python eval.py --engine offline    # or: --engine claude
@@ -162,8 +184,7 @@ tests/                     pytest suite
 
 ## Honest limits
 
-- Synthetic data only. Offline rules score 97% recall on the development reports they were tuned on, but 22% on
-  held-out reports; that gap is why the AI reads the reports. Run `python eval.py --engine claude` for Claude's numbers.
+- Synthetic data only, and a small held-out test set (see *Evaluation results*).
 - Offline translations (Polish, Urdu, Tamil) are demo templates; AI translations are fact-checked but would still
   need professional review before real use. Read aloud depends on the voices installed on the patient's device.
 - Bookings are simulated; a real system would read orders from each trust's record system via FHIR / HL7.
