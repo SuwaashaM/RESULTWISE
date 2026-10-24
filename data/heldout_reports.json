@@ -1,0 +1,105 @@
+[
+  {
+    "id": "H01",
+    "text": "Breast ultrasound.\nFindings: 5 mm complicated cyst, probably benign (U3).\nConclusion: Short-interval follow-up ultrasound advised in six months.",
+    "gold": [
+      {
+        "follow_up_test": "breast_ultrasound",
+        "due_in_days": 180,
+        "urgency": "routine"
+      }
+    ]
+  },
+  {
+    "id": "H02",
+    "text": "Echocardiogram.\nFindings: LVEF 50%, down from 63% on trastuzumab.\nConclusion: Withhold trastuzumab; cardiology opinion requested urgently. Re-scan in 4 weeks.",
+    "gold": [
+      {
+        "follow_up_test": "specialist_review",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      },
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 28,
+        "urgency": "soon"
+      }
+    ]
+  },
+  {
+    "id": "H03",
+    "text": "Screening mammogram.\nFindings: Benign appearances.\nConclusion: Routine recall in 3 years via the screening programme.",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 1095,
+        "urgency": "routine"
+      }
+    ]
+  },
+  {
+    "id": "H04",
+    "text": "CT chest.\nFindings: 8 mm part-solid nodule in the left upper lobe.\nConclusion: Further CT in 3 months; if persistent, discuss at lung MDT.",
+    "gold": [
+      {
+        "follow_up_test": "ct_chest",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ]
+  },
+  {
+    "id": "H05",
+    "text": "DXA scan.\nFindings: Hip T-score -3.1.\nConclusion: Severe osteoporosis. Start bisphosphonate via GP; repeat scan in 2 years.",
+    "gold": [
+      {
+        "follow_up_test": "dexa",
+        "due_in_days": 730,
+        "urgency": "routine"
+      }
+    ]
+  },
+  {
+    "id": "H06",
+    "text": "MRI breasts.\nFindings: No suspicious enhancement. Mild background parenchymal enhancement.\nConclusion: Annual MRI surveillance recommended (BRCA carrier).",
+    "gold": [
+      {
+        "follow_up_test": "breast_mri",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ]
+  },
+  {
+    "id": "H07",
+    "text": "Ultrasound liver.\nFindings: Two hyperechoic lesions, likely haemangiomas.\nConclusion: No further imaging needed.",
+    "gold": []
+  },
+  {
+    "id": "H08",
+    "text": "Echocardiogram.\nFindings: LVEF 61%. Normal.\nConclusion: Continue routine 12-weekly echoes during anti-HER2 therapy.",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 84,
+        "urgency": "routine"
+      }
+    ]
+  },
+  {
+    "id": "H09",
+    "text": "Mammogram right breast.\nFindings: 7 mm cluster of pleomorphic calcifications, R4.\nConclusion: Stereotactic biopsy recommended.",
+    "gold": [
+      {
+        "follow_up_test": "breast_biopsy",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      }
+    ]
+  },
+  {
+    "id": "H10",
+    "text": "Staging bone scan.\nFindings: No abnormal uptake.\nConclusion: No follow-up imaging is required on the basis of this study.",
+    "gold": []
+  }
+]

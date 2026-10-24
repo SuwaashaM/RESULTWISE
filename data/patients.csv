@@ -1,0 +1,25 @@
+id,name,age,sex,language,channel,imd_quintile,home_trust,phone
+P001,Halina Nowak,61,F,Polish,app,3,Northbridge Hospitals,01632 960 101
+P002,Susan Whitaker,67,F,English,app,4,Valeford Hospitals,01632 960 202
+P003,Amina Hussain,52,F,Urdu,letter,1,Northbridge Hospitals,01632 960 101
+P004,Chloe Barnes,41,F,English,app,3,Northbridge Hospitals,01632 960 101
+P005,Patricia Coleman,58,F,English,app,4,Northbridge Hospitals,01632 960 101
+P006,Kavitha Raman,49,F,Tamil,app,2,Northbridge Hospitals,01632 960 101
+P007,Margaret Ellis,72,F,English,letter,2,Northbridge Hospitals,01632 960 101
+P008,Joan Pearson,81,F,English,carer,1,Northbridge Hospitals,01632 960 101
+P009,Nadia Begum,63,F,Urdu,phone,1,Northbridge Hospitals,01632 960 101
+P010,Rebecca Hall,55,F,English,app,5,Northbridge Hospitals,01632 960 101
+P011,Linda Moore,69,F,English,app,3,Northbridge Hospitals,01632 960 101
+P012,Ewa Kowalska,47,F,Polish,app,2,Northbridge Hospitals,01632 960 101
+P013,Doreen Walsh,84,F,English,carer,2,Northbridge Hospitals,01632 960 101
+P014,Sarah Ahmed,59,F,English,app,3,Northbridge Hospitals,01632 960 101
+P015,Emily Turner,38,F,English,app,5,Northbridge Hospitals,01632 960 101
+P016,Meena Sivakumar,53,F,Tamil,app,4,Northbridge Hospitals,01632 960 101
+P017,Hannah Price,45,F,English,app,4,Northbridge Hospitals,01632 960 101
+P018,Barbara Hughes,74,F,English,letter,3,Northbridge Hospitals,01632 960 101
+P019,Zofia Wiśniewska,50,F,Polish,app,2,Northbridge Hospitals,01632 960 101
+P020,Carl Bennett,66,M,English,app,3,Northbridge Hospitals,01632 960 101
+P021,Fatima Khan,57,F,Urdu,phone,1,Northbridge Hospitals,01632 960 101
+P022,Jennifer Lloyd,62,F,English,app,4,Northbridge Hospitals,01632 960 101
+P023,Priya Natarajan,44,F,Tamil,app,3,Northbridge Hospitals,01632 960 101
+P024,Elaine Foster,78,F,English,letter,2,Northbridge Hospitals,01632 960 101
