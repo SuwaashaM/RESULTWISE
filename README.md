@@ -1,209 +1,83 @@
 # Resultwise
 
-**No follow-up silently lost.** Resultwise uses AI to read radiology, echo and bone-density reports, turns every
-recommended follow-up into a tracked task, checks every hospital for a booking, escalates when nothing happens,
-and sends a clinician-approved message the patient can read in their own language, in easy read, larger text or
-high contrast, or have read aloud.
+**No follow-up silently lost.** Resultwise reads breast cancer scan reports with AI, tracks every recommended
+follow-up across hospitals, and reaches the patient in her own language, with a clinician approving every step.
 
-Breast cancer focus: indeterminate imaging, heart scans during HER2 treatment, bone density scans on aromatase
-inhibitors, surveillance mammograms, and incidental findings on staging CT.
-
-> Hackathon MVP. **All data is synthetic.** Fictional trusts, invented patients and clinicians, NHS numbers from
-> the 999 test range, fake phone numbers (Ofcom 01632 960xxx). Not a medical device, not clinically validated.
+> **All data is synthetic.** Fictional hospitals and patients, NHS numbers from the 999 test range, phone numbers
+> from Ofcom's drama ranges. Hackathon prototype: not a medical device, not clinically validated.
 
 ## The problem
 
-Scan reports often end with a recommendation such as *"repeat echocardiogram in 12 weeks"* or *"core biopsy
-advised"*. It's free text, so someone has to read it, order the test, book it and tell the patient. That chain
-breaks, especially when care moves between hospitals and GPs on different record systems, and each system only
-sees its own bookings. The patient finds out late.
+A scan report ends with a line like *"repeat echocardiogram in 12 weeks"*. Someone has to read it, book it and
+tell the patient. When care moves between hospitals, each system only sees its own bookings, so the follow-up
+falls through the gap. Breast cancer patients are especially exposed: years of heart scans, bone density scans
+and mammograms, often at different hospitals.
 
-Breast cancer patients are especially exposed: many scheduled scans over years, often across several organisations.
+## How it works
 
-## Problem statement
+**AI reads and translates. Rules track. A human decides.**
 
-> **How might we make sure that every follow-up recommended in a breast cancer patient's imaging report is
-> completed on time, even when her care spans several NHS organisations and record systems, without adding to
-> clinicians' workload, and without leaving behind patients who are older, don't speak English, or don't use
-> digital services?**
+1. **AI reads the report** and pulls out the test, due date, urgency and the exact sentence it came from.
+2. **A clinician checks and confirms** before anything is tracked.
+3. **Rules track it at every hospital**: reminder when due, alert when overdue, nurse after 14 days.
+4. **The patient gets a message in her language**, translated, back-translated, fact-checked and approved by a
+   clinician. Urgent findings always get a phone call instead.
+5. **The patient can reply or ask a question**, and serious ones reach the clinician in seconds.
 
-Full problem statement, evidence, success measures and scope: [PROBLEM_STATEMENT.md](PROBLEM_STATEMENT.md).
+![Architecture](docs/architecture.png)
 
-## Our solution
+Each layer is explained in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
-Resultwise **follows the patient, not the hospital**. AI reads and drafts. Plain rules do the tracking.
-Clinicians make every decision. Patients can reply.
+## What's in this repo
 
-```
-report ──► Claude reads it ──► Pydantic schema check ──► evidence quote must exist in report ──► confidence check
-                                   (any failure → human review, never dropped)
-       ──► task (SQLite) ──► daily rules: booked at ANY trust? due soon? overdue? 14+ days overdue?
-                                   └► clinician alert → nurse outreach; urgent findings → phone call, never a message
-       ──► message drafted ──► Claude translates + back-translates ──► date/phone/name fact check ──► clinician approves
-       ──► patient portal: any of 18 languages, easy read, text size, high contrast, read aloud, reply buttons
-       ──► patient replies ──► clinician worklist          every step ──► audit log          tasks ──► FHIR Task export
-```
-
-## Find your way around
+The main product is the **web app**, built with Lovable (React + Lovable Cloud). This repo holds the
+**Python test bench** where we built and measured the AI, plus the data and docs.
 
 | | |
 |---|---|
-| **Architecture diagram + each layer explained** | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) |
-| **Synthetic data + data dictionary** | [`data/README.md`](data/README.md) |
-| **Sample reports to upload** (`.txt` / `.pdf` / `.docx`) | [`data/sample_reports/`](data/sample_reports/) |
-| **Web app demo data** (9 patients, 10 cases, pre-written translations) | [`data/lovable_demo/demo_cases.json`](data/lovable_demo/demo_cases.json) |
-| **Devpost story** | [`DEVPOST.md`](DEVPOST.md) |
-| **Problem statement + evidence** | [`PROBLEM_STATEMENT.md`](PROBLEM_STATEMENT.md) |
+| Architecture | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) |
+| Synthetic data and data dictionary | [`data/README.md`](data/README.md) |
+| Sample reports to upload (.txt / .pdf / .docx) | [`data/sample_reports/`](data/sample_reports/) |
+| Web app demo data | [`data/lovable_demo/demo_cases.json`](data/lovable_demo/demo_cases.json) |
+| Problem statement and evidence | [`PROBLEM_STATEMENT.md`](PROBLEM_STATEMENT.md) |
+| Devpost story | [`DEVPOST.md`](DEVPOST.md) |
 
-The main product is the **web app** built with Lovable (React + Lovable Cloud). This repository holds the
-**Python test bench** where we built and measured the AI, the synthetic data, and the documentation.
+## Evaluation
 
-## Run it locally
+Tested on **10 held-out reports** written after the rules were built and never used to tune them.
+
+| | AI (Gemini) | Keyword rules |
+|---|---|---|
+| Follow-ups found | **100%** | 22% |
+| Found items that were real | 90% | 100% |
+| Urgent follow-ups found | **100%** | 50% |
+| Timeframe correct | 100% | 100% |
+| Urgency correct | 89% | 100% |
+
+The rules score 97% on the 104 reports we tuned them on, but only 22% on new wording. That's why the AI reads the
+reports and the rules are only the fallback. Small synthetic test set; real validation would be needed before
+clinical use.
+
+## Run it
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-export ANTHROPIC_API_KEY=sk-ant-...   # optional; Windows: set ANTHROPIC_API_KEY=...
 streamlit run app.py
 ```
 
-## Turn on the AI
-
-Add **one** of these keys (locally as an environment variable, or on Streamlit Cloud under app *Settings → Secrets*).
-The app uses the first one it finds, and you can switch under *Settings → AI engine* in the sidebar.
-
-| Provider | Cost | Secret to add | Default model |
-|---|---|---|---|
-| Google Gemini | **Free tier** (key from aistudio.google.com) | `GEMINI_API_KEY = "..."` | `gemini-3.5-flash-lite` |
-| Groq | **Free tier** (key from console.groq.com) | `GROQ_API_KEY = "..."` | `llama-3.3-70b-versatile` |
-| Anthropic Claude | Paid | `ANTHROPIC_API_KEY = "sk-ant-..."` | `claude-sonnet-5-5` (reads), `claude-haiku-5-5` (translates) |
-| OpenAI | Paid | `OPENAI_API_KEY = "sk-..."` | `gpt-4.1-mini` |
-
-Override models with `RESULTWISE_GEMINI_MODEL`, `RESULTWISE_GROQ_MODEL`, `RESULTWISE_CLAUDE_MODEL`,
-`RESULTWISE_CLAUDE_FAST_MODEL` or `RESULTWISE_OPENAI_MODEL`. When it works, the sidebar shows **AI on: <model>**.
-
-Free tiers have low rate limits, so the app sends fewer requests at once and retries automatically when told to
-slow down; re-reading all 104 reports can take a few minutes. Free tiers may use prompts to improve their models,
-which is acceptable here only because every report is synthetic.
-
-**Without a key** Resultwise uses transparent offline rules and pre-written Polish, Urdu and Tamil templates, so
-the demo never fails on stage Wi-Fi. If an AI call fails, it falls back to offline and flags the task for human review.
-
-Only synthetic text is ever sent to the API. Real patient data would need a contract, DPIA and IG approval first.
-
-## What's in the app
-
-**Clinician (sidebar menu)**
-
-| View | What it shows |
-|---|---|
-| Worklist | Stat tiles, the loop strip (every follow-up from closed to overdue), priority cards, what's waiting for you, CSV export |
-| **Review and approve** | Patient queue on the left; on the right, one patient with numbered steps and tabs (Report & AI result, Patient message, Tracking & activity, FHIR). Tick boxes confirm the clinician checked the source before confirming and before sending. **Step 1:** the report (AI evidence highlighted) side by side with what the AI extracted, as plain English or as a **FHIR Task (JSON)** you can download; correct test / due date / urgency and confirm, or dismiss with a reason. **Step 2:** edit the **English message**, see the **translation and back-translation side by side**, pass the safety check and the **source check** (date, booking number and test must match the confirmed follow-up; no diagnosis wording), preview it as the patient sees it, tick *I have checked*, then **approve and send**. Editing the message clears the tick, so any edit needs approving again. Urgent findings show a phone-call step instead. Patient replies at the top |
-| How it works | The four steps, what the AI does and never does, safety checks, tracking and data |
-| Patient journey | Two-hospital swimlanes: Northbridge's record, Valeford's record, Resultwise |
-| Report inbox | New reports, *Re-read all reports with Claude* (parallel), paste-your-own report |
-| Equity | Past on-time rates by age, language, deprivation, plus current tasks by group |
-| Evaluation | Recall, precision, urgent recall, timeframe and urgency accuracy, on development and held-out reports |
-| Audit log | Every AI output, rule decision, patient reply and human action |
-
-**Patient (sidebar: Patient view)**
-
-Only their own approved messages: choose any of 18 languages, easy read, text size, high contrast, read aloud
-(uses the device's voices), and reply: *I've already booked it*, *Please call me*, *I can't make it*,
-*I don't understand*. Replies appear on the clinician worklist.
-
-## Synthetic data
-
-`python data/generate_data.py` regenerates everything (fixed random seed):
-
-| File | Contents |
-|---|---|
-| `data/reports.json` | **104 full NHS-style reports** with gold labels: header (trust, patient, NHS test number, DOB), examination, accession, referrer, clinical indication, comparison, technique, findings, conclusion, reporter. 28 hand-written story reports + 76 generated from 17 clinical scenarios with varied phrasing (formal, abbreviated, hedged, buried in findings, negated) |
-| `data/heldout_reports.json` | 10 reports written after the offline rules, never used to tune them |
-| `data/patients.csv` | 60 patients: age, sex, language (English, Polish, Urdu, Tamil, Bengali, Punjabi, Romanian, Somali), contact channel, deprivation quintile, home trust |
-| `data/bookings.csv` | Bookings across two trusts; some deliberately missing (booking chance lower for older, non-English and deprived patients) |
-| `data/history.csv` | 900 past follow-ups with outcomes, for the equity view |
-
-## 4-minute demo script
-
-Start with *Settings → Reset demo* (simulated date Sun 25 Oct 2026).
-
-1. **Worklist (20s).** The loop strip: 92 follow-ups tracked. "Doreen, 84, missed her mammogram; it's escalated."
-2. **Report inbox (40s).** *Read all 3 new reports*: suspicious findings get a red *Phone patient* tag. Then paste a
-   report with unusual wording ("would suggest a further scan in about a month") and show Claude extracting it,
-   with the evidence sentence.
-3. **Patient journey, Halina Nowak (40s).** Northbridge: *handed over*. Valeford: *no record*. Click **+2 wk**:
-   Resultwise turns **Overdue**. "This is the gap no single hospital's record can see."
-4. **Review and approve, Halina (60s).** Compare the highlighted report with the plain-English summary and the
-   FHIR tab, *Confirm follow-up*. Edit the English message, *Translate into Polish and check*, compare the
-   back-translation, *Approve and send*. For the safety moment: *Settings → Simulate a translation error*, translate
-   again: **Blocked**, the date changed.
-5. **Patient (50s).** Open *Patient view*, sign in as Halina. Polish message; switch to Urdu or Bengali (Claude
-   translates live), *Easy read*, *Extra large*, *High contrast*, *Read aloud*. Tap *Please call me*.
-6. **Back to Clinician (15s).** The reply is on the worklist. Every step is in the audit log.
-7. **Equity + Evaluation (25s).** Who is being missed; held-out accuracy offline vs Claude.
-
-## Evaluation results
-
-How well does each engine find the follow-ups in a report? Each synthetic report has correct answers attached
-(test, due date, urgency). The **held-out set** (10 reports) was written after the offline rules were built and
-never used to tune them, so it is the fair test.
-
-| Held-out set (10 reports, 9 follow-ups) | AI (Gemini `gemini-3.5-flash-lite`) | Offline keyword rules |
-|---|---|---|
-| **Recall**: follow-ups found | **100%** | 22% |
-| **Precision**: found items that were real | 90% | 100% |
-| **Urgent recall**: urgent follow-ups found | **100%** | 50% |
-| Timeframe correct (of those found) | 100% | 100% |
-| Urgency correct (of those found) | 89% | 100% |
-
-On the 104 development reports the offline rules were tuned on, they score 97% recall, 100% precision and 100%
-urgent recall. That drops to 22% on unfamiliar wording, which is why the AI reads the reports and the rules
-are only the fallback.
-
-**Caveat:** a small, synthetic test set written by our team. Real validation on de-identified real reports
-would be needed before any clinical use. Reproduce with `python eval.py --engine offline` or
-`--engine gemini` (needs `GEMINI_API_KEY`), or on the app's *Evaluation* page.
-
-## Tests
+Works offline with the rules. To turn on the AI, set one key: `GEMINI_API_KEY` or `GROQ_API_KEY` (both have free
+tiers), or `ANTHROPIC_API_KEY` / `OPENAI_API_KEY`. Only synthetic text is ever sent.
 
 ```bash
-pip install pytest
-pytest -q          # 33 tests: extraction, schema validation, mocked Claude path (hallucination check,
-                   # bad JSON fallback, no temperature), cross-trust tracking, escalation, urgent never messaged,
-                   # translation fact check, easy read, patient replies, FHIR export, report format
-python eval.py --engine offline    # or: --engine claude
+pytest -q                          # 33 tests, also run on every push
+python eval.py --engine offline    # or --engine gemini
+python data/generate_data.py       # regenerate the synthetic data
 ```
 
-Tests and the offline evaluation run on every push (GitHub Actions).
+## Limits
 
-## Files
-
-```
-PROBLEM_STATEMENT.md       problem, evidence, statement, success measures, scope
-DEVPOST.md                 Devpost submission text
-app.py                     Streamlit app (clinician + patient)
-eval.py                    command-line evaluation
-resultwise/extract.py      Claude / offline extraction + safety checks
-resultwise/llm.py          Claude / OpenAI client (standard library only)
-resultwise/messages.py     drafting, translation, back-translation, fact check, easy read, languages
-resultwise/rules.py        tracking engine, escalation, cross-trust views
-resultwise/pipeline.py     processing (parallel re-read), clinician actions, patient replies, demo seed
-resultwise/fhir.py         FHIR R4 Task export
-resultwise/ui.py           visual components (loop strip, cards, swimlanes, portal, read aloud)
-data/                      synthetic data + generators (see data/README.md)
-data/sample_reports/       sample reports as .txt / .pdf / .docx for the upload feature
-data/lovable_demo/         the web app's demo cases and pre-written translations
-docs/ARCHITECTURE.md       architecture diagrams and each layer explained
-tests/                     pytest suite
-```
-
-## Honest limits
-
-- Synthetic data only, and a small held-out test set (see *Evaluation results*).
-- Offline translations (Polish, Urdu, Tamil) are demo templates; AI translations are fact-checked but would still
-  need professional review before real use. Read aloud depends on the voices installed on the patient's device.
-- Bookings are simulated; a real system would read orders from each trust's record system via FHIR / HL7.
-- Real deployment needs a DPIA, Caldicott and DCB0129/0160 clinical safety work, data-sharing agreements,
-  UK-hosted infrastructure, and validation on real reports.
+- Synthetic data only, and a small held-out test set.
+- Bookings are simulated; a real system would read them from each hospital via FHIR / HL7.
+- Translations need native-speaker review before real use.
+- Going live would need a DPIA, Caldicott approval, data-sharing agreements, a clinical safety case
+  (DCB0129/0160) and validation on real reports.
