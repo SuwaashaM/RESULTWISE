@@ -30,7 +30,19 @@ html, body, [class*="css"], .stMarkdown, .stText, button, input, textarea, selec
   font-family: 'Inter', Arial, sans-serif !important; }}
 .stApp {{ background: {PAPER}; color: {INK}; }}
 [data-testid="stHeader"] {{ background: transparent; }}
-#MainMenu, footer, [data-testid="stToolbar"] {{ visibility: hidden; }}
+#MainMenu, footer, [data-testid="stAppDeployButton"], [data-testid="stMainMenu"] {{ display: none !important; }}
+.st-key-topnav {{ background:#fff; border:1px solid {LINE}; border-radius:12px; padding:.45rem .7rem; margin-bottom:.9rem;
+  position: sticky; top: .5rem; z-index: 50; }}
+.st-key-topnav [data-testid="stButtonGroup"] [role="radiogroup"] {{ flex-wrap: wrap !important; overflow: visible !important;
+  gap:.2rem; width:100%; }}
+.st-key-topnav [data-testid="stButtonGroup"] button {{ border:none !important; background:transparent; border-radius:8px !important;
+  padding:.35rem .7rem; min-height:2.1rem; }}
+.st-key-topnav [data-testid="stButtonGroup"] button p {{ font-size:.86rem; font-weight:600; color:{MUTED}; white-space:nowrap; }}
+.st-key-topnav [data-testid="stButtonGroup"] button:hover {{ background:#F3F7F4; }}
+.st-key-topnav [data-testid="stButtonGroup"] button[aria-checked="true"],
+.st-key-topnav [data-testid="stButtonGroup"] button[kind$="Active"] {{ background:{SOFT} !important; }}
+.st-key-topnav [data-testid="stButtonGroup"] button[aria-checked="true"] p,
+.st-key-topnav [data-testid="stButtonGroup"] button[kind$="Active"] p {{ color:{TEAL}; }}
 .block-container {{ padding-top: 1.4rem; max-width: 1280px; }}
 h1, h2, h3, h4 {{ color: {INK}; letter-spacing: -0.02em; }}
 h3 {{ font-size: 1.15rem !important; font-weight: 700 !important; }}
@@ -165,7 +177,9 @@ def header(title: str, lead: str, tag: str = "", eyebrow: str = "") -> str:
     return f'<div class="rw-head"><div>{eb}<h1>{esc(title)}</h1><p>{esc(lead)}</p></div>{tg}</div>'
 
 
-def brand() -> str:
+def brand(compact: bool = False) -> str:
+    if compact:
+        return '<div class="rw-brand" style="font-size:1.05rem"><div class="mark">&#10033;</div>Resultwise</div>'
     return ('<div class="rw-brand"><div class="mark">&#10033;</div>Resultwise</div>'
             '<div class="rw-brand-sub">No follow-up silently lost</div>')
 

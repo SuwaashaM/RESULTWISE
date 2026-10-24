@@ -71,10 +71,13 @@ NAV = ["Worklist", "Review and approve", "Report inbox", "Patient journey", "Equ
        "Patient view", "How it works"]
 NAV_SECTION = {"Patient view": ("Patient view", "Your messages"), "How it works": ("About", "How it works")}
 
+if st.session_state.get("nav") not in NAV:
+    st.session_state["nav"] = "Worklist"
+page = st.session_state["nav"]
+role = "Patient" if page == "Patient view" else "Clinician"
+
 with st.sidebar:
     html(ui.brand())
-    page = st.radio("View", NAV, label_visibility="collapsed", key="nav")
-    role = "Patient" if page == "Patient view" else "Clinician"
     engine_label = st.session_state["engine_label"]
     engine = ENGINES[engine_label]
     key = st.session_state.get("api_key") or None
@@ -113,6 +116,14 @@ with st.sidebar:
     html('<div class="rw-hint" style="font-size:.8rem;margin-top:.6rem"><b>A human review at every handover.</b><br>'
          'All patients, hospitals and phone numbers are invented.</div>')
 
+# ----------------------------------------------------------------------------- top navigation bar (always visible)
+with st.container(key="topnav"):
+    def _keep_page():  # clicking the selected item again would deselect it: stay on the current page instead
+        if st.session_state.get("nav") not in NAV:
+            st.session_state["nav"] = st.session_state.get("_last_nav", "Worklist")
+    st.segmented_control("Go to", NAV, key="nav", label_visibility="collapsed", width="stretch", on_change=_keep_page)
+page = st.session_state.get("nav") or st.session_state.get("_last_nav", "Worklist")
+st.session_state["_last_nav"] = page
 section, crumb = NAV_SECTION.get(page, ("Care workspace", page))
 html(ui.topbar(section, crumb))
 
