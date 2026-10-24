@@ -80,19 +80,20 @@ Only synthetic text is ever sent to the API. Real patient data would need a cont
 
 ## What's in the app
 
-**Clinician (sidebar: I am → Clinician)**
+**Clinician (sidebar menu)**
 
 | View | What it shows |
 |---|---|
-| Worklist | The four-step flow, the loop strip (every follow-up from closed to overdue), priority cards, what's waiting for you, CSV export |
-| **Review and approve** | One patient at a time, with a progress tracker. **Step 1:** the report (AI evidence highlighted) side by side with what the AI extracted, as plain English or as a **FHIR Task (JSON)** you can download; correct test / due date / urgency and confirm, or dismiss with a reason. **Step 2:** edit the **English message**, see the **translation and back-translation side by side**, pass the safety check, **approve and send**. Urgent findings show a phone-call step instead. Patient replies at the top |
+| Worklist | Stat tiles, the loop strip (every follow-up from closed to overdue), priority cards, what's waiting for you, CSV export |
+| **Review and approve** | Patient queue on the left; on the right, one patient with numbered steps and tabs (Report & AI result, Patient message, Tracking & activity, FHIR). Tick boxes confirm the clinician checked the source before confirming and before sending. **Step 1:** the report (AI evidence highlighted) side by side with what the AI extracted, as plain English or as a **FHIR Task (JSON)** you can download; correct test / due date / urgency and confirm, or dismiss with a reason. **Step 2:** edit the **English message**, see the **translation and back-translation side by side**, pass the safety check, **approve and send**. Urgent findings show a phone-call step instead. Patient replies at the top |
+| How it works | The four steps, what the AI does and never does, safety checks, tracking and data |
 | Patient journey | Two-hospital swimlanes: Northbridge's record, Valeford's record, Resultwise |
 | Report inbox | New reports, *Re-read all reports with Claude* (parallel), paste-your-own report |
 | Equity | Past on-time rates by age, language, deprivation, plus current tasks by group |
 | Evaluation | Recall, precision, urgent recall, timeframe and urgency accuracy, on development and held-out reports |
 | Audit log | Every AI output, rule decision, patient reply and human action |
 
-**Patient (sidebar: I am → Patient)**
+**Patient (sidebar: Patient view)**
 
 Only their own approved messages: choose any of 18 languages, easy read, text size, high contrast, read aloud
 (uses the device's voices), and reply: *I've already booked it*, *Please call me*, *I can't make it*,
@@ -124,7 +125,7 @@ Start with *Settings → Reset demo* (simulated date Sun 25 Oct 2026).
    FHIR tab, *Confirm follow-up*. Edit the English message, *Translate into Polish and check*, compare the
    back-translation, *Approve and send*. For the safety moment: *Settings → Simulate a translation error*, translate
    again: **Blocked**, the date changed.
-5. **Patient (50s).** Switch *I am → Patient*, sign in as Halina. Polish message; switch to Urdu or Bengali (Claude
+5. **Patient (50s).** Open *Patient view*, sign in as Halina. Polish message; switch to Urdu or Bengali (Claude
    translates live), *Easy read*, *Extra large*, *High contrast*, *Read aloud*. Tap *Please call me*.
 6. **Back to Clinician (15s).** The reply is on the worklist. Every step is in the audit log.
 7. **Equity + Evaluation (25s).** Who is being missed; held-out accuracy offline vs Claude.

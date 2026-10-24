@@ -30,7 +30,7 @@ from resultwise.evaluate import evaluate, load_set  # noqa: E402
 from resultwise.schema import PLAIN_TEST_NAME  # noqa: E402
 
 st.set_page_config(page_title="Resultwise", layout="wide")
-st.markdown(ui.CSS + ui.PORTAL_CSS, unsafe_allow_html=True)
+st.markdown(ui.CSS + ui.PORTAL_CSS + ui.FLOW_CSS, unsafe_allow_html=True)
 
 STATUS_LABEL = {
     "open": "Open", "due_soon": "Due soon, not booked", "booked": "Booked", "completed": "Loop closed",
@@ -67,30 +67,29 @@ if "engine_label" not in st.session_state:
     st.session_state["engine_label"] = {v: k for k, v in ENGINES.items()}[llm.default_engine()]
 
 # ----------------------------------------------------------------------------- sidebar
+NAV = ["Worklist", "Review and approve", "Report inbox", "Patient journey", "Equity", "Evaluation", "Audit log",
+       "Patient view", "How it works"]
+NAV_SECTION = {"Patient view": ("Patient view", "Your messages"), "How it works": ("About", "How it works")}
+
 with st.sidebar:
-    html('<div class="rw-brand"><span class="ring"></span>Resultwise</div>')
-    st.caption("No follow-up silently lost")
-    role = st.radio("I am", ["Clinician", "Patient"], horizontal=True, key="role")
+    html(ui.brand())
+    page = st.radio("View", NAV, label_visibility="collapsed", key="nav")
+    role = "Patient" if page == "Patient view" else "Clinician"
     engine_label = st.session_state["engine_label"]
     engine = ENGINES[engine_label]
     key = st.session_state.get("api_key") or None
     inject = st.session_state.get("inject", False)
     ai_ready = engine != "offline" and bool(llm.available_key(engine, key))
 
+    st.divider()
     today = db.today(conn)
     st.caption("Simulated date")
     html(f'<div class="rw-date">{date.fromisoformat(today).strftime("%a %d %b %Y")}</div>')
-    if role == "Clinician":
-        st.caption("Move time forward")
-        c1, c2, c3 = st.columns(3)
-        for col, (lbl, days) in zip((c1, c2, c3), (("+1 wk", 7), ("+2 wk", 14), ("+4 wk", 28))):
-            if col.button(lbl, width="stretch"):
-                rules.advance(conn, days, engine, key, inject)
-                st.rerun()
-        page = st.radio("View", ["Worklist", "Review and approve", "Report inbox", "Patient journey", "Equity",
-                                 "Evaluation", "Audit log"], label_visibility="collapsed")
-    else:
-        page = "Patient portal"
+    c1, c2, c3 = st.columns(3)
+    for col, (lbl, days) in zip((c1, c2, c3), (("+1 wk", 7), ("+2 wk", 14), ("+4 wk", 28))):
+        if col.button(lbl, width="stretch", help=f"Move the simulated date forward {days} days"):
+            rules.advance(conn, days, engine, key, inject)
+            st.rerun()
 
     with st.expander("Settings"):
         st.selectbox("AI engine", list(ENGINES), key="engine_label")
@@ -105,13 +104,22 @@ with st.sidebar:
         if st.button("Reset demo", width="stretch"):
             pipeline.reset_demo(conn)
             for k in list(st.session_state):
-                if k not in ("engine_label", "api_key", "role"):
+                if k not in ("engine_label", "api_key", "nav"):
                     del st.session_state[k]
             st.rerun()
     status_txt = (f"AI on: {llm.model_name(engine)}" if ai_ready
                   else "AI off: offline rules" if engine == "offline" else "AI key missing: offline fallback")
     st.caption(status_txt)
-    st.caption("All patients, hospitals and phone numbers are invented.")
+    html('<div class="rw-hint" style="font-size:.8rem;margin-top:.6rem"><b>A human review at every handover.</b><br>'
+         'All patients, hospitals and phone numbers are invented.</div>')
+
+section, crumb = NAV_SECTION.get(page, ("Care workspace", page))
+html(ui.topbar(section, crumb))
+
+
+def footer():
+    html('<div class="rw-foot">Resultwise &middot; A human review at every handover &middot; '
+         'Synthetic data only &middot; Not a clinical service</div>')
 
 
 def tasks_df():
@@ -160,13 +168,14 @@ def nz(v, default=""):
 
 
 # ============================================================================= patient portal
-if page == "Patient portal":
+if page == "Patient view":
     sent = q("""SELECT m.*, p.name, p.language AS pref_lang, t.responsible_trust, t.test, t.due_date, t.id AS tid,
                        p.id AS pid FROM messages m JOIN patients p ON p.id=m.patient_id JOIN tasks t ON t.id=m.task_id
                 WHERE m.status='sent' ORDER BY m.id DESC""")
     if sent.empty:
-        html('<div class="rw-hint">No patient has a message yet. As a <b>Clinician</b>: click <b>+2 wk</b>, then '
-             'approve a message on the Worklist. Then come back here as the <b>Patient</b>.</div>')
+        html('<div class="rw-hint">No patient has a message yet. Click <b>+2 wk</b>, approve a message in '
+             '<b>Review and approve</b>, then come back to <b>Patient view</b>.</div>')
+        footer()
         st.stop()
     people = {f"{r['name']} (NHS {nz(conn.execute('SELECT nhs_number FROM patients WHERE id=?', (r['pid'],)).fetchone()[0])})": r["pid"]
               for _, r in sent.iterrows()}
@@ -232,24 +241,30 @@ if page == "Patient portal":
         st.divider()
     st.caption("This page shows only your own messages. It never shows test results or diagnoses. "
                "If you feel unwell, contact your GP or call 111.")
+    footer()
     st.stop()
 
 
 # ============================================================================= clinician pages
 if page == "Worklist":
     df = tasks_df()
-    html(ui.header("Today's follow-ups",
-                   "Every recommendation from every scan report, tracked until it happens."))
-    html(ui.flow_strip())
-    counts = df.status.value_counts().to_dict() if not df.empty else {}
-    html(ui.loop_strip(counts))
-
+    html(ui.header("Today's follow-ups", "Every recommendation from every scan report, tracked until it happens.",
+                   eyebrow="TRACK. REVIEW. CLOSE THE LOOP."))
     live = df[~df.status.isin(["completed", "dismissed"])] if not df.empty else df
     action = live[live.priority <= 4] if not live.empty else live
     n_msgs = conn.execute("SELECT COUNT(*) FROM messages WHERE status IN ('pending_approval','blocked')").fetchone()[0]
     n_review = int((live.review_state == "needs_review").sum()) if not live.empty else 0
     n_calls = int(((live.requires_call == 1) & (live.patient_called == 0)).sum()) if not live.empty else 0
     n_replies = conn.execute("SELECT COUNT(*) FROM replies WHERE status='open'").fetchone()[0]
+    n_reports = conn.execute("SELECT COUNT(*) FROM reports").fetchone()[0]
+    html(ui.stat_tiles([
+        ("Follow-ups tracked", str(len(df)), f"from {n_reports} reports"),
+        ("Awaiting clinician review", str(n_review + n_msgs + n_calls), "checks, calls, messages"),
+        ("Overdue, no booking", str(int((live.status == "overdue").sum()) if not live.empty else 0), "at any hospital"),
+        ("Loops closed", str(int((df.status == "completed").sum()) if not df.empty else 0), "test done"),
+    ]))
+    counts = df.status.value_counts().to_dict() if not df.empty else {}
+    html(ui.loop_strip(counts))
 
     left, right = st.columns([3, 2], gap="large")
     with left:
@@ -268,16 +283,47 @@ if page == "Worklist":
                            ("AI results to check", n_review, "due_soon"),
                            ("Patient messages to approve", n_msgs, "booked"),
                            ("Patient replies", n_replies, "open")]))
-        st.caption("Open **Review and approve** in the sidebar to work through these one patient at a time.")
+        st.button("Open Review and approve", type="primary", width="stretch",
+                  on_click=lambda: st.session_state.update(nav="Review and approve"))
         if not df.empty:
             export = df[["id", "name", "nhs_number", "test", "due_date", "status", "urgency", "review_state",
                          "responsible_trust", "confidence", "evidence"]]
             st.download_button("Download worklist (CSV)", export.to_csv(index=False), "resultwise_worklist.csv",
                                "text/csv", width="stretch")
 
+elif page == "How it works":
+    html(ui.header("How Resultwise works", "AI reads and drafts. Plain rules track. Clinicians decide. Patients can reply.",
+                   eyebrow="HOW IT WORKS"))
+    html(ui.flow_strip())
+    a, b, c = st.columns(3, gap="medium")
+    with a:
+        st.subheader("What the AI does")
+        st.markdown("- Reads each scan report and lists the follow-ups, with the exact sentence it used\n"
+                    "- Translates the approved message and translates it back for checking\n"
+                    "- Writes an easy-read version on request\n\n"
+                    "**It never** diagnoses, books, sends or decides anything on its own.")
+    with b:
+        st.subheader("Safety checks")
+        st.markdown("- Every AI output must match a strict format, or it goes to a human\n"
+                    "- The quoted sentence must exist in the report (catches made-up follow-ups)\n"
+                    "- Low confidence is flagged for review\n"
+                    "- Dates and phone numbers must survive translation, or the message is blocked\n"
+                    "- Urgent findings get a phone call, never an automated message")
+    with c:
+        st.subheader("Tracking and data")
+        st.markdown("- Plain rules check every hospital for a booking, every day\n"
+                    "- Overdue: clinician alerted; 14 days later: nurse outreach\n"
+                    "- Every step is in the audit log; tasks export as FHIR\n"
+                    "- Synthetic data only: no real patients, hospitals or phone numbers")
+    st.subheader("Why it matters")
+    st.markdown("Recommendations in scan reports are free text. When care moves between hospitals and GPs, each "
+                "record system only sees its own bookings, so a missed follow-up can go unnoticed until the "
+                "patient is harmed. Resultwise follows the **patient**, not the hospital.")
+
 elif page == "Review and approve":
     html(ui.header("Review and approve",
-                   "One patient at a time: check what the AI read, correct it, then check and approve the message."))
+                   "Check what the AI read against the source report, then check and approve what the patient receives.",
+                   eyebrow="UNDERSTAND. REVIEW. SHARE."))
     replies = q("""SELECT r.*, p.name, t.test FROM replies r JOIN patients p ON p.id=r.patient_id
                    JOIN tasks t ON t.id=r.task_id WHERE r.status='open' ORDER BY r.id""")
     if len(replies):
@@ -296,168 +342,210 @@ elif page == "Review and approve":
     df = tasks_df()
     if df.empty:
         st.info("No follow-ups yet. Read reports in the Report inbox.")
+        footer()
         st.stop()
     pending_msg = set(q("SELECT task_id FROM messages WHERE status IN ('pending_approval','blocked')").task_id)
-    show_all = st.toggle("Show all follow-ups (not just ones needing attention)", value=False)
-    queue = df if show_all else df[(df.priority <= 4) | df.id.isin(pending_msg)]
-    queue = queue[~queue.status.isin(["completed", "dismissed"])] if not show_all else queue
-    if queue.empty:
-        st.success("Nothing waiting. Turn on 'Show all follow-ups' to look at any patient.")
-        st.stop()
+    qcol, dcol = st.columns([1, 2.4], gap="medium")
+    with qcol:
+        html('<div class="rw-q-title">Patient queue</div>')
+        show_all = st.toggle("Show all follow-ups", value=False)
+        queue = df if show_all else df[((df.priority <= 4) | df.id.isin(pending_msg))
+                                       & ~df.status.isin(["completed", "dismissed"])]
+        if queue.empty:
+            st.success("Nothing waiting. Turn on 'Show all follow-ups' to look at anyone.")
+            footer()
+            st.stop()
+        colour = {"overdue": "red", "due_soon": "orange", "booked": "blue", "completed": "green", "open": "gray",
+                  "dismissed": "gray"}
 
-    def tag(r):
-        bits = []
-        if r.requires_call and not r.patient_called:
-            bits.append("phone patient")
-        if r.review_state == "needs_review":
-            bits.append("check AI")
-        if r.id in pending_msg:
-            bits.append("message to approve")
-        return f"{r['name']} · {TEST_LABEL[r.test]} · {status_text(r)}" + (f"  [{', '.join(bits)}]" if bits else "")
+        def qlabel(r):
+            tags = f":{colour[r.status]}-background[{status_text(r)}]"
+            if r.requires_call and not r.patient_called:
+                tags += " :red-background[Phone patient]"
+            elif r.review_state == "needs_review":
+                tags += " :orange-background[Check AI]"
+            elif r.id in pending_msg:
+                tags += " :blue-background[Message to approve]"
+            return f"**{r['name']}**  \n{TEST_LABEL[r.test]}  \n{tags}"
 
-    labels = {int(r.id): tag(r) for _, r in queue.iterrows()}
-    if st.session_state.get("review_tid") not in labels:
-        st.session_state.pop("review_tid", None)
-    tid = st.selectbox(f"Patient ({len(labels)} in this list)", list(labels), format_func=lambda i: labels[i],
-                       key="review_tid")
+        labels = {int(r.id): qlabel(r) for _, r in queue.iterrows()}
+        if st.session_state.get("review_tid") not in labels:
+            st.session_state.pop("review_tid", None)
+        st.caption(f"{len(labels)} fictional patients · select to review")
+        with st.container(key="queue", height=640, border=False):
+            tid = st.radio("Patient queue", list(labels), format_func=lambda i: labels[i], key="review_tid",
+                           label_visibility="collapsed")
+
     t = df[df.id == tid].iloc[0]
     trow = dict(conn.execute("SELECT * FROM tasks WHERE id=?", (tid,)).fetchone())
     p = dict(conn.execute("SELECT * FROM patients WHERE id=?", (t.patient_id,)).fetchone())
     rep = dict(conn.execute("SELECT * FROM reports WHERE id=?", (t.report_id,)).fetchone())
     sent = conn.execute("SELECT * FROM messages WHERE task_id=? AND status='sent' ORDER BY id DESC", (tid,)).fetchone()
     confirmed = trow["review_state"] == "confirmed"
-    html(ui.stepper([
-        ("AI read the report", True),
-        ("Clinician checked the follow-up", confirmed or trow["status"] == "dismissed"),
-        ("Phone call made" if trow["requires_call"] else "Patient message approved",
-         bool(trow["patient_called"]) if trow["requires_call"] else sent is not None),
-        ("Loop closed: test done", trow["status"] == "completed"),
-    ]))
-    html(ui.task_card(t["name"], TEST_LABEL[t.test], t.due_date, int(t.days_left), t.status, status_text(t),
-                      t.responsible_trust, bool(t.requires_call and not t.patient_called),
-                      t.review_state == "needs_review"))
+    with dcol, st.container(border=True):
+        html(f'<div class="rw-detail-head"><div><div class="nm">{ui.esc(p["name"])} <span>&middot; {p["age"]} years'
+             f'</span></div><div class="meta">NHS {ui.esc(p["nhs_number"])} (test range) &middot; {ui.esc(rep["modality"])}'
+             f' report {ui.esc(rep["id"])} received {ui.esc(rep["report_date"])} &middot; prefers {ui.esc(p["language"])},'
+             f' contact by {ui.esc(p["channel"])}</div></div><div>{ui.pill(t.status, status_text(t))}</div></div>')
+        html(ui.numbered_steps([
+            ("Check the follow-up", confirmed or trow["status"] == "dismissed"),
+            ("Phone the patient" if trow["requires_call"] else "Approve the patient message",
+             bool(trow["patient_called"]) if trow["requires_call"] else sent is not None),
+            ("Test booked and done", trow["status"] == "completed"),
+        ]))
+        tab1, tab2, tab3, tab4 = st.tabs(["Report & AI result", "Patient message", "Tracking & activity", "FHIR"])
 
-    # ---------------- step 1: compare the report with what the AI extracted
-    st.subheader("1. Check what the AI found")
-    c1, c2 = st.columns([1, 1], gap="large")
-    with c1:
-        st.markdown(f"**The report** · read by {nz(rep['engine'], 'offline')} · the sentence it used is highlighted")
-        html(ui.report_html(rep["text"], trow["evidence"]))
-    with c2:
-        tab1, tab2 = st.tabs(["Plain English", "FHIR Task (JSON)"])
+        # ---------------- tab 1: compare the source report with what the AI extracted
         with tab1:
-            html(ui.plain_summary(p["name"], TEST_LABEL[trow["test"]], trow["due_date"], trow["urgency"],
-                                  trow["responsible_trust"], trow["confidence"], trow["evidence"],
-                                  trow["review_state"]))
+            if trow["review_state"] == "needs_review":
+                st.warning("The AI was unsure or a safety check flagged this result. Check it carefully.")
+            c1, c2 = st.columns(2, gap="medium")
+            with c1:
+                html(f'<div class="rw-eyebrow">SOURCE REPORT &middot; {ui.esc(rep["id"])}</div>')
+                html(ui.report_html(rep["text"], trow["evidence"]))
+                st.caption(f"Read by {nz(rep['engine'], 'offline')}. The highlighted sentence is what the AI used.")
+            with c2:
+                html(f'<div class="rw-eyebrow">AI RESULT &middot; BASED ON {ui.esc(rep["id"])}</div>')
+                html(ui.plain_summary(p["name"], TEST_LABEL[trow["test"]], trow["due_date"], trow["urgency"],
+                                      trow["responsible_trust"], trow["confidence"], trow["evidence"],
+                                      trow["review_state"]))
+                if trow["status"] not in ("completed", "dismissed"):
+                    with st.form(f"edit{tid}", border=True):
+                        st.markdown("**Correct anything that's wrong, then confirm**")
+                        tests = list(PLAIN_TEST_NAME)
+                        new_test = st.selectbox("Test", tests, index=tests.index(trow["test"]),
+                                                format_func=lambda k: TEST_LABEL[k])
+                        f2, f3 = st.columns(2)
+                        new_due = f2.date_input("Due by", value=date.fromisoformat(trow["due_date"]))
+                        new_urg = f3.selectbox("Urgency", ["routine", "soon", "urgent"],
+                                               index=["routine", "soon", "urgent"].index(trow["urgency"]))
+                        checked = st.checkbox(f"I have checked this follow-up against the source report ({rep['id']})",
+                                              value=confirmed)
+                        if st.form_submit_button("Confirm follow-up", type="primary"):
+                            if not checked:
+                                st.warning("Tick the box to confirm you have checked the source report.")
+                            else:
+                                if (new_test, new_due.isoformat(), new_urg) == (trow["test"], trow["due_date"],
+                                                                                trow["urgency"]):
+                                    pipeline.confirm_task(conn, tid)
+                                else:
+                                    pipeline.edit_task(conn, tid, new_due.isoformat(), new_urg, test=new_test)
+                                st.rerun()
+                    with st.expander("Not needed? Dismiss with a reason"):
+                        reason = st.selectbox("Reason", DISMISS_REASONS, key=f"rs{tid}")
+                        note = st.text_input("Note", key=f"nt{tid}")
+                        if st.button("Dismiss follow-up", key=f"ds{tid}"):
+                            pipeline.dismiss_task(conn, tid, reason + (f": {note}" if note else ""))
+                            st.rerun()
+
+        # ---------------- tab 2: message (or phone call for urgent findings)
         with tab2:
+            if trow["status"] == "dismissed":
+                st.write("Dismissed. No message will be sent.")
+            elif trow["requires_call"]:
+                st.error("Urgent finding: a clinician phones the patient. Resultwise never sends an automated message "
+                         "for this.")
+                st.write(f"Phone {p['name']} on the number in their record. Preferred language: {p['language']}"
+                         + (" (book an interpreter)." if p["language"] != "English" else "."))
+                if not trow["patient_called"] and st.button("Mark patient phoned", type="primary"):
+                    pipeline.mark_called(conn, tid)
+                    st.rerun()
+            elif sent is not None:
+                st.success(f"Sent on {sent['sent_on']} by {sent['approved_by']} "
+                           f"({sent['language'] if sent['text_translated'] else 'English'}, via {sent['channel']}).")
+                html(ui.message_card(p["name"], TEST_LABEL[trow["test"]], sent["language"], sent["channel"],
+                                     sent["text_en"], sent["text_translated"], nz(sent["back_translation"]),
+                                     bool(sent["check_passed"]), nz(sent["check_notes"])))
+            else:
+                draft = conn.execute("SELECT * FROM messages WHERE task_id=? AND status IN ('pending_approval','blocked') "
+                                     "ORDER BY id DESC", (tid,)).fetchone()
+                phone_no = rules.TRUST_PHONE.get(trow["responsible_trust"], p["phone"])
+                default_en, facts = messages.draft_english(p, trow, phone_no)
+                html(ui.source_box(f"BASED ON {rep['id']} + CONFIRMED FOLLOW-UP",
+                                   "What this message may say",
+                                   f"{TEST_LABEL[trow['test']]} due by {messages.fmt_date(trow['due_date'])}; "
+                                   f"book via {trow['responsible_trust']} on {phone_no}. "
+                                   "No diagnosis or result is ever included."))
+                if draft is None:
+                    st.caption("No message drafted yet (one is drafted automatically when a follow-up goes overdue). "
+                               "You can write and send a reminder now.")
+                lang = p["language"]
+                m1, m2 = st.columns(2, gap="medium")
+                with m1:
+                    st.markdown("**English: what you approve**")
+                    en = st.text_area("English message", draft["text_en"] if draft else default_en, height=230,
+                                      key=f"en{tid}", label_visibility="collapsed",
+                                      help="Edit freely; keep the date and phone number.")
+                with m2:
+                    st.markdown(f"**{lang}: what {p['name'].split()[0]} reads**" if lang != "English"
+                                else "**No translation needed**")
+                    ck = f"tr{tid}"
+                    if lang != "English":
+                        stored = (draft is not None and draft["text_en"] == en and draft["text_translated"])
+                        if ck not in st.session_state and stored:
+                            st.session_state[ck] = (en, draft["text_translated"], nz(draft["back_translation"]))
+                        if st.button(f"Translate into {lang} and check", key=f"tb{tid}"):
+                            if not ai_ready and en.strip() != default_en.strip():
+                                tr, back = en, ""  # offline templates can't translate edited wording
+                            else:
+                                with st.spinner("Translating and back-translating..."):
+                                    tr, back = messages.translate(en, facts, trow["test"], lang, engine, key, inject)
+                            st.session_state[ck] = (en, tr, back)
+                        cached = st.session_state.get(ck)
+                        if cached and cached[0] == en:
+                            _, tr, back = cached
+                            if tr == en:
+                                st.warning(f"No {lang} translation available offline for this wording. Add an API "
+                                           "key (Settings) to translate any text, or send it in English.")
+                                ok, notes = True, []
+                            else:
+                                ok, notes = messages.fact_check(en, tr, facts)
+                                html(f'<div class="rw-msg"><div class="text" dir="{ui.text_dir(lang)}">{ui.esc(tr)}</div>'
+                                     + (f'<div class="label" style="margin-top:.7rem">BACK INTO ENGLISH</div>'
+                                        f'<div class="text">{ui.esc(back)}</div>' if back else "") + "</div>")
+                                (st.success if ok else st.error)(
+                                    "Check passed: date, phone number and name are unchanged." if ok
+                                    else "Blocked: " + " ".join(notes))
+                        else:
+                            tr, back, ok, notes = None, "", False, ["Translation not checked for this English text yet."]
+                            st.info("Click the button to translate this English text and run the safety check. "
+                                    "If you edit the English, check again.")
+                    else:
+                        tr, back, ok, notes = None, "", True, []
+                        st.info("The English message on the left is exactly what the patient receives.")
+                checked_msg = st.checkbox("I have checked the message, translation and next steps against the source "
+                                          "report and the confirmed follow-up.", key=f"chk{tid}_{hash(en)}")
+                why = ("Confirm the follow-up first (Report & AI result tab)." if not confirmed
+                       else "Translate and pass the safety check first." if not ok
+                       else "Tick the box above to confirm you have checked it." if not checked_msg else "")
+                a1, a2 = st.columns([2, 5])
+                if a1.button("Approve and send", type="primary", disabled=bool(why), key=f"send{tid}"):
+                    pipeline.send_message(conn, tid, en, tr if tr != en else None, back, ok, notes,
+                                          edited=(en != (draft["text_en"] if draft else default_en)))
+                    st.session_state.pop(ck, None)
+                    st.rerun()
+                a2.caption(why or "Approval is recorded with your name and time. Editing the English needs a new check.")
+
+        # ---------------- tab 3: who can see it, and everything that happened
+        with tab3:
+            views = rules.trust_views(conn, conn.execute("SELECT * FROM tasks WHERE id=?", (tid,)).fetchone())
+            html(ui.lanes("Who can see this follow-up", "Each hospital's own record only sees its own bookings.",
+                          [(tr_, "own record only", view_state(views[tr_]), views[tr_]) for tr_ in TRUSTS]
+                          + [("Resultwise", "every hospital", t.status, status_text(t))]))
+            st.dataframe(q("SELECT sim_date AS date, actor AS who, action AS event, detail FROM audit WHERE task_id=? "
+                           "ORDER BY id", (tid,)), hide_index=True, width="stretch")
+
+        # ---------------- tab 4: FHIR
+        with tab4:
             fjson = json.dumps(fhir.task_resource(trow, p, rep), indent=2)
+            st.caption("The same follow-up in the NHS interoperability standard (FHIR R4 Task), so it can move "
+                       "between record systems.")
             st.code(fjson, language="json")
             st.download_button("Download FHIR Task", fjson, f"resultwise_task_{tid}.json", "application/json")
-        if trow["status"] not in ("completed", "dismissed"):
-            with st.form(f"edit{tid}", border=True):
-                st.markdown("**Correct anything that's wrong, then confirm**")
-                tests = list(PLAIN_TEST_NAME)
-                f1, f2, f3 = st.columns([2.2, 1.4, 1.2])
-                new_test = f1.selectbox("Test", tests, index=tests.index(trow["test"]),
-                                        format_func=lambda k: TEST_LABEL[k])
-                new_due = f2.date_input("Due by", value=date.fromisoformat(trow["due_date"]))
-                new_urg = f3.selectbox("Urgency", ["routine", "soon", "urgent"],
-                                       index=["routine", "soon", "urgent"].index(trow["urgency"]))
-                if st.form_submit_button("Confirm follow-up", type="primary"):
-                    if (new_test, new_due.isoformat(), new_urg) == (trow["test"], trow["due_date"], trow["urgency"]):
-                        pipeline.confirm_task(conn, tid)
-                    else:
-                        pipeline.edit_task(conn, tid, new_due.isoformat(), new_urg, test=new_test)
-                    st.rerun()
-            with st.expander("Not needed? Dismiss with a reason"):
-                reason = st.selectbox("Reason", DISMISS_REASONS, key=f"rs{tid}")
-                note = st.text_input("Note", key=f"nt{tid}")
-                if st.button("Dismiss follow-up", key=f"ds{tid}"):
-                    pipeline.dismiss_task(conn, tid, reason + (f": {note}" if note else ""))
-                    st.rerun()
-
-    # ---------------- step 2: message (or phone call for urgent findings)
-    st.subheader("2. Phone the patient" if trow["requires_call"] else "2. Check and approve the patient message")
-    if trow["status"] == "dismissed":
-        st.write("Dismissed. No message will be sent.")
-    elif trow["requires_call"]:
-        st.error("Urgent finding: a clinician phones the patient. Resultwise never sends an automated message for this.")
-        st.write(f"Phone {p['name']} on the number in their record. Preferred language: {p['language']}"
-                 + (" (book an interpreter)." if p["language"] != "English" else "."))
-        if not trow["patient_called"] and st.button("Mark patient phoned", type="primary"):
-            pipeline.mark_called(conn, tid)
-            st.rerun()
-    elif sent is not None:
-        st.success(f"Sent on {sent['sent_on']} by {sent['approved_by']} ({sent['language']}, via {sent['channel']}).")
-        html(ui.message_card(p["name"], TEST_LABEL[trow["test"]], sent["language"], sent["channel"], sent["text_en"],
-                             sent["text_translated"], nz(sent["back_translation"]), bool(sent["check_passed"]),
-                             nz(sent["check_notes"])))
-    else:
-        draft = conn.execute("SELECT * FROM messages WHERE task_id=? AND status IN ('pending_approval','blocked') "
-                             "ORDER BY id DESC", (tid,)).fetchone()
-        phone_no = rules.TRUST_PHONE.get(trow["responsible_trust"], p["phone"])
-        default_en, facts = messages.draft_english(p, trow, phone_no)
-        if draft is None:
-            st.caption("No message drafted yet (one is drafted automatically when a follow-up goes overdue). "
-                       "You can write and send a reminder now.")
-        lang = p["language"]
-        m1, m2 = st.columns(2, gap="large")
-        with m1:
-            st.markdown("**English: what you approve** (edit freely; keep the date and phone number)")
-            en = st.text_area("English message", draft["text_en"] if draft else default_en, height=210,
-                              key=f"en{tid}", label_visibility="collapsed")
-        with m2:
-            st.markdown(f"**{lang}: what {p['name'].split()[0]} reads**" if lang != "English"
-                        else "**No translation needed** (patient prefers English)")
-            ck = f"tr{tid}"
-            if lang != "English":
-                stored = (draft is not None and draft["text_en"] == en and draft["text_translated"])
-                if ck not in st.session_state and stored:
-                    st.session_state[ck] = (en, draft["text_translated"], nz(draft["back_translation"]))
-                if st.button(f"Translate into {lang} and check", key=f"tb{tid}"):
-                    if not ai_ready and en.strip() != default_en.strip():
-                        tr, back = en, ""  # offline templates can't translate edited wording
-                    else:
-                        with st.spinner("Translating and back-translating..."):
-                            tr, back = messages.translate(en, facts, trow["test"], lang, engine, key, inject)
-                    st.session_state[ck] = (en, tr, back)
-                cached = st.session_state.get(ck)
-                if cached and cached[0] == en:
-                    _, tr, back = cached
-                    if tr == en:
-                        st.warning(f"No {lang} translation available offline for this wording. Add an API key "
-                                   "(Settings) to translate any text, or send it in English.")
-                        ok, notes = True, []
-                    else:
-                        ok, notes = messages.fact_check(en, tr, facts)
-                        html(f'<div class="rw-msg"><div class="text" dir="{ui.text_dir(lang)}">{ui.esc(tr)}</div>'
-                             + (f'<div class="label" style="margin-top:.6rem">Back into English: {ui.esc(back)}</div>'
-                                if back else "") + "</div>")
-                        (st.success if ok else st.error)(
-                            "Check passed: date, phone number and name are unchanged." if ok
-                            else "Blocked: " + " ".join(notes))
-                else:
-                    tr, back, ok, notes = None, "", False, ["Translation not checked for this English text yet."]
-                    st.info("Click the button to translate this English text and run the safety check. "
-                            "If you edit the English, check again.")
-            else:
-                tr, back, ok, notes = None, "", True, []
-                st.info("The English message on the left is exactly what the patient receives.")
-        ready = confirmed and ok
-        why = ("Confirm the follow-up in step 1 first." if not confirmed
-               else "Translate and pass the safety check first." if not ok else "")
-        a1, a2 = st.columns([2, 5])
-        if a1.button("Approve and send", type="primary", disabled=not ready, key=f"send{tid}"):
-            pipeline.send_message(conn, tid, en, tr if tr != en else None, back, ok, notes,
-                                  edited=(en != (draft["text_en"] if draft else default_en)))
-            st.session_state.pop(ck, None)
-            st.rerun()
-        if why:
-            a2.caption(why)
 
 elif page == "Patient journey":
     html(ui.header("One patient, two hospitals",
-                   "Each hospital's own record only sees its own bookings. Resultwise follows the patient across both."))
+                   "Each hospital's own record only sees its own bookings. Resultwise follows the patient across both.", eyebrow="FOLLOW THE PATIENT"))
     pts = q("SELECT DISTINCT p.id, p.name FROM patients p JOIN tasks t ON t.patient_id=p.id ORDER BY p.id")
     labels = {f"{r['name']} ({r['id']})": r["id"] for _, r in pts.iterrows()}
     default = next((i for i, k in enumerate(labels) if "P001" in k), 0)
@@ -480,7 +568,7 @@ elif page == "Patient journey":
 
 elif page == "Report inbox":
     html(ui.header("Report inbox", "New reports are read by the AI and turned into follow-up tasks. "
-                   "Every output is checked before it reaches a clinician.", tag=status_txt))
+                   "Every output is checked before it reaches a clinician.", tag=status_txt, eyebrow="AI READS EVERY REPORT"))
     n_all = conn.execute("SELECT COUNT(*) FROM reports").fetchone()[0]
     by_engine = q("SELECT COALESCE(engine,'not yet read') AS engine, COUNT(*) AS reports FROM reports GROUP BY 1")
     st.caption("Reports read so far: " + ", ".join(f"{r.reports} by {r.engine}" for r in by_engine.itertuples()))
@@ -537,7 +625,7 @@ elif page == "Report inbox":
 elif page == "Equity":
     html(ui.header("Who is the system failing to reach?",
                    "On-time follow-up across 900 past synthetic follow-ups. The dashed line is the overall rate.",
-                   tag="Synthetic, with a built-in disparity"))
+                   tag="Synthetic, with a built-in disparity", eyebrow="EQUITY"))
     hist = pd.read_csv(pipeline.DATA / "history.csv")
     overall = hist.completed_on_time.mean()
 
@@ -586,7 +674,7 @@ elif page == "Equity":
 elif page == "Evaluation":
     html(ui.header("How accurate is the AI?",
                    "Recall: did it miss a follow-up? That is the safety number. "
-                   "Precision: is it raising false alarms?", tag=status_txt))
+                   "Precision: is it raising false alarms?", tag=status_txt, eyebrow="EVALUATION"))
     a, b = st.columns(2)
     which = a.radio("Report set", ["heldout", "development"], horizontal=True,
                     format_func=lambda s: {"development": "Development (104 reports)",
@@ -611,6 +699,8 @@ elif page == "Evaluation":
         st.dataframe(pd.DataFrame(m["rows"]), hide_index=True, width="stretch")
 
 elif page == "Audit log":
-    html(ui.header("Audit log", "Every AI output, rule decision, patient reply and human action, newest first."))
+    html(ui.header("Audit log", "Every AI output, rule decision, patient reply and human action, newest first.", eyebrow="ACCOUNTABILITY"))
     st.dataframe(q("SELECT id, sim_date AS date, actor AS who, action AS event, task_id AS task, detail "
                    "FROM audit ORDER BY id DESC"), hide_index=True, width="stretch")
+
+footer()
