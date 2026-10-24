@@ -51,21 +51,22 @@ so the demo cannot fail on stage Wi-Fi.
 set `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` before starting. If the call fails, Resultwise falls back to offline
 extraction and flags every task for human review. It never drops a task.
 
-**Reset any time** with the sidebar's *Reset demo* button (or delete `resultwise.db`).
+**Reset any time** with *Settings → Reset demo* in the sidebar (or delete `resultwise.db`).
 
 ## What's in the app
 
 | View | What it shows |
 |---|---|
-| Clinician worklist | Priority-sorted tasks, urgent "phone the patient" flags, AI evidence quote, confirm / correct / dismiss (reason required), messages awaiting approval |
-| Patient journey (two trusts) | What Northbridge's system sees, what Valeford's system sees, and what Resultwise sees for the same patient |
+| Worklist | Priority-sorted tasks, urgent "phone the patient" flags, AI evidence quote, confirm / correct / dismiss (reason required), messages awaiting approval |
+| Patient journey | What Northbridge's system sees, what Valeford's system sees, and what Resultwise sees for the same patient |
 | Report inbox | New reports to process, plus a box to paste any synthetic report and watch extraction live |
 | Patient view | The approved message as the patient gets it (app, letter, carer or phone script), English / translated toggle |
 | Equity | On-time follow-up rate by age, language and deprivation (synthetic history with a deliberate disparity) |
 | Evaluation | Recall, precision, urgent recall, timeframe and urgency accuracy, on development and held-out reports |
 | Audit log | Every AI output, rule decision and human action |
 
-Sidebar: simulated date, **+1 / +2 / +4 week** buttons, engine choice, and *Simulate a translation error*.
+Sidebar: simulated date, **+1 / +2 / +4 week** buttons, and *Settings* (AI engine, *Simulate a translation error*, *Reset demo*).
+Any task's patient message can be previewed in its language from the task panel, even before it is overdue.
 
 ## 3-minute demo script
 
@@ -73,13 +74,13 @@ Start after *Reset demo* (simulated date Sun 25 Oct 2026).
 
 1. **Worklist (20s).** "Doreen, 84, missed her annual mammogram 15 days ago. It's escalated to nurse outreach and a
    message to her carer is waiting for approval."
-2. **Report inbox (20s).** Click *Process all 3 new reports*. Back on the worklist, suspicious findings show
-   **Urgent: phone patient**. "Urgent results never get an automated message. A clinician calls."
+2. **Report inbox (20s).** Click *Read all 3 new reports*. Back on the Worklist, suspicious findings show a red
+   **Phone patient** tag. "Urgent results never get an automated message. A clinician calls."
 3. **Patient journey, Halina Nowak (40s).** Her echo during HER2 treatment was recommended at Northbridge, to be
    done at Valeford. Northbridge: *handed over, not tracked*. Valeford: *no record of this request*.
    Resultwise: *due soon*. Click **+2 wk**: Resultwise turns **Overdue · clinician alerted**. Both hospitals'
    own systems still see nothing wrong. "This is the gap Epic can't see on its own."
-4. **Worklist, translation safety (40s).** Turn on *Simulate a translation error*, click *Regenerate* on Halina's
+4. **Worklist, translation safety (40s).** In the sidebar open *Settings* and turn on *Simulate a translation error*, click *Regenerate* on Halina's
    Polish message: **BLOCKED**, the date changed in translation. Turn it off, *Regenerate*, check passes,
    *Approve and send*.
 5. **Patient view (15s).** Halina's message in Polish, toggle to English. No diagnosis in the text.
