@@ -8,7 +8,7 @@ SCHEMA = """
 CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT);
 CREATE TABLE IF NOT EXISTS patients (
   id TEXT PRIMARY KEY, name TEXT, age INTEGER, sex TEXT, language TEXT, channel TEXT,
-  imd_quintile INTEGER, home_trust TEXT, phone TEXT);
+  imd_quintile INTEGER, home_trust TEXT, phone TEXT, nhs_number TEXT);
 CREATE TABLE IF NOT EXISTS reports (
   id TEXT PRIMARY KEY, patient_id TEXT, report_date TEXT, source_trust TEXT, follow_up_trust TEXT,
   modality TEXT, difficulty TEXT, text TEXT, processed INTEGER DEFAULT 0, engine TEXT, issues TEXT);
@@ -28,6 +28,9 @@ CREATE TABLE IF NOT EXISTS messages (
   text_en TEXT, text_translated TEXT, back_translation TEXT, check_passed INTEGER, check_notes TEXT,
   status TEXT,            -- pending_approval | blocked | sent | rejected
   created_on TEXT, approved_by TEXT, sent_on TEXT);
+CREATE TABLE IF NOT EXISTS replies (
+  id INTEGER PRIMARY KEY AUTOINCREMENT, task_id INTEGER, patient_id TEXT, kind TEXT, note TEXT,
+  created_on TEXT, status TEXT DEFAULT 'open', resolved_by TEXT);
 CREATE TABLE IF NOT EXISTS audit (
   id INTEGER PRIMARY KEY AUTOINCREMENT, sim_date TEXT, actor TEXT, action TEXT, task_id INTEGER, detail TEXT);
 """

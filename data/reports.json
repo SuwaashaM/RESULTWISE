@@ -7,7 +7,7 @@
     "follow_up_trust": "Valeford Hospitals",
     "modality": "Echocardiogram",
     "difficulty": "cross-trust handover",
-    "text": "Transthoracic echocardiogram.\nIndication: on trastuzumab, 3-monthly cardiac surveillance.\nFindings: Left ventricle normal in size. LVEF 57% (baseline 62%). No regional wall motion abnormality. Valves structurally normal.\nConclusion: LVEF within normal limits with a small fall from baseline. Continue trastuzumab. Repeat echocardiogram in 12 weeks as per surveillance protocol; this will be performed at Valeford Hospitals cardio-oncology service.",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: NOWAK, Halina    NHS number: 999 000 0001    DOB: 16/02/1965\nExamination: Transthoracic echocardiogram\nDate of examination: 10/08/2026    Accession: NB2026000050\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: On trastuzumab, 3-monthly cardiac surveillance.\n\nFindings: Left ventricle normal in size. LVEF 57% (baseline 62%). No regional wall motion abnormality. Valves structurally normal.\nConclusion: LVEF within normal limits with a small fall from baseline. Continue trastuzumab. Repeat echocardiogram in 12 weeks as per surveillance protocol; this will be performed at Valeford Hospitals cardio-oncology service.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 10/08/2026",
     "gold": [
       {
         "follow_up_test": "echocardiogram",
@@ -25,7 +25,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Mammogram",
     "difficulty": "negation + recommendation",
-    "text": "Bilateral mammography.\nHistory: left wide local excision 2023.\nFindings: Post-surgical changes in the left breast, stable. No suspicious mass, calcification or architectural distortion. Right breast normal.\nConclusion: No mammographic evidence of recurrence. Continue annual mammographic surveillance.",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: WHITAKER, Susan    NHS number: 999 000 0002    DOB: 19/03/1958\nExamination: Bilateral mammography\nDate of examination: 20/11/2025    Accession: NB2025000051\nReferred by: Breast Care Nurse Specialist team\nClinical indication: Left wide local excision 2023.\n\nFindings: Post-surgical changes in the left breast, stable. No suspicious mass, calcification or architectural distortion. Right breast normal.\nConclusion: No mammographic evidence of recurrence. Continue annual mammographic surveillance.\n\nReported by: Dr L. Harrington, Consultant Radiologist    Verified: 20/11/2025",
     "gold": [
       {
         "follow_up_test": "mammogram",
@@ -43,7 +43,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Mammogram + ultrasound",
     "difficulty": "suspicious finding",
-    "text": "Screening assessment.\nRight breast: 9 mm irregular mass at 10 o'clock. Ultrasound shows a hypoechoic irregular lesion, U4.\nConclusion: R4/U4 - suspicious. Recommend urgent ultrasound-guided core biopsy.",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: HUSSAIN, Amina    NHS number: 999 000 0003    DOB: 20/07/1974\nExamination: Screening assessment\nDate of examination: 20/10/2026    Accession: NB2026000052\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: Breast cancer pathway follow-up.\n\nRight breast: 9 mm irregular mass at 10 o'clock. Ultrasound shows a hypoechoic irregular lesion, U4.\nConclusion: R4/U4 - suspicious. Recommend urgent ultrasound-guided core biopsy.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 20/10/2026",
     "gold": [
       {
         "follow_up_test": "breast_biopsy",
@@ -61,7 +61,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Breast ultrasound",
     "difficulty": "indeterminate",
-    "text": "Ultrasound left breast.\nFindings: 14 mm well-circumscribed oval hypoechoic lesion, parallel orientation, likely fibroadenoma. Graded U3 (indeterminate) given patient age.\nConclusion: Recommend core biopsy for histological confirmation.",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: BARNES, Chloe    NHS number: 999 000 0004    DOB: 08/10/1985\nExamination: Ultrasound left breast\nDate of examination: 16/10/2026    Accession: NB2026000053\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: Breast cancer pathway follow-up.\n\nFindings: 14 mm well-circumscribed oval hypoechoic lesion, parallel orientation, likely fibroadenoma. Graded U3 (indeterminate) given patient age.\nConclusion: Recommend core biopsy for histological confirmation.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 16/10/2026",
     "gold": [
       {
         "follow_up_test": "breast_biopsy",
@@ -79,7 +79,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Breast ultrasound",
     "difficulty": "no follow-up",
-    "text": "Ultrasound right breast.\nFindings: 8 mm simple cyst at 2 o'clock. No solid component.\nConclusion: U2 benign. No further imaging required; return to routine screening.",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: COLEMAN, Patricia    NHS number: 999 000 0005    DOB: 07/01/1968\nExamination: Ultrasound right breast\nDate of examination: 02/09/2026    Accession: NB2026000054\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Breast cancer pathway follow-up.\n\nFindings: 8 mm simple cyst at 2 o'clock. No solid component.\nConclusion: U2 benign. No further imaging required; return to routine screening.\n\nReported by: Dr K. Mensah, Consultant Breast Radiologist    Verified: 02/09/2026",
     "gold": [],
     "processed_at_start": true
   },
@@ -91,7 +91,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Echocardiogram",
     "difficulty": "two follow-ups, one urgent",
-    "text": "Echocardiogram.\nIndication: on trastuzumab and pertuzumab.\nFindings: LVEF 47% (previous 61%), an absolute fall of 14 percentage points. Mild global hypokinesis.\nConclusion: Significant fall in LVEF meeting criteria for cardiotoxicity. Recommend urgent cardio-oncology review and repeat echo in 3 weeks. Oncology team informed by telephone.",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: RAMAN, Kavitha    NHS number: 999 000 0006    DOB: 18/11/1977\nExamination: Echocardiogram\nDate of examination: 22/10/2026    Accession: NB2026000055\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: On trastuzumab and pertuzumab.\n\nFindings: LVEF 47% (previous 61%), an absolute fall of 14 percentage points. Mild global hypokinesis.\nConclusion: Significant fall in LVEF meeting criteria for cardiotoxicity. Recommend urgent cardio-oncology review and repeat echo in 3 weeks. Oncology team informed by telephone.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 22/10/2026",
     "gold": [
       {
         "follow_up_test": "specialist_review",
@@ -114,7 +114,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "DXA",
     "difficulty": "routine",
-    "text": "DXA scan.\nIndication: on letrozole since 2025.\nFindings: Lumbar spine T-score -1.8. Total hip T-score -1.4.\nConclusion: Osteopenia. Recommend repeat DXA in 2 years.",
+    "text": "Northbridge Hospitals - Bone Densitometry\nPatient name: ELLIS, Margaret    NHS number: 999 000 0007    DOB: 07/11/1954\nExamination: DXA scan\nDate of examination: 15/09/2026    Accession: NB2026000056\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: On letrozole since 2025.\n\nFindings: Lumbar spine T-score -1.8. Total hip T-score -1.4.\nConclusion: Osteopenia. Recommend repeat DXA in 2 years.\n\nReported by: Dr P. Lowe, Consultant in Bone Health    Verified: 15/09/2026",
     "gold": [
       {
         "follow_up_test": "dexa",
@@ -132,7 +132,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "DXA",
     "difficulty": "two follow-ups",
-    "text": "DXA scan.\nIndication: on anastrozole.\nFindings: L1-L4 T-score -2.7. Femoral neck T-score -2.1.\nConclusion: Osteoporosis at the lumbar spine. Bone health clinic review advised within 6 weeks regarding bisphosphonate therapy. Repeat DXA in 12 months.",
+    "text": "Northbridge Hospitals - Bone Densitometry\nPatient name: PEARSON, Joan    NHS number: 999 000 0008    DOB: 21/03/1945\nExamination: DXA scan\nDate of examination: 20/09/2026    Accession: NB2026000057\nReferred by: Breast Care Nurse Specialist team\nClinical indication: On anastrozole.\n\nFindings: L1-L4 T-score -2.7. Femoral neck T-score -2.1.\nConclusion: Osteoporosis at the lumbar spine. Bone health clinic review advised within 6 weeks regarding bisphosphonate therapy. Repeat DXA in 12 months.\n\nReported by: Dr P. Lowe, Consultant in Bone Health    Verified: 20/09/2026",
     "gold": [
       {
         "follow_up_test": "specialist_review",
@@ -155,7 +155,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "CT chest/abdomen/pelvis",
     "difficulty": "incidental finding",
-    "text": "CT chest, abdomen and pelvis (staging).\nFindings: No axillary or mediastinal lymphadenopathy. A 6 mm solid nodule in the right lower lobe, nonspecific. Liver, adrenals and bones unremarkable.\nConclusion: No evidence of metastatic disease. Indeterminate 6 mm pulmonary nodule; suggest follow-up CT chest in 3 months to assess stability given oncological history.",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: BEGUM, Nadia    NHS number: 999 000 0009    DOB: 05/09/1963\nExamination: CT chest, abdomen and pelvis (staging)\nDate of examination: 20/08/2026    Accession: NB2026000058\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Breast cancer pathway follow-up.\n\nFindings: No axillary or mediastinal lymphadenopathy. A 6 mm solid nodule in the right lower lobe, nonspecific. Liver, adrenals and bones unremarkable.\nConclusion: No evidence of metastatic disease. Indeterminate 6 mm pulmonary nodule; suggest follow-up CT chest in 3 months to assess stability given oncological history.\n\nReported by: Dr L. Harrington, Consultant Radiologist    Verified: 20/08/2026",
     "gold": [
       {
         "follow_up_test": "ct_chest",
@@ -173,7 +173,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "CT chest/abdomen/pelvis",
     "difficulty": "buried in findings",
-    "text": "CT chest, abdomen and pelvis.\nFindings: There is a 12 mm low-attenuation lesion in segment 7 of the liver which is too small to characterise; MRI liver within 4 weeks would be helpful. Lungs clear. No bone lesions.\nConclusion: No definite metastatic disease.",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: HALL, Rebecca    NHS number: 999 000 0010    DOB: 09/07/1971\nExamination: CT chest, abdomen and pelvis\nDate of examination: 05/10/2026    Accession: NB2026000059\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: Breast cancer pathway follow-up.\n\nFindings: There is a 12 mm low-attenuation lesion in segment 7 of the liver which is too small to characterise; MRI liver within 4 weeks would be helpful. Lungs clear. No bone lesions.\nConclusion: No definite metastatic disease.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 05/10/2026",
     "gold": [
       {
         "follow_up_test": "mri_liver",
@@ -191,7 +191,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "CT chest",
     "difficulty": "no follow-up",
-    "text": "CT chest.\nFindings: Previously noted 5 mm nodule in the left upper lobe is unchanged compared with the 2024 CT, now stable over 2 years.\nConclusion: Benign behaviour. No further follow-up of the nodule is required.",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: MOORE, Linda    NHS number: 999 000 0011    DOB: 13/02/1957\nExamination: CT chest\nDate of examination: 12/09/2026    Accession: NB2026000060\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: Breast cancer pathway follow-up.\n\nFindings: Previously noted 5 mm nodule in the left upper lobe is unchanged compared with the 2024 CT, now stable over 2 years.\nConclusion: Benign behaviour. No further follow-up of the nodule is required.\n\nReported by: Dr L. Harrington, Consultant Radiologist    Verified: 12/09/2026",
     "gold": [],
     "processed_at_start": true
   },
@@ -203,7 +203,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Echocardiogram",
     "difficulty": "routine",
-    "text": "Echocardiogram.\nIndication: baseline prior to trastuzumab.\nFindings: LVEF 64%. Normal study.\nConclusion: Proceed with treatment; next surveillance echo in 3 months.",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: KOWALSKA, Ewa    NHS number: 999 000 0012    DOB: 06/06/1979\nExamination: Echocardiogram\nDate of examination: 30/07/2026    Accession: NB2026000061\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: Baseline prior to trastuzumab.\n\nFindings: LVEF 64%. Normal study.\nConclusion: Proceed with treatment; next surveillance echo in 3 months.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 30/07/2026",
     "gold": [
       {
         "follow_up_test": "echocardiogram",
@@ -221,7 +221,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Mammogram",
     "difficulty": "routine",
-    "text": "Mammography.\nHistory: right mastectomy 2022.\nFindings: Left breast scattered fibroglandular density. A few benign-appearing calcifications, unchanged.\nConclusion: M2 benign. Annual mammography of the left breast as per surveillance programme.",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: WALSH, Doreen    NHS number: 999 000 0013    DOB: 25/08/1941\nExamination: Mammography\nDate of examination: 10/10/2025    Accession: NB2025000062\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: Right mastectomy 2022.\n\nFindings: Left breast scattered fibroglandular density. A few benign-appearing calcifications, unchanged.\nConclusion: M2 benign. Annual mammography of the left breast as per surveillance programme.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 10/10/2025",
     "gold": [
       {
         "follow_up_test": "mammogram",
@@ -239,7 +239,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Mammogram",
     "difficulty": "suspicious, three actions",
-    "text": "Surveillance mammography.\nHistory: left wide local excision 2024.\nFindings: New area of architectural distortion at the scar site, not seen on the 2025 study.\nConclusion: M4 - suspicious. Recommend further assessment with ultrasound and core biopsy; refer to breast clinic urgently.",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: AHMED, Sarah    NHS number: 999 000 0014    DOB: 06/08/1967\nExamination: Surveillance mammography\nDate of examination: 23/10/2026    Accession: NB2026000063\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: Left wide local excision 2024.\n\nFindings: New area of architectural distortion at the scar site, not seen on the 2025 study.\nConclusion: M4 - suspicious. Recommend further assessment with ultrasound and core biopsy; refer to breast clinic urgently.\n\nReported by: Dr M. Fenwick, Consultant Breast Radiologist    Verified: 23/10/2026",
     "gold": [
       {
         "follow_up_test": "breast_ultrasound",
@@ -267,7 +267,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Axillary ultrasound",
     "difficulty": "hedged",
-    "text": "Ultrasound left axilla.\nFindings: A 9 mm lymph node with slightly thickened cortex (3.5 mm). Possibly reactive following recent vaccination.\nConclusion: Consider repeat ultrasound in 6 weeks if clinically indicated.",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: TURNER, Emily    NHS number: 999 000 0015    DOB: 04/08/1988\nExamination: Ultrasound left axilla\nDate of examination: 01/10/2026    Accession: NB2026000064\nReferred by: Breast Care Nurse Specialist team\nClinical indication: Breast cancer pathway follow-up.\n\nFindings: A 9 mm lymph node with slightly thickened cortex (3.5 mm). Possibly reactive following recent vaccination.\nConclusion: Consider repeat ultrasound in 6 weeks if clinically indicated.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 01/10/2026",
     "gold": [
       {
         "follow_up_test": "breast_ultrasound",
@@ -285,7 +285,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Echocardiogram",
     "difficulty": "abbreviations",
-    "text": "TTE: LVEF 55%, GLS -17%. Rx: T-DM1.\nImp: borderline GLS reduction (-21% to -17%).\nPlan: rpt TTE 6/52.",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: SIVAKUMAR, Meena    NHS number: 999 000 0016    DOB: 28/02/1973\nExamination: TTE: LVEF 55%, GLS -17%. Rx: T-DM1\nDate of examination: 25/09/2026    Accession: NB2026000065\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Breast cancer pathway follow-up.\n\nImp: borderline GLS reduction (-21% to -17%).\nPlan: rpt TTE 6/52.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 25/09/2026",
     "gold": [
       {
         "follow_up_test": "echocardiogram",
@@ -303,7 +303,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Mammogram",
     "difficulty": "no follow-up",
-    "text": "Diagnostic mammogram.\nIndication: left breast pain.\nFindings: No mass, no suspicious calcification.\nConclusion: M1 normal. No imaging follow-up required. Return to GP.",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: PRICE, Hannah    NHS number: 999 000 0017    DOB: 03/01/1981\nExamination: Diagnostic mammogram\nDate of examination: 28/09/2026    Accession: NB2026000066\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: Left breast pain.\n\nFindings: No mass, no suspicious calcification.\nConclusion: M1 normal. No imaging follow-up required. Return to GP.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 28/09/2026",
     "gold": [],
     "processed_at_start": true
   },
@@ -315,7 +315,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "DXA",
     "difficulty": "routine",
-    "text": "DXA baseline before starting anastrozole.\nFindings: T-scores spine -0.6, hip -0.4. Normal bone mineral density.\nConclusion: Repeat DXA in 2 years while on aromatase inhibitor.",
+    "text": "Northbridge Hospitals - Bone Densitometry\nPatient name: HUGHES, Barbara    NHS number: 999 000 0018    DOB: 18/07/1952\nExamination: DXA baseline before starting anastrozole\nDate of examination: 01/06/2026    Accession: NB2026000067\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Breast cancer pathway follow-up.\n\nFindings: T-scores spine -0.6, hip -0.4. Normal bone mineral density.\nConclusion: Repeat DXA in 2 years while on aromatase inhibitor.\n\nReported by: Dr P. Lowe, Consultant in Bone Health    Verified: 01/06/2026",
     "gold": [
       {
         "follow_up_test": "dexa",
@@ -333,7 +333,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Breast MRI",
     "difficulty": "indeterminate",
-    "text": "MRI breasts (extent of disease).\nKnown 18 mm right breast carcinoma. A 6 mm enhancing focus in the left breast at 2 o'clock, indeterminate (MRI 3).\nConclusion: Recommend second-look ultrasound of the left breast within 2 weeks.",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: WIŚNIEWSKA, Zofia    NHS number: 999 000 0019    DOB: 28/06/1976\nExamination: MRI breasts (extent of disease)\nDate of examination: 19/10/2026    Accession: NB2026000068\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Breast cancer pathway follow-up.\n\nKnown 18 mm right breast carcinoma. A 6 mm enhancing focus in the left breast at 2 o'clock, indeterminate (MRI 3).\nConclusion: Recommend second-look ultrasound of the left breast within 2 weeks.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 19/10/2026",
     "gold": [
       {
         "follow_up_test": "breast_ultrasound",
@@ -351,7 +351,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "CT chest/abdomen/pelvis",
     "difficulty": "hedged incidental",
-    "text": "CT chest, abdomen and pelvis (restaging, metastatic breast cancer).\nFindings: Interval decrease in size of liver metastases. Stable sclerotic bone lesions. New 4 mm nodule in the right middle lobe, likely of no significance, but attention on next restaging CT in 3 months is suggested.\nConclusion: Partial response.",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: BENNETT, Carl    NHS number: 999 000 0020    DOB: 22/09/1960\nExamination: CT chest, abdomen and pelvis (restaging, metastatic breast cancer)\nDate of examination: 01/09/2026    Accession: NB2026000069\nReferred by: Breast Care Nurse Specialist team\nClinical indication: Breast cancer pathway follow-up.\n\nFindings: Interval decrease in size of liver metastases. Stable sclerotic bone lesions. New 4 mm nodule in the right middle lobe, likely of no significance, but attention on next restaging CT in 3 months is suggested.\nConclusion: Partial response.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 01/09/2026",
     "gold": [
       {
         "follow_up_test": "ct_chest",
@@ -369,7 +369,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Echocardiogram",
     "difficulty": "routine",
-    "text": "Echocardiogram.\nIndication: on trastuzumab, cycle 9.\nFindings: LVEF 60%, stable.\nConclusion: Continue 3-monthly echo surveillance until completion of trastuzumab.",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: KHAN, Fatima    NHS number: 999 000 0021    DOB: 20/02/1969\nExamination: Echocardiogram\nDate of examination: 05/08/2026    Accession: NB2026000070\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: On trastuzumab, cycle 9.\n\nFindings: LVEF 60%, stable.\nConclusion: Continue 3-monthly echo surveillance until completion of trastuzumab.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 05/08/2026",
     "gold": [
       {
         "follow_up_test": "echocardiogram",
@@ -387,7 +387,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Liver MRI",
     "difficulty": "no follow-up",
-    "text": "MRI liver.\nFindings: 15 mm lesion in segment 4 shows features of a haemangioma.\nConclusion: Benign haemangioma. No further imaging is necessary.",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: LLOYD, Jennifer    NHS number: 999 000 0022    DOB: 10/10/1964\nExamination: MRI liver\nDate of examination: 08/09/2026    Accession: NB2026000071\nReferred by: Breast Care Nurse Specialist team\nClinical indication: Breast cancer pathway follow-up.\n\nFindings: 15 mm lesion in segment 4 shows features of a haemangioma.\nConclusion: Benign haemangioma. No further imaging is necessary.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 08/09/2026",
     "gold": [],
     "processed_at_start": true
   },
@@ -399,7 +399,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Breast ultrasound",
     "difficulty": "suspicious finding",
-    "text": "Ultrasound left breast for palpable lump.\nFindings: 22 mm irregular hypoechoic mass with posterior shadowing, U5. Left axillary node with effaced hilum.\nConclusion: Highly suspicious of malignancy. Recommend urgent core biopsy of the breast mass and axillary node.",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: NATARAJAN, Priya    NHS number: 999 000 0023    DOB: 18/11/1982\nExamination: Ultrasound left breast for palpable lump\nDate of examination: 24/10/2026    Accession: NB2026000072\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Breast cancer pathway follow-up.\n\nFindings: 22 mm irregular hypoechoic mass with posterior shadowing, U5. Left axillary node with effaced hilum.\nConclusion: Highly suspicious of malignancy. Recommend urgent core biopsy of the breast mass and axillary node.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 24/10/2026",
     "gold": [
       {
         "follow_up_test": "breast_biopsy",
@@ -417,7 +417,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "DXA",
     "difficulty": "routine",
-    "text": "DXA scan.\nIndication: on exemestane.\nFindings: Spine T-score -2.2 (previously -1.9).\nConclusion: Osteopenia with interval decline. Repeat DXA in 1 year.",
+    "text": "Northbridge Hospitals - Bone Densitometry\nPatient name: FOSTER, Elaine    NHS number: 999 000 0024    DOB: 04/05/1948\nExamination: DXA scan\nDate of examination: 10/09/2026    Accession: NB2026000073\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: On exemestane.\n\nFindings: Spine T-score -2.2 (previously -1.9).\nConclusion: Osteopenia with interval decline. Repeat DXA in 1 year.\n\nReported by: Dr P. Lowe, Consultant in Bone Health    Verified: 10/09/2026",
     "gold": [
       {
         "follow_up_test": "dexa",
@@ -435,7 +435,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Echocardiogram",
     "difficulty": "no follow-up",
-    "text": "Echocardiogram.\nFindings: LVEF 58%, stable. Trastuzumab course completed.\nConclusion: No further echocardiographic surveillance required.",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: KOWALSKA, Ewa    NHS number: 999 000 0012    DOB: 22/02/1979\nExamination: Echocardiogram\nDate of examination: 12/10/2026    Accession: NB2026000074\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: Breast cancer pathway follow-up.\n\nFindings: LVEF 58%, stable. Trastuzumab course completed.\nConclusion: No further echocardiographic surveillance required.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 12/10/2026",
     "gold": [],
     "processed_at_start": true
   },
@@ -447,7 +447,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Mammogram",
     "difficulty": "no follow-up",
-    "text": "Mammogram after neoadjuvant chemotherapy.\nFindings: Marker clip in satisfactory position.\nConclusion: No follow-up imaging needed before surgery.",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: WIŚNIEWSKA, Zofia    NHS number: 999 000 0019    DOB: 26/12/1976\nExamination: Mammogram after neoadjuvant chemotherapy\nDate of examination: 21/10/2026    Accession: NB2026000075\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Breast cancer pathway follow-up.\n\nFindings: Marker clip in satisfactory position.\nConclusion: No follow-up imaging needed before surgery.\n\nReported by: Dr K. Mensah, Consultant Breast Radiologist    Verified: 21/10/2026",
     "gold": [],
     "processed_at_start": true
   },
@@ -459,7 +459,7 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "CT neck/chest",
     "difficulty": "incidental, non-urgent",
-    "text": "CT neck and chest.\nFindings: Incidental 15 mm left thyroid nodule. Lungs clear.\nConclusion: Recommend non-urgent thyroid ultrasound within 3 months.",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: COLEMAN, Patricia    NHS number: 999 000 0005    DOB: 11/09/1968\nExamination: CT neck and chest\nDate of examination: 05/09/2026    Accession: NB2026000076\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: Breast cancer pathway follow-up.\n\nFindings: Incidental 15 mm left thyroid nodule. Lungs clear.\nConclusion: Recommend non-urgent thyroid ultrasound within 3 months.\n\nReported by: Dr K. Mensah, Consultant Breast Radiologist    Verified: 05/09/2026",
     "gold": [
       {
         "follow_up_test": "thyroid_ultrasound",
@@ -477,7 +477,1362 @@
     "follow_up_trust": "Northbridge Hospitals",
     "modality": "Axillary ultrasound",
     "difficulty": "already actioned",
-    "text": "Ultrasound left axilla.\nPerformed as the 6-week follow-up recommended on the previous study. The previously seen node now has a normal cortex.\nConclusion: Resolved reactive node. No further follow-up required.",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: BENNETT, Carl    NHS number: 999 000 0020    DOB: 11/05/1960\nExamination: Ultrasound left axilla\nDate of examination: 14/10/2026    Accession: NB2026000077\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Breast cancer pathway follow-up.\n\nPerformed as the 6-week follow-up recommended on the previous study. The previously seen node now has a normal cortex.\nConclusion: Resolved reactive node. No further follow-up required.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 14/10/2026",
+    "gold": [],
+    "processed_at_start": true
+  },
+  {
+    "id": "C001",
+    "patient_id": "P025",
+    "report_date": "2026-09-25",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "DXA bone densitometry",
+    "difficulty": "negation",
+    "text": "Northbridge Hospitals - Bone Densitometry\nPatient name: AHMED, Margaret    NHS number: 999 000 0025    DOB: 02/01/1955\nExamination: DXA bone densitometry\nDate of examination: 25/09/2026    Accession: NB2026000127\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: On tamoxifen. Baseline bone health.\n\nFindings: Spine T-score -0.7, hip T-score -0.0.\nConclusion: Normal bone mineral density. On tamoxifen; no routine repeat scan is required.\n\nReported by: Dr P. Lowe, Consultant in Bone Health    Verified: 25/09/2026",
+    "gold": [],
+    "processed_at_start": true
+  },
+  {
+    "id": "C002",
+    "patient_id": "P026",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: GALLAGHER, Aisha    NHS number: 999 000 0026    DOB: 11/06/1956\nExamination: Transthoracic echocardiogram\nDate of examination: 24/10/2026    Accession: NB2026000164\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: On trastuzumab, cycle 13. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 60% (Simpson's biplane). Global longitudinal strain -18%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nConclusion: Normal LV systolic function. Repeat echocardiogram in 3 months as per cardio-oncology surveillance protocol.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C003",
+    "patient_id": "P027",
+    "report_date": "2026-01-07",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Valeford Hospitals - Radiology\nPatient name: POPESCU, Grace    NHS number: 999 000 0027    DOB: 12/11/1968\nExamination: Bilateral mammography (surveillance)\nDate of examination: 07/01/2026    Accession: VF2026000172\nReferred by: Breast Care Nurse Specialist team\nClinical indication: Left wide local excision 2023. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the left breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Continue yearly mammographic surveillance.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 07/01/2026",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C004",
+    "patient_id": "P028",
+    "report_date": "2026-10-24",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "Ultrasound breast",
+    "difficulty": "indeterminate",
+    "text": "Valeford Hospitals - Radiology\nPatient name: DOBSON, Agnieszka    NHS number: 999 000 0028    DOB: 25/05/1986\nExamination: Ultrasound breast\nDate of examination: 24/10/2026    Accession: VF2026000180\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: Palpable lump.\n\nFindings: 9 mm oval circumscribed hypoechoic lesion at 5 o'clock, 4 cm from the nipple. Graded U3 (indeterminate).\nConclusion: Recommend ultrasound-guided core biopsy for histological confirmation.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "breast_biopsy",
+        "due_in_days": 14,
+        "urgency": "soon"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C005",
+    "patient_id": "P029",
+    "report_date": "2026-07-28",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Valeford Hospitals - Echocardiography\nPatient name: MORGAN, Shabana    NHS number: 999 000 0029    DOB: 17/03/1960\nExamination: Transthoracic echocardiogram\nDate of examination: 28/07/2026    Accession: VF2026000183\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: On trastuzumab, cycle 4. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 57% (Simpson's biplane). Global longitudinal strain -22%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nImpression: LVEF preserved. Next surveillance echo in 12 weeks.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 28/07/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 84,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C006",
+    "patient_id": "P030",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "negation",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: OWEN, Lakshmi    NHS number: 999 000 0030    DOB: 22/07/1977\nExamination: Bilateral mammography (surveillance)\nDate of examination: 24/10/2026    Accession: NB2026000199\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Year 5 surveillance after breast cancer.\nComparison: Mammography 12 months ago\n\nFindings: Stable post-treatment appearances. No suspicious features.\nConclusion: M1. Five years of hospital surveillance now complete. No further hospital follow-up imaging required; the patient returns to the routine screening programme.\n\nReported by: Dr L. Harrington, Consultant Radiologist    Verified: 24/10/2026",
+    "gold": [],
+    "processed_at_start": true
+  },
+  {
+    "id": "C007",
+    "patient_id": "P031",
+    "report_date": "2025-03-07",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "DXA bone densitometry",
+    "difficulty": "routine",
+    "text": "Valeford Hospitals - Bone Densitometry\nPatient name: SILVA, Rosa    NHS number: 999 000 0031    DOB: 09/07/1945\nExamination: DXA bone densitometry\nDate of examination: 07/03/2025    Accession: VF2025000235\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: On exemestane. Baseline / monitoring bone health.\nTechnique: Lumbar spine and left hip\n\nFindings: Lumbar spine (L1-L4) T-score -1.7. Total hip T-score -1.3. Femoral neck T-score -1.5.\nConclusion: Osteopenia. Follow-up DXA advised in 2 years while on aromatase inhibitor.\n\nReported by: Dr P. Lowe, Consultant in Bone Health    Verified: 07/03/2025",
+    "gold": [
+      {
+        "follow_up_test": "dexa",
+        "due_in_days": 730,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C008",
+    "patient_id": "P032",
+    "report_date": "2025-10-12",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: WALKER, Eileen    NHS number: 999 000 0032    DOB: 02/09/1974\nExamination: Bilateral mammography (surveillance)\nDate of examination: 12/10/2025    Accession: NB2025000247\nReferred by: Breast Care Nurse Specialist team\nClinical indication: Right wide local excision 2024. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the right breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Annual surveillance mammography recommended.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 12/10/2025",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C009",
+    "patient_id": "P033",
+    "report_date": "2026-07-06",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Valeford Hospitals - Echocardiography\nPatient name: MENSAH, Ifeoma    NHS number: 999 000 0033    DOB: 17/11/1955\nExamination: Transthoracic echocardiogram\nDate of examination: 06/07/2026    Accession: VF2026000262\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: On trastuzumab, cycle 10. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 66% (Simpson's biplane). Global longitudinal strain -19%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nConclusion: Normal LV systolic function. Repeat echocardiogram in 3 months as per cardio-oncology surveillance protocol.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 06/07/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C010",
+    "patient_id": "P034",
+    "report_date": "2025-12-20",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: OSEI, Claire    NHS number: 999 000 0034    DOB: 15/11/1951\nExamination: Bilateral mammography (surveillance)\nDate of examination: 20/12/2025    Accession: NB2025000292\nReferred by: Breast Care Nurse Specialist team\nClinical indication: Right wide local excision 2023. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the right breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Annual surveillance mammography recommended.\n\nReported by: Dr M. Fenwick, Consultant Breast Radiologist    Verified: 20/12/2025",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C011",
+    "patient_id": "P035",
+    "report_date": "2026-08-09",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "CT neck and chest",
+    "difficulty": "incidental",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: REID, Nasreen    NHS number: 999 000 0035    DOB: 14/11/1944\nExamination: CT neck and chest\nDate of examination: 09/08/2026    Accession: NB2026000303\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Staging.\n\nFindings: Incidental 16 mm left thyroid nodule. Lungs clear. No lymphadenopathy.\nConclusion: No metastatic disease. Recommend non-urgent thyroid ultrasound within 3 months.\n\nReported by: Dr M. Fenwick, Consultant Breast Radiologist    Verified: 09/08/2026",
+    "gold": [
+      {
+        "follow_up_test": "thyroid_ultrasound",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C012",
+    "patient_id": "P036",
+    "report_date": "2025-11-03",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: MURUGAN, Teresa    NHS number: 999 000 0036    DOB: 12/05/1951\nExamination: Bilateral mammography (surveillance)\nDate of examination: 03/11/2025    Accession: NB2025000309\nReferred by: Breast Care Nurse Specialist team\nClinical indication: Right wide local excision 2024. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the right breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Annual surveillance mammography recommended.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 03/11/2025",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C013",
+    "patient_id": "P037",
+    "report_date": "2026-07-09",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: CHOWDHURY, Rukhsana    NHS number: 999 000 0037    DOB: 18/07/1957\nExamination: Transthoracic echocardiogram\nDate of examination: 09/07/2026    Accession: NB2026000335\nReferred by: Breast Care Nurse Specialist team\nClinical indication: On trastuzumab, cycle 7. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 64% (Simpson's biplane). Global longitudinal strain -22%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nImpression: LVEF preserved. Next surveillance echo in 12 weeks.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 09/07/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 84,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C014",
+    "patient_id": "P038",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: ALI, Joanne    NHS number: 999 000 0038    DOB: 02/05/1978\nExamination: Transthoracic echocardiogram\nDate of examination: 24/10/2026    Accession: NB2026000352\nReferred by: Breast Care Nurse Specialist team\nClinical indication: On trastuzumab, cycle 8. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 57% (Simpson's biplane). Global longitudinal strain -21%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nImpression: LVEF preserved. Next surveillance echo in 12 weeks.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 84,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C015",
+    "patient_id": "P039",
+    "report_date": "2025-09-22",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: PATEL, Marta    NHS number: 999 000 0039    DOB: 16/11/1971\nExamination: Bilateral mammography (surveillance)\nDate of examination: 22/09/2025    Accession: NB2025000391\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: Left wide local excision 2022. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the left breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Return for bilateral mammography in 12 months.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 22/09/2025",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C016",
+    "patient_id": "P040",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "CT chest, abdomen and pelvis (staging)",
+    "difficulty": "incidental",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: NOWAK, Selvi    NHS number: 999 000 0040    DOB: 01/03/1963\nExamination: CT chest, abdomen and pelvis (staging)\nDate of examination: 24/10/2026    Accession: NB2026000401\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: Staging, newly diagnosed breast cancer.\nTechnique: Portal venous phase\n\nFindings: No axillary, mediastinal or hilar lymphadenopathy. A 6 mm solid nodule in the left upper lobe. Liver, adrenals and bones unremarkable.\nConclusion: No evidence of metastatic disease. Indeterminate 6 mm pulmonary nodule; suggest follow-up CT chest in 3 months.\n\nReported by: Dr K. Mensah, Consultant Breast Radiologist    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "ct_chest",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C017",
+    "patient_id": "P041",
+    "report_date": "2026-07-31",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "abbreviated",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: RAHMAN, Gillian    NHS number: 999 000 0041    DOB: 08/10/1973\nExamination: Transthoracic echocardiogram\nDate of examination: 31/07/2026    Accession: NB2026000440\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: On trastuzumab, cycle 11. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 61% (Simpson's biplane). Global longitudinal strain -19%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nImp: LVEF preserved, no change. Plan: rpt TTE 3/12.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 31/07/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C018",
+    "patient_id": "P042",
+    "report_date": "2026-08-18",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "Ultrasound breast",
+    "difficulty": "negation",
+    "text": "Valeford Hospitals - Radiology\nPatient name: SHAH, Hafsa    NHS number: 999 000 0042    DOB: 09/07/1945\nExamination: Ultrasound breast\nDate of examination: 18/08/2026    Accession: VF2026000445\nReferred by: Breast Care Nurse Specialist team\nClinical indication: Breast pain.\n\nFindings: Simple cyst, no solid component.\nConclusion: U2 benign. No further imaging required; discharge to GP.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 18/08/2026",
+    "gold": [],
+    "processed_at_start": true
+  },
+  {
+    "id": "C019",
+    "patient_id": "P043",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "two actions",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: KAUR, Dorothy    NHS number: 999 000 0043    DOB: 27/04/1959\nExamination: Transthoracic echocardiogram\nDate of examination: 24/10/2026    Accession: NB2026000479\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: On trastuzumab and pertuzumab. Surveillance echocardiogram.\nComparison: Echocardiogram 3 months ago\n\nFindings: LVEF 48% (previously 62%). Mild global hypokinesis. GLS -13%. Right ventricle normal.\nConclusion: Borderline reduction in LVEF (62% to 48%). Recommend cardio-oncology review within 4 weeks and repeat echocardiogram in 6 weeks.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "specialist_review",
+        "due_in_days": 28,
+        "urgency": "soon"
+      },
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 42,
+        "urgency": "soon"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C020",
+    "patient_id": "P044",
+    "report_date": "2025-11-02",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: SANDHU, Kiran    NHS number: 999 000 0044    DOB: 17/07/1964\nExamination: Bilateral mammography (surveillance)\nDate of examination: 02/11/2025    Accession: NB2025000500\nReferred by: Breast Care Nurse Specialist team\nClinical indication: Right wide local excision 2022. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the right breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Continue yearly mammographic surveillance.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 02/11/2025",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C021",
+    "patient_id": "P045",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "suspicious",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: IYER, Ioana    NHS number: 999 000 0045    DOB: 26/04/1988\nExamination: Bilateral mammography (surveillance)\nDate of examination: 24/10/2026    Accession: NB2026000512\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: Surveillance after breast cancer.\nComparison: Mammography 12 months ago\n\nFindings: New 8 mm area of architectural distortion at the scar site, not present on the previous study.\nConclusion: M4 - suspicious for recurrence. Recommend ultrasound and core biopsy; refer to the breast clinic urgently.\n\nReported by: Dr L. Harrington, Consultant Radiologist    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "breast_ultrasound",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      },
+      {
+        "follow_up_test": "breast_biopsy",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      },
+      {
+        "follow_up_test": "specialist_review",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C022",
+    "patient_id": "P046",
+    "report_date": "2025-11-13",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: OKAFOR, Patience    NHS number: 999 000 0046    DOB: 24/08/1966\nExamination: Bilateral mammography (surveillance)\nDate of examination: 13/11/2025    Accession: NB2025000522\nReferred by: Breast Care Nurse Specialist team\nClinical indication: Right wide local excision 2023. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the right breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Continue yearly mammographic surveillance.\n\nReported by: Dr L. Harrington, Consultant Radiologist    Verified: 13/11/2025",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C023",
+    "patient_id": "P047",
+    "report_date": "2026-02-06",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: NOWICKA, Lorraine    NHS number: 999 000 0047    DOB: 11/04/1973\nExamination: Bilateral mammography (surveillance)\nDate of examination: 06/02/2026    Accession: NB2026000540\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Right wide local excision 2022. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the right breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Return for bilateral mammography in 12 months.\n\nReported by: Dr K. Mensah, Consultant Breast Radiologist    Verified: 06/02/2026",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C024",
+    "patient_id": "P048",
+    "report_date": "2026-09-11",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "suspicious",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: CLARKE, Yasmin    NHS number: 999 000 0048    DOB: 11/12/1985\nExamination: Bilateral mammography (surveillance)\nDate of examination: 11/09/2026    Accession: NB2026000576\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: Surveillance after breast cancer.\nComparison: Mammography 12 months ago\n\nFindings: New 8 mm area of architectural distortion at the scar site, not present on the previous study.\nConclusion: M4 - suspicious for recurrence. Recommend ultrasound and core biopsy; refer to the breast clinic urgently.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 11/09/2026",
+    "gold": [
+      {
+        "follow_up_test": "breast_ultrasound",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      },
+      {
+        "follow_up_test": "breast_biopsy",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      },
+      {
+        "follow_up_test": "specialist_review",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C025",
+    "patient_id": "P049",
+    "report_date": "2026-10-06",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "abbreviated",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: ELLIS, Beata    NHS number: 999 000 0049    DOB: 11/08/1970\nExamination: Transthoracic echocardiogram\nDate of examination: 06/10/2026    Accession: NB2026000607\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: On trastuzumab, cycle 8. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 60% (Simpson's biplane). Global longitudinal strain -19%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nImp: LVEF preserved, no change. Plan: rpt TTE 3/12.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 06/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C026",
+    "patient_id": "P050",
+    "report_date": "2026-01-15",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Valeford Hospitals - Radiology\nPatient name: TAYLOR, Wendy    NHS number: 999 000 0050    DOB: 20/05/1965\nExamination: Bilateral mammography (surveillance)\nDate of examination: 15/01/2026    Accession: VF2026000640\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: Right wide local excision 2022. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the right breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Annual surveillance mammography recommended.\n\nReported by: Dr K. Mensah, Consultant Breast Radiologist    Verified: 15/01/2026",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C027",
+    "patient_id": "P051",
+    "report_date": "2026-08-13",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "abbreviated",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: BRENNAN, Amarjit    NHS number: 999 000 0051    DOB: 06/11/1961\nExamination: Transthoracic echocardiogram\nDate of examination: 13/08/2026    Accession: NB2026000679\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: On trastuzumab, cycle 10. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 58% (Simpson's biplane). Global longitudinal strain -19%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nImp: LVEF preserved, no change. Plan: rpt TTE 3/12.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 13/08/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C028",
+    "patient_id": "P052",
+    "report_date": "2026-08-25",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "CT chest, abdomen and pelvis (staging)",
+    "difficulty": "negation",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: BIBI, Helen    NHS number: 999 000 0052    DOB: 09/01/1968\nExamination: CT chest, abdomen and pelvis (staging)\nDate of examination: 25/08/2026    Accession: NB2026000686\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: Staging.\nTechnique: Portal venous phase\n\nFindings: No lymphadenopathy. Lungs clear. Liver, adrenals and skeleton unremarkable.\nConclusion: No evidence of metastatic disease. No follow-up imaging is required on the basis of this study.\n\nReported by: Dr K. Mensah, Consultant Breast Radiologist    Verified: 25/08/2026",
+    "gold": [],
+    "processed_at_start": true
+  },
+  {
+    "id": "C029",
+    "patient_id": "P053",
+    "report_date": "2025-02-17",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "DXA bone densitometry",
+    "difficulty": "routine",
+    "text": "Northbridge Hospitals - Bone Densitometry\nPatient name: HUSSAIN, Farida    NHS number: 999 000 0053    DOB: 12/06/1973\nExamination: DXA bone densitometry\nDate of examination: 17/02/2025    Accession: NB2025000708\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: On letrozole. Baseline / monitoring bone health.\nTechnique: Lumbar spine and left hip\n\nFindings: Lumbar spine (L1-L4) T-score -1.7. Total hip T-score -1.3. Femoral neck T-score -1.5.\nConclusion: Osteopenia. Follow-up DXA advised in 2 years while on aromatase inhibitor.\n\nReported by: A. Kaur, Clinical Scientist (Bone Densitometry)    Verified: 17/02/2025",
+    "gold": [
+      {
+        "follow_up_test": "dexa",
+        "due_in_days": 730,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C030",
+    "patient_id": "P054",
+    "report_date": "2026-08-25",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Ultrasound breast",
+    "difficulty": "negation",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: LEWANDOWSKA, Sandra    NHS number: 999 000 0054    DOB: 26/08/1980\nExamination: Ultrasound breast\nDate of examination: 25/08/2026    Accession: NB2026000710\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: Breast pain.\n\nFindings: Simple cyst, no solid component.\nConclusion: U2 benign. No further imaging required; discharge to GP.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 25/08/2026",
+    "gold": [],
+    "processed_at_start": true
+  },
+  {
+    "id": "C031",
+    "patient_id": "P055",
+    "report_date": "2026-10-24",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "Ultrasound breast and axilla",
+    "difficulty": "suspicious",
+    "text": "Valeford Hospitals - Radiology\nPatient name: ABDI, Comfort    NHS number: 999 000 0055    DOB: 27/09/1954\nExamination: Ultrasound breast and axilla\nDate of examination: 24/10/2026    Accession: VF2026000728\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: Two-week-wait referral, palpable lump.\n\nFindings: 21 mm irregular hypoechoic mass with posterior shadowing, U5. Axillary node with thickened cortex.\nConclusion: Highly suspicious of malignancy. Recommend urgent core biopsy of the breast mass and axillary node.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "breast_biopsy",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C032",
+    "patient_id": "P056",
+    "report_date": "2026-01-31",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "CT chest, abdomen and pelvis (staging)",
+    "difficulty": "incidental",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: KOWALCZYK, Pauline    NHS number: 999 000 0056    DOB: 16/06/1954\nExamination: CT chest, abdomen and pelvis (staging)\nDate of examination: 31/01/2026    Accession: NB2026000767\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: Staging, newly diagnosed breast cancer.\nTechnique: Portal venous phase\n\nFindings: No axillary, mediastinal or hilar lymphadenopathy. A 7 mm solid nodule in the right middle lobe. Liver, adrenals and bones unremarkable.\nConclusion: No evidence of metastatic disease. Indeterminate 7 mm pulmonary nodule; suggest follow-up CT chest in 12 months.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 31/01/2026",
+    "gold": [
+      {
+        "follow_up_test": "ct_chest",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C033",
+    "patient_id": "P057",
+    "report_date": "2025-01-26",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "DXA bone densitometry",
+    "difficulty": "routine",
+    "text": "Valeford Hospitals - Bone Densitometry\nPatient name: THOMPSON, Asha    NHS number: 999 000 0057    DOB: 07/10/1970\nExamination: DXA bone densitometry\nDate of examination: 26/01/2025    Accession: VF2025000774\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: On exemestane. Baseline / monitoring bone health.\nTechnique: Lumbar spine and left hip\n\nFindings: Lumbar spine (L1-L4) T-score -1.4. Total hip T-score -1.0. Femoral neck T-score -1.2.\nConclusion: Osteopenia. Follow-up DXA advised in 2 years while on aromatase inhibitor.\n\nReported by: A. Kaur, Clinical Scientist (Bone Densitometry)    Verified: 26/01/2025",
+    "gold": [
+      {
+        "follow_up_test": "dexa",
+        "due_in_days": 730,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C034",
+    "patient_id": "P058",
+    "report_date": "2026-09-12",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "two actions",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: KRISHNAN, Monika    NHS number: 999 000 0058    DOB: 27/11/1961\nExamination: Transthoracic echocardiogram\nDate of examination: 12/09/2026    Accession: NB2026000810\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: On trastuzumab and pertuzumab. Surveillance echocardiogram.\nComparison: Echocardiogram 3 months ago\n\nFindings: LVEF 46% (previously 64%). Mild global hypokinesis. GLS -16%. Right ventricle normal.\nConclusion: Borderline reduction in LVEF (64% to 46%). Recommend cardio-oncology review within 4 weeks and repeat echocardiogram in 6 weeks.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 12/09/2026",
+    "gold": [
+      {
+        "follow_up_test": "specialist_review",
+        "due_in_days": 28,
+        "urgency": "soon"
+      },
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 42,
+        "urgency": "soon"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C035",
+    "patient_id": "P059",
+    "report_date": "2026-09-28",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "CT chest, abdomen and pelvis (staging)",
+    "difficulty": "buried in findings",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: BEGUM, Brenda    NHS number: 999 000 0059    DOB: 19/11/1939\nExamination: CT chest, abdomen and pelvis (staging)\nDate of examination: 28/09/2026    Accession: NB2026000819\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: Staging.\nTechnique: Portal venous phase\n\nFindings: There is a 14 mm low-attenuation lesion in segment 6 of the liver which is too small to characterise; MRI liver within 4 weeks would be helpful. Lungs clear. No bone lesions.\nConclusion: No definite metastatic disease.\n\nReported by: Dr K. Mensah, Consultant Breast Radiologist    Verified: 28/09/2026",
+    "gold": [
+      {
+        "follow_up_test": "mri_liver",
+        "due_in_days": 28,
+        "urgency": "soon"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C036",
+    "patient_id": "P060",
+    "report_date": "2026-09-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "CT chest, abdomen and pelvis (staging)",
+    "difficulty": "buried in findings",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: WRIGHT, David    NHS number: 999 000 0060    DOB: 06/03/1977\nExamination: CT chest, abdomen and pelvis (staging)\nDate of examination: 24/09/2026    Accession: NB2026000849\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: Staging.\nTechnique: Portal venous phase\n\nFindings: There is a 14 mm low-attenuation lesion in segment 7 of the liver which is too small to characterise; MRI liver within 4 weeks would be helpful. Lungs clear. No bone lesions.\nConclusion: No definite metastatic disease.\n\nReported by: Dr L. Harrington, Consultant Radiologist    Verified: 24/09/2026",
+    "gold": [
+      {
+        "follow_up_test": "mri_liver",
+        "due_in_days": 28,
+        "urgency": "soon"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C037",
+    "patient_id": "P025",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: AHMED, Margaret    NHS number: 999 000 0025    DOB: 22/08/1955\nExamination: Transthoracic echocardiogram\nDate of examination: 24/10/2026    Accession: NB2026000855\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: On trastuzumab, cycle 8. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 60% (Simpson's biplane). Global longitudinal strain -22%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nImpression: LVEF preserved. Next surveillance echo in 12 weeks.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 84,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C038",
+    "patient_id": "P026",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "negation",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: GALLAGHER, Aisha    NHS number: 999 000 0026    DOB: 04/01/1956\nExamination: Transthoracic echocardiogram\nDate of examination: 24/10/2026    Accession: NB2026000856\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: End of HER2-targeted therapy.\n\nFindings: LVEF 57%, unchanged. Normal diastolic function.\nConclusion: Normal study. Trastuzumab course completed. No further echocardiographic surveillance is required.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 24/10/2026",
+    "gold": [],
+    "processed_at_start": true
+  },
+  {
+    "id": "C039",
+    "patient_id": "P027",
+    "report_date": "2025-11-07",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Valeford Hospitals - Radiology\nPatient name: POPESCU, Grace    NHS number: 999 000 0027    DOB: 22/07/1967\nExamination: Bilateral mammography (surveillance)\nDate of examination: 07/11/2025    Accession: VF2025000862\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: Left wide local excision 2024. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the left breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Annual surveillance mammography recommended.\n\nReported by: Dr L. Harrington, Consultant Radiologist    Verified: 07/11/2025",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C040",
+    "patient_id": "P028",
+    "report_date": "2024-12-13",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "DXA bone densitometry",
+    "difficulty": "routine",
+    "text": "Valeford Hospitals - Bone Densitometry\nPatient name: DOBSON, Agnieszka    NHS number: 999 000 0028    DOB: 18/03/1984\nExamination: DXA bone densitometry\nDate of examination: 13/12/2024    Accession: VF2024000886\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: On anastrozole. Baseline / monitoring bone health.\nTechnique: Lumbar spine and left hip\n\nFindings: Lumbar spine (L1-L4) T-score -2.1. Total hip T-score -1.7. Femoral neck T-score -1.9.\nConclusion: Osteopenia. Follow-up DXA advised in 2 years while on aromatase inhibitor.\n\nReported by: A. Kaur, Clinical Scientist (Bone Densitometry)    Verified: 13/12/2024",
+    "gold": [
+      {
+        "follow_up_test": "dexa",
+        "due_in_days": 730,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C041",
+    "patient_id": "P029",
+    "report_date": "2026-01-21",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Valeford Hospitals - Radiology\nPatient name: MORGAN, Shabana    NHS number: 999 000 0029    DOB: 24/04/1960\nExamination: Bilateral mammography (surveillance)\nDate of examination: 21/01/2026    Accession: VF2026000892\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Right wide local excision 2024. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the right breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Continue yearly mammographic surveillance.\n\nReported by: Dr K. Mensah, Consultant Breast Radiologist    Verified: 21/01/2026",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C042",
+    "patient_id": "P030",
+    "report_date": "2026-09-04",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "negation",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: OWEN, Lakshmi    NHS number: 999 000 0030    DOB: 14/11/1977\nExamination: Transthoracic echocardiogram\nDate of examination: 04/09/2026    Accession: NB2026000906\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: End of HER2-targeted therapy.\n\nFindings: LVEF 58%, unchanged. Normal diastolic function.\nConclusion: Normal study. Trastuzumab course completed. No further echocardiographic surveillance is required.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 04/09/2026",
+    "gold": [],
+    "processed_at_start": true
+  },
+  {
+    "id": "C043",
+    "patient_id": "P031",
+    "report_date": "2026-09-29",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Valeford Hospitals - Echocardiography\nPatient name: SILVA, Rosa    NHS number: 999 000 0031    DOB: 16/01/1946\nExamination: Transthoracic echocardiogram\nDate of examination: 29/09/2026    Accession: VF2026000932\nReferred by: Breast Care Nurse Specialist team\nClinical indication: On trastuzumab, cycle 7. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 64% (Simpson's biplane). Global longitudinal strain -20%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nImpression: LVEF preserved. Next surveillance echo in 12 weeks.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 29/09/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 84,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C044",
+    "patient_id": "P032",
+    "report_date": "2025-10-26",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: WALKER, Eileen    NHS number: 999 000 0032    DOB: 12/04/1974\nExamination: Bilateral mammography (surveillance)\nDate of examination: 26/10/2025    Accession: NB2025000968\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: Right wide local excision 2022. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the right breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Annual surveillance mammography recommended.\n\nReported by: Dr M. Fenwick, Consultant Breast Radiologist    Verified: 26/10/2025",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C045",
+    "patient_id": "P033",
+    "report_date": "2026-10-13",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "CT chest, abdomen and pelvis (staging)",
+    "difficulty": "negation",
+    "text": "Valeford Hospitals - Radiology\nPatient name: MENSAH, Ifeoma    NHS number: 999 000 0033    DOB: 03/11/1955\nExamination: CT chest, abdomen and pelvis (staging)\nDate of examination: 13/10/2026    Accession: VF2026000985\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: Staging.\nTechnique: Portal venous phase\n\nFindings: No lymphadenopathy. Lungs clear. Liver, adrenals and skeleton unremarkable.\nConclusion: No evidence of metastatic disease. No follow-up imaging is required on the basis of this study.\n\nReported by: Dr M. Fenwick, Consultant Breast Radiologist    Verified: 13/10/2026",
+    "gold": [],
+    "processed_at_start": true
+  },
+  {
+    "id": "C046",
+    "patient_id": "P034",
+    "report_date": "2025-09-29",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: OSEI, Claire    NHS number: 999 000 0034    DOB: 02/10/1951\nExamination: Bilateral mammography (surveillance)\nDate of examination: 29/09/2025    Accession: NB2025000991\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: Left wide local excision 2023. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the left breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Return for bilateral mammography in 12 months.\n\nReported by: Dr M. Fenwick, Consultant Breast Radiologist    Verified: 29/09/2025",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C047",
+    "patient_id": "P035",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "CT chest, abdomen and pelvis (staging)",
+    "difficulty": "negation",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: REID, Nasreen    NHS number: 999 000 0035    DOB: 18/08/1944\nExamination: CT chest, abdomen and pelvis (staging)\nDate of examination: 24/10/2026    Accession: NB2026001031\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: Staging.\nTechnique: Portal venous phase\n\nFindings: No lymphadenopathy. Lungs clear. Liver, adrenals and skeleton unremarkable.\nConclusion: No evidence of metastatic disease. No follow-up imaging is required on the basis of this study.\n\nReported by: Dr L. Harrington, Consultant Radiologist    Verified: 24/10/2026",
+    "gold": [],
+    "processed_at_start": true
+  },
+  {
+    "id": "C048",
+    "patient_id": "P036",
+    "report_date": "2025-12-29",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: MURUGAN, Teresa    NHS number: 999 000 0036    DOB: 18/03/1951\nExamination: Bilateral mammography (surveillance)\nDate of examination: 29/12/2025    Accession: NB2025001037\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: Left wide local excision 2022. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the left breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Annual surveillance mammography recommended.\n\nReported by: Dr K. Mensah, Consultant Breast Radiologist    Verified: 29/12/2025",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C049",
+    "patient_id": "P037",
+    "report_date": "2026-07-31",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: CHOWDHURY, Rukhsana    NHS number: 999 000 0037    DOB: 08/08/1957\nExamination: Transthoracic echocardiogram\nDate of examination: 31/07/2026    Accession: NB2026001057\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: On trastuzumab, cycle 14. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 65% (Simpson's biplane). Global longitudinal strain -20%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nConclusion: Normal LV systolic function. Repeat echocardiogram in 3 months as per cardio-oncology surveillance protocol.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 31/07/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C050",
+    "patient_id": "P038",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "suspicious",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: ALI, Joanne    NHS number: 999 000 0038    DOB: 14/06/1978\nExamination: Bilateral mammography (surveillance)\nDate of examination: 24/10/2026    Accession: NB2026001090\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: Surveillance after breast cancer.\nComparison: Mammography 12 months ago\n\nFindings: New 8 mm area of architectural distortion at the scar site, not present on the previous study.\nConclusion: M4 - suspicious for recurrence. Recommend ultrasound and core biopsy; refer to the breast clinic urgently.\n\nReported by: Dr M. Fenwick, Consultant Breast Radiologist    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "breast_ultrasound",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      },
+      {
+        "follow_up_test": "breast_biopsy",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      },
+      {
+        "follow_up_test": "specialist_review",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C051",
+    "patient_id": "P039",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "CT chest, abdomen and pelvis (staging)",
+    "difficulty": "incidental",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: PATEL, Marta    NHS number: 999 000 0039    DOB: 25/05/1972\nExamination: CT chest, abdomen and pelvis (staging)\nDate of examination: 24/10/2026    Accession: NB2026001111\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: Staging, newly diagnosed breast cancer.\nTechnique: Portal venous phase\n\nFindings: No axillary, mediastinal or hilar lymphadenopathy. A 8 mm solid nodule in the right lower lobe. Liver, adrenals and bones unremarkable.\nConclusion: No metastatic disease. A 8 mm nodule is likely benign but a further CT in 3 months would be prudent given the oncological history.\n\nReported by: Dr K. Mensah, Consultant Breast Radiologist    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "ct_chest",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C052",
+    "patient_id": "P040",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "two actions",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: NOWAK, Selvi    NHS number: 999 000 0040    DOB: 13/08/1963\nExamination: Transthoracic echocardiogram\nDate of examination: 24/10/2026    Accession: NB2026001122\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: On trastuzumab and pertuzumab. Surveillance echocardiogram.\nComparison: Echocardiogram 3 months ago\n\nFindings: LVEF 47% (previously 64%). Mild global hypokinesis. GLS -13%. Right ventricle normal.\nConclusion: LVEF has fallen from 64% to 47%, meeting criteria for cancer therapy-related cardiac dysfunction. Urgent cardio-oncology review recommended. Repeat echocardiogram in 3 weeks.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "specialist_review",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      },
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 21,
+        "urgency": "soon"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C053",
+    "patient_id": "P041",
+    "report_date": "2024-12-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "DXA bone densitometry",
+    "difficulty": "routine",
+    "text": "Northbridge Hospitals - Bone Densitometry\nPatient name: RAHMAN, Gillian    NHS number: 999 000 0041    DOB: 07/01/1971\nExamination: DXA bone densitometry\nDate of examination: 24/12/2024    Accession: NB2024001133\nReferred by: Breast Care Nurse Specialist team\nClinical indication: On letrozole. Baseline / monitoring bone health.\nTechnique: Lumbar spine and left hip\n\nFindings: Lumbar spine (L1-L4) T-score -1.7. Total hip T-score -1.3. Femoral neck T-score -1.5.\nConclusion: Osteopenia. Repeat bone density scan in 24 months.\n\nReported by: Dr P. Lowe, Consultant in Bone Health    Verified: 24/12/2024",
+    "gold": [
+      {
+        "follow_up_test": "dexa",
+        "due_in_days": 730,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C054",
+    "patient_id": "P042",
+    "report_date": "2026-10-24",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "CT chest, abdomen and pelvis (staging)",
+    "difficulty": "buried in findings",
+    "text": "Valeford Hospitals - Radiology\nPatient name: SHAH, Hafsa    NHS number: 999 000 0042    DOB: 21/09/1945\nExamination: CT chest, abdomen and pelvis (staging)\nDate of examination: 24/10/2026    Accession: VF2026001163\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: Staging.\nTechnique: Portal venous phase\n\nFindings: There is a 14 mm low-attenuation lesion in segment 5 of the liver which is too small to characterise; MRI liver within 4 weeks would be helpful. Lungs clear. No bone lesions.\nConclusion: No definite metastatic disease.\n\nReported by: Dr L. Harrington, Consultant Radiologist    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "mri_liver",
+        "due_in_days": 28,
+        "urgency": "soon"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C055",
+    "patient_id": "P043",
+    "report_date": "2024-10-21",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "DXA bone densitometry",
+    "difficulty": "routine",
+    "text": "Northbridge Hospitals - Bone Densitometry\nPatient name: KAUR, Dorothy    NHS number: 999 000 0043    DOB: 21/10/1957\nExamination: DXA bone densitometry\nDate of examination: 21/10/2024    Accession: NB2024001182\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: On letrozole. Baseline / monitoring bone health.\nTechnique: Lumbar spine and left hip\n\nFindings: Lumbar spine (L1-L4) T-score -1.6. Total hip T-score -1.2. Femoral neck T-score -1.4.\nConclusion: Osteopenia. Repeat bone density scan in 24 months.\n\nReported by: A. Kaur, Clinical Scientist (Bone Densitometry)    Verified: 21/10/2024",
+    "gold": [
+      {
+        "follow_up_test": "dexa",
+        "due_in_days": 730,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C056",
+    "patient_id": "P044",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: SANDHU, Kiran    NHS number: 999 000 0044    DOB: 08/09/1965\nExamination: Transthoracic echocardiogram\nDate of examination: 24/10/2026    Accession: NB2026001220\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: On trastuzumab, cycle 13. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 64% (Simpson's biplane). Global longitudinal strain -22%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nImpression: LVEF preserved. Next surveillance echo in 12 weeks.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 84,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C057",
+    "patient_id": "P045",
+    "report_date": "2026-09-28",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: IYER, Ioana    NHS number: 999 000 0045    DOB: 15/02/1988\nExamination: Transthoracic echocardiogram\nDate of examination: 28/09/2026    Accession: NB2026001256\nReferred by: Breast Care Nurse Specialist team\nClinical indication: On trastuzumab, cycle 9. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 59% (Simpson's biplane). Global longitudinal strain -18%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nConclusion: Normal LV systolic function. Repeat echocardiogram in 3 months as per cardio-oncology surveillance protocol.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 28/09/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C058",
+    "patient_id": "P046",
+    "report_date": "2025-11-02",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: OKAFOR, Patience    NHS number: 999 000 0046    DOB: 01/02/1966\nExamination: Bilateral mammography (surveillance)\nDate of examination: 02/11/2025    Accession: NB2025001286\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: Right wide local excision 2024. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the right breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Return for bilateral mammography in 12 months.\n\nReported by: Dr K. Mensah, Consultant Breast Radiologist    Verified: 02/11/2025",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C059",
+    "patient_id": "P047",
+    "report_date": "2026-08-29",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "DXA bone densitometry",
+    "difficulty": "negation",
+    "text": "Northbridge Hospitals - Bone Densitometry\nPatient name: NOWICKA, Lorraine    NHS number: 999 000 0047    DOB: 16/03/1973\nExamination: DXA bone densitometry\nDate of examination: 29/08/2026    Accession: NB2026001307\nReferred by: Breast Care Nurse Specialist team\nClinical indication: On tamoxifen. Baseline bone health.\n\nFindings: Spine T-score 0.4, hip T-score 0.1.\nConclusion: Normal bone mineral density. On tamoxifen; no routine repeat scan is required.\n\nReported by: Dr P. Lowe, Consultant in Bone Health    Verified: 29/08/2026",
+    "gold": [],
+    "processed_at_start": true
+  },
+  {
+    "id": "C060",
+    "patient_id": "P048",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "two actions",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: CLARKE, Yasmin    NHS number: 999 000 0048    DOB: 19/11/1985\nExamination: Transthoracic echocardiogram\nDate of examination: 24/10/2026    Accession: NB2026001334\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: On trastuzumab and pertuzumab. Surveillance echocardiogram.\nComparison: Echocardiogram 3 months ago\n\nFindings: LVEF 51% (previously 60%). Mild global hypokinesis. GLS -13%. Right ventricle normal.\nConclusion: Borderline reduction in LVEF (60% to 51%). Recommend cardio-oncology review within 4 weeks and repeat echocardiogram in 6 weeks.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "specialist_review",
+        "due_in_days": 28,
+        "urgency": "soon"
+      },
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 42,
+        "urgency": "soon"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C061",
+    "patient_id": "P049",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "CT chest, abdomen and pelvis (staging)",
+    "difficulty": "negation",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: ELLIS, Beata    NHS number: 999 000 0049    DOB: 24/05/1970\nExamination: CT chest, abdomen and pelvis (staging)\nDate of examination: 24/10/2026    Accession: NB2026001346\nReferred by: Breast Care Nurse Specialist team\nClinical indication: Staging.\nTechnique: Portal venous phase\n\nFindings: No lymphadenopathy. Lungs clear. Liver, adrenals and skeleton unremarkable.\nConclusion: No evidence of metastatic disease. No follow-up imaging is required on the basis of this study.\n\nReported by: Dr K. Mensah, Consultant Breast Radiologist    Verified: 24/10/2026",
+    "gold": [],
+    "processed_at_start": true
+  },
+  {
+    "id": "C062",
+    "patient_id": "P050",
+    "report_date": "2026-07-22",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Valeford Hospitals - Echocardiography\nPatient name: TAYLOR, Wendy    NHS number: 999 000 0050    DOB: 16/11/1965\nExamination: Transthoracic echocardiogram\nDate of examination: 22/07/2026    Accession: VF2026001362\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: On trastuzumab, cycle 12. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 61% (Simpson's biplane). Global longitudinal strain -21%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nImpression: LVEF preserved. Next surveillance echo in 12 weeks.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 22/07/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 84,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C063",
+    "patient_id": "P051",
+    "report_date": "2025-09-25",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: BRENNAN, Amarjit    NHS number: 999 000 0051    DOB: 10/10/1960\nExamination: Bilateral mammography (surveillance)\nDate of examination: 25/09/2025    Accession: NB2025001391\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Left wide local excision 2023. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the left breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Return for bilateral mammography in 12 months.\n\nReported by: Dr M. Fenwick, Consultant Breast Radiologist    Verified: 25/09/2025",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C064",
+    "patient_id": "P052",
+    "report_date": "2026-07-09",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "abbreviated",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: BIBI, Helen    NHS number: 999 000 0052    DOB: 15/05/1968\nExamination: Transthoracic echocardiogram\nDate of examination: 09/07/2026    Accession: NB2026001416\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: On trastuzumab, cycle 15. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 59% (Simpson's biplane). Global longitudinal strain -21%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nImp: LVEF preserved, no change. Plan: rpt TTE 3/12.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 09/07/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C065",
+    "patient_id": "P053",
+    "report_date": "2026-02-07",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: HUSSAIN, Farida    NHS number: 999 000 0053    DOB: 07/04/1974\nExamination: Bilateral mammography (surveillance)\nDate of examination: 07/02/2026    Accession: NB2026001418\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: Right wide local excision 2022. Annual surveillance.\nComparison: Mammography 12 months ago\n\nFindings: Post-surgical changes in the right breast, stable. No suspicious mass, calcification or architectural distortion. Contralateral breast normal. Breast density B.\nConclusion: M2 benign. No mammographic evidence of recurrence. Annual surveillance mammography recommended.\n\nReported by: Dr M. Fenwick, Consultant Breast Radiologist    Verified: 07/02/2026",
+    "gold": [
+      {
+        "follow_up_test": "mammogram",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C066",
+    "patient_id": "P054",
+    "report_date": "2026-09-15",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: LEWANDOWSKA, Sandra    NHS number: 999 000 0054    DOB: 07/07/1980\nExamination: Transthoracic echocardiogram\nDate of examination: 15/09/2026    Accession: NB2026001453\nReferred by: Breast Care Nurse Specialist team\nClinical indication: On trastuzumab, cycle 12. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 59% (Simpson's biplane). Global longitudinal strain -19%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nConclusion: Stable LV function. Continue 3-monthly echocardiographic surveillance while on trastuzumab.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 15/09/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C067",
+    "patient_id": "P055",
+    "report_date": "2025-11-21",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "CT chest, abdomen and pelvis (staging)",
+    "difficulty": "incidental",
+    "text": "Valeford Hospitals - Radiology\nPatient name: ABDI, Comfort    NHS number: 999 000 0055    DOB: 10/09/1953\nExamination: CT chest, abdomen and pelvis (staging)\nDate of examination: 21/11/2025    Accession: VF2025001465\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: Staging, newly diagnosed breast cancer.\nTechnique: Portal venous phase\n\nFindings: No axillary, mediastinal or hilar lymphadenopathy. A 8 mm solid nodule in the left upper lobe. Liver, adrenals and bones unremarkable.\nConclusion: No metastatic disease. A 8 mm nodule is likely benign but a further CT in 12 months would be prudent given the oncological history.\n\nReported by: Dr L. Harrington, Consultant Radiologist    Verified: 21/11/2025",
+    "gold": [
+      {
+        "follow_up_test": "ct_chest",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C068",
+    "patient_id": "P056",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "two actions",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: KOWALCZYK, Pauline    NHS number: 999 000 0056    DOB: 17/10/1954\nExamination: Transthoracic echocardiogram\nDate of examination: 24/10/2026    Accession: NB2026001468\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: On trastuzumab and pertuzumab. Surveillance echocardiogram.\nComparison: Echocardiogram 3 months ago\n\nFindings: LVEF 48% (previously 63%). Mild global hypokinesis. GLS -13%. Right ventricle normal.\nConclusion: Borderline reduction in LVEF (63% to 48%). Recommend cardio-oncology review within 4 weeks and repeat echocardiogram in 6 weeks.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "specialist_review",
+        "due_in_days": 28,
+        "urgency": "soon"
+      },
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 42,
+        "urgency": "soon"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C069",
+    "patient_id": "P057",
+    "report_date": "2026-02-01",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "CT chest, abdomen and pelvis (staging)",
+    "difficulty": "incidental",
+    "text": "Valeford Hospitals - Radiology\nPatient name: THOMPSON, Asha    NHS number: 999 000 0057    DOB: 14/01/1971\nExamination: CT chest, abdomen and pelvis (staging)\nDate of examination: 01/02/2026    Accession: VF2026001483\nReferred by: Breast Care Nurse Specialist team\nClinical indication: Staging, newly diagnosed breast cancer.\nTechnique: Portal venous phase\n\nFindings: No axillary, mediastinal or hilar lymphadenopathy. A 7 mm solid nodule in the left upper lobe. Liver, adrenals and bones unremarkable.\nConclusion: No metastatic disease. A 7 mm nodule is likely benign but a further CT in 12 months would be prudent given the oncological history.\n\nReported by: Dr M. Fenwick, Consultant Breast Radiologist    Verified: 01/02/2026",
+    "gold": [
+      {
+        "follow_up_test": "ct_chest",
+        "due_in_days": 365,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C070",
+    "patient_id": "P058",
+    "report_date": "2026-07-29",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "DXA bone densitometry",
+    "difficulty": "negation",
+    "text": "Northbridge Hospitals - Bone Densitometry\nPatient name: KRISHNAN, Monika    NHS number: 999 000 0058    DOB: 07/04/1961\nExamination: DXA bone densitometry\nDate of examination: 29/07/2026    Accession: NB2026001490\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: On tamoxifen. Baseline bone health.\n\nFindings: Spine T-score -0.0, hip T-score -0.1.\nConclusion: Normal bone mineral density. On tamoxifen; no routine repeat scan is required.\n\nReported by: A. Kaur, Clinical Scientist (Bone Densitometry)    Verified: 29/07/2026",
+    "gold": [],
+    "processed_at_start": true
+  },
+  {
+    "id": "C071",
+    "patient_id": "P059",
+    "report_date": "2026-10-24",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Bilateral mammography (surveillance)",
+    "difficulty": "suspicious",
+    "text": "Northbridge Hospitals - Radiology\nPatient name: BEGUM, Brenda    NHS number: 999 000 0059    DOB: 17/07/1939\nExamination: Bilateral mammography (surveillance)\nDate of examination: 24/10/2026    Accession: NB2026001501\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: Surveillance after breast cancer.\nComparison: Mammography 12 months ago\n\nFindings: New 8 mm area of architectural distortion at the scar site, not present on the previous study.\nConclusion: M4 - suspicious for recurrence. Recommend ultrasound and core biopsy; refer to the breast clinic urgently.\n\nReported by: Dr S. Iqbal, Consultant Radiologist    Verified: 24/10/2026",
+    "gold": [
+      {
+        "follow_up_test": "breast_ultrasound",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      },
+      {
+        "follow_up_test": "breast_biopsy",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      },
+      {
+        "follow_up_test": "specialist_review",
+        "due_in_days": 14,
+        "urgency": "urgent"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C072",
+    "patient_id": "P060",
+    "report_date": "2026-06-28",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: WRIGHT, David    NHS number: 999 000 0060    DOB: 25/02/1977\nExamination: Transthoracic echocardiogram\nDate of examination: 28/06/2026    Accession: NB2026001508\nReferred by: Dr T. Moreau, Clinical Oncology\nClinical indication: On trastuzumab, cycle 7. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 62% (Simpson's biplane). Global longitudinal strain -20%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nImpression: LVEF preserved. Next surveillance echo in 12 weeks.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 28/06/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 84,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C073",
+    "patient_id": "P025",
+    "report_date": "2025-01-15",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "DXA bone densitometry",
+    "difficulty": "routine",
+    "text": "Northbridge Hospitals - Bone Densitometry\nPatient name: AHMED, Margaret    NHS number: 999 000 0025    DOB: 04/03/1954\nExamination: DXA bone densitometry\nDate of examination: 15/01/2025    Accession: NB2025001547\nReferred by: Dr A. Patel, Breast Oncology\nClinical indication: On anastrozole. Baseline / monitoring bone health.\nTechnique: Lumbar spine and left hip\n\nFindings: Lumbar spine (L1-L4) T-score -1.3. Total hip T-score -0.9. Femoral neck T-score -1.1.\nConclusion: Osteopenia. Follow-up DXA advised in 2 years while on aromatase inhibitor.\n\nReported by: A. Kaur, Clinical Scientist (Bone Densitometry)    Verified: 15/01/2025",
+    "gold": [
+      {
+        "follow_up_test": "dexa",
+        "due_in_days": 730,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C074",
+    "patient_id": "P026",
+    "report_date": "2026-06-27",
+    "source_trust": "Northbridge Hospitals",
+    "follow_up_trust": "Northbridge Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Northbridge Hospitals - Echocardiography\nPatient name: GALLAGHER, Aisha    NHS number: 999 000 0026    DOB: 03/07/1956\nExamination: Transthoracic echocardiogram\nDate of examination: 27/06/2026    Accession: NB2026001577\nReferred by: Dr N. Achebe, Breast Oncology\nClinical indication: On trastuzumab, cycle 4. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 64% (Simpson's biplane). Global longitudinal strain -19%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nConclusion: Stable LV function. Continue 3-monthly echocardiographic surveillance while on trastuzumab.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 27/06/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 90,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C075",
+    "patient_id": "P027",
+    "report_date": "2026-07-15",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "formal",
+    "text": "Valeford Hospitals - Echocardiography\nPatient name: POPESCU, Grace    NHS number: 999 000 0027    DOB: 18/12/1968\nExamination: Transthoracic echocardiogram\nDate of examination: 15/07/2026    Accession: VF2026001594\nReferred by: Breast Care Nurse Specialist team\nClinical indication: On trastuzumab, cycle 13. Routine cardiac surveillance.\nComparison: Previous echocardiogram 3 months ago\n\nFindings: Left ventricle normal in size with LVEF 62% (Simpson's biplane). Global longitudinal strain -21%. No regional wall motion abnormality. Valves structurally normal. No pericardial effusion.\nImpression: LVEF preserved. Next surveillance echo in 12 weeks.\n\nReported by: J. Whitfield, Clinical Scientist (Echocardiography)    Verified: 15/07/2026",
+    "gold": [
+      {
+        "follow_up_test": "echocardiogram",
+        "due_in_days": 84,
+        "urgency": "routine"
+      }
+    ],
+    "processed_at_start": true
+  },
+  {
+    "id": "C076",
+    "patient_id": "P028",
+    "report_date": "2026-09-26",
+    "source_trust": "Valeford Hospitals",
+    "follow_up_trust": "Valeford Hospitals",
+    "modality": "Transthoracic echocardiogram",
+    "difficulty": "negation",
+    "text": "Valeford Hospitals - Echocardiography\nPatient name: DOBSON, Agnieszka    NHS number: 999 000 0028    DOB: 23/02/1986\nExamination: Transthoracic echocardiogram\nDate of examination: 26/09/2026    Accession: VF2026001622\nReferred by: Ms H. Carver, Breast Surgery\nClinical indication: End of HER2-targeted therapy.\n\nFindings: LVEF 61%, unchanged. Normal diastolic function.\nConclusion: Normal study. Trastuzumab course completed. No further echocardiographic surveillance is required.\n\nReported by: R. Adeyemi, Clinical Scientist (Echocardiography)    Verified: 26/09/2026",
     "gold": [],
     "processed_at_start": true
   }

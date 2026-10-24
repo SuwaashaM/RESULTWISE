@@ -85,8 +85,10 @@ AI only reads and drafts. Rules do the tracking. Clinicians make every decision.
 
 ## Scope of this prototype
 
-In scope: synthetic breast-pathway reports; extraction with validation; tracking across two fictional trusts;
-escalation; translated, approved messages; equity view; evaluation; audit log.
+In scope: 104 synthetic full-format breast-pathway reports; AI (Claude) extraction with validation and an offline
+fallback; tracking across two fictional trusts; escalation; translated, fact-checked, clinician-approved messages;
+a patient portal with 18 languages, easy read, large text, high contrast, read aloud and replies; equity view;
+evaluation; audit log; FHIR Task export.
 
 Out of scope (needed for real use): real patient data, live integration with record systems (FHIR/HL7),
 clinical safety case (DCB0129/DCB0160), DPIA, data-sharing agreements, professional translation, and validation

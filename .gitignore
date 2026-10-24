@@ -7,3 +7,4 @@ resultwise.db
 eval_results.json
 .pytest_cache/
 .DS_Store
+.streamlit/secrets.toml

@@ -24,11 +24,15 @@ inhibitors, and yearly surveillance mammograms.
    to a human. Nothing is silently dropped.
 3. **Tracks** each task daily, checking for a booking at **any** trust.
 4. **Escalates** when nothing is booked: clinician alert, then nurse outreach.
-5. **Drafts a patient message** in plain language and the patient's preferred language. A fact check blocks any
-   translation that changes the date or phone number, and a clinician approves before anything is sent.
-   Urgent findings never get an automated message: a clinician phones.
-6. **Shows equity gaps:** on-time follow-up by age, language and deprivation, so trusts can see who they're failing to reach.
-7. **Audits** every AI output, rule decision and human action.
+5. **Drafts a patient message** in plain language. Claude translates it into the patient's language and
+   independently back-translates it; a fact check blocks any translation that changes the date, phone number or
+   name, and a clinician approves before anything is sent. Urgent findings never get an automated message: a
+   clinician phones.
+6. **Patient portal:** the patient sees only their own message and can switch to any of 18 languages, easy read,
+   larger text or high contrast, or have it read aloud. They can reply ("I've already booked it", "Please call
+   me", "I can't make it", "I don't understand"), and replies land on the clinician worklist.
+7. **Shows equity gaps:** on-time follow-up by age, language and deprivation, so trusts can see who they're failing to reach.
+8. **Audits** every AI output, rule decision, patient reply and human action, and **exports** tasks as FHIR R4 Task resources for interoperability.
 
 **Demo moment:** Halina's echo was recommended at one trust, to be done at another. Hospital A's system says
 "handed over". Hospital B's says "no record". Resultwise flags it overdue, drafts a Polish message, and blocks a
@@ -37,18 +41,24 @@ deliberately broken translation before it reaches her.
 ## How we built it
 
 - **Python + Streamlit** for the clinician worklist, cross-trust journey, patient view, equity and evaluation screens.
-- **LLM extraction** (Claude or OpenAI) with a strict JSON prompt, plus a transparent **offline rule-based engine**
-  so the demo runs with no key or internet.
+- **Claude API:** Claude Sonnet 5.5 reads reports into structured JSON; Claude Haiku 5.5 translates,
+  back-translates and writes easy-read versions. Reports are re-read in parallel. A transparent **offline
+  rule-based engine** is the fallback, so the demo runs with no key or internet.
 - **Pydantic** contracts reject malformed AI output; an evidence-quote check catches hallucinated follow-ups.
 - **SQLite** for tasks, bookings, messages and the audit log; a **deterministic rules engine** for tracking and
   escalation, with a simulated clock to show weeks passing live.
-- **Synthetic data:** 38 labelled reports, 24 patients, bookings across two fictional trusts, and 900 historical
-  follow-ups for the equity view. No real patient data anywhere.
+- **Synthetic data:** 104 full NHS-style labelled reports (header, NHS test number, indication, comparison,
+  technique, findings, conclusion, reporter) across 17 clinical scenarios with varied phrasing, 10 held-out
+  reports, 60 patients in 8 languages, bookings across two fictional trusts with realistic gaps, and 900
+  historical follow-ups for the equity view. No real patient data anywhere.
+- **Accessibility:** Atkinson Hyperlegible typeface (designed for low-vision readers), right-to-left support,
+  browser text-to-speech, high-contrast and large-text modes.
+- **27 automated tests** (including mocked Claude responses) run on every push with GitHub Actions.
 
 ## Challenges we ran into
 
-- **Honest evaluation.** Our offline rules scored 100% on the reports we wrote them against, and 22% recall on
-  10 held-out reports. That gap is the clearest argument for using an LLM, and for never trusting a score on
+- **Honest evaluation.** Our offline rules scored 97% recall on the 104 reports we tuned them on, and 22% on
+  10 held-out reports with unfamiliar wording. That gap is the clearest argument for using an LLM, and for never trusting a score on
   data you tuned against.
 - **Deciding what AI should not do.** We kept due dates, escalation and channel choice as plain rules, so they
   are predictable and auditable.
@@ -77,7 +87,7 @@ deliberately broken translation before it reaches her.
 
 ## Built with
 
-python · streamlit · pydantic · sqlite · pandas · altair · claude-api · openai-api
+python · claude-api · streamlit · pydantic · sqlite · pandas · altair · fhir · github-actions
 
 ## Honest limits
 

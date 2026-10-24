@@ -25,8 +25,11 @@ def evaluate(reports: list[dict], engine: str = "offline", key: str | None = Non
     tp = fp = fn = tf_ok = urg_ok = 0
     urgent_gold = urgent_found = 0
     rows = []
-    for r in reports:
-        res = run_extraction(r["text"], engine, key)
+    from concurrent.futures import ThreadPoolExecutor
+    workers = 8 if engine != "offline" else 1
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        results = list(ex.map(lambda r: run_extraction(r["text"], engine, key), reports))
+    for r, res in zip(reports, results):
         preds = {f.follow_up_test: f for f in res.extraction.follow_ups}
         gold = {g["follow_up_test"]: g for g in r["gold"]}
         errors = []

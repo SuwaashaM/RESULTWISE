@@ -1,10 +1,14 @@
 """Minimal LLM client (standard library only, no SDKs needed).
 
-Providers: "claude" (Anthropic Messages API) or "openai" (Chat Completions API).
-Keys come from environment variables or are passed in from the app sidebar (kept in memory only).
+Providers: "claude" (Anthropic Messages API, the default) or "openai" (Chat Completions API).
+Keys come from environment variables / Streamlit secrets, or the app sidebar (kept in memory only):
+  ANTHROPIC_API_KEY, OPENAI_API_KEY
 Model names are configurable because they change over time:
-  RESULTWISE_CLAUDE_MODEL  (default below)
-  RESULTWISE_OPENAI_MODEL  (default below)
+  RESULTWISE_CLAUDE_MODEL       (default claude-sonnet-5-5: report reading)
+  RESULTWISE_CLAUDE_FAST_MODEL  (default claude-haiku-5-5: translation, easy-read, back-translation)
+  RESULTWISE_OPENAI_MODEL
+
+Note: current Claude models reject `temperature`, so we never send it.
 
 ONLY ever send synthetic text through this. Real patient data must not go to an external API
 without a contract, a DPIA and information-governance approval.
@@ -14,8 +18,9 @@ import os
 import urllib.error
 import urllib.request
 
-DEFAULT_CLAUDE_MODEL = os.getenv("RESULTWISE_CLAUDE_MODEL", "claude-sonnet-5-5")
-DEFAULT_OPENAI_MODEL = os.getenv("RESULTWISE_OPENAI_MODEL", "gpt-4.1-mini")
+CLAUDE_MODEL = os.getenv("RESULTWISE_CLAUDE_MODEL", "claude-sonnet-5-5")
+CLAUDE_FAST_MODEL = os.getenv("RESULTWISE_CLAUDE_FAST_MODEL", "claude-haiku-5-5")
+OPENAI_MODEL = os.getenv("RESULTWISE_OPENAI_MODEL", "gpt-4.1-mini")
 
 
 class LLMError(RuntimeError):
@@ -28,7 +33,16 @@ def available_key(provider: str, key: str | None = None) -> str | None:
     return os.getenv("ANTHROPIC_API_KEY") if provider == "claude" else os.getenv("OPENAI_API_KEY")
 
 
-def _post(url: str, headers: dict, payload: dict, timeout: int = 60) -> dict:
+def default_engine() -> str:
+    """Claude if a key is configured, then OpenAI, else the offline rules."""
+    if os.getenv("ANTHROPIC_API_KEY"):
+        return "claude"
+    if os.getenv("OPENAI_API_KEY"):
+        return "openai"
+    return "offline"
+
+
+def _post(url: str, headers: dict, payload: dict, timeout: int = 120) -> dict:
     req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"),
                                  headers={**headers, "content-type": "application/json"}, method="POST")
     try:
@@ -39,10 +53,12 @@ def _post(url: str, headers: dict, payload: dict, timeout: int = 60) -> dict:
         raise LLMError(f"HTTP {e.code}: {body}") from e
     except urllib.error.URLError as e:
         raise LLMError(f"Network error: {e.reason}") from e
+    except TimeoutError as e:
+        raise LLMError("The AI service timed out.") from e
 
 
 def complete(provider: str, system: str, user: str, key: str | None = None,
-             max_tokens: int = 1500, json_mode: bool = False) -> str:
+             max_tokens: int = 4000, json_mode: bool = False, fast: bool = False) -> str:
     key = available_key(provider, key)
     if not key:
         raise LLMError(f"No API key for {provider}.")
@@ -50,12 +66,15 @@ def complete(provider: str, system: str, user: str, key: str | None = None,
         data = _post(
             "https://api.anthropic.com/v1/messages",
             {"x-api-key": key, "anthropic-version": "2023-06-01"},
-            {"model": DEFAULT_CLAUDE_MODEL, "max_tokens": max_tokens, "temperature": 0,
+            {"model": CLAUDE_FAST_MODEL if fast else CLAUDE_MODEL, "max_tokens": max_tokens,
              "system": system, "messages": [{"role": "user", "content": user}]},
         )
-        return "".join(block.get("text", "") for block in data.get("content", []))
+        text = "".join(block.get("text", "") for block in data.get("content", []) if block.get("type") == "text")
+        if not text.strip():
+            raise LLMError(f"Empty reply from Claude (stop_reason={data.get('stop_reason')}).")
+        return text
     if provider == "openai":
-        payload = {"model": DEFAULT_OPENAI_MODEL, "temperature": 0, "max_tokens": max_tokens,
+        payload = {"model": OPENAI_MODEL, "max_completion_tokens": max_tokens,
                    "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}]}
         if json_mode:
             payload["response_format"] = {"type": "json_object"}

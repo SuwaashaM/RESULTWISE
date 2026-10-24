@@ -15,7 +15,13 @@ Run:  python data/generate_data.py
 import csv
 import json
 import random
+import re
+import sys
+from datetime import date
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
+import cohort  # noqa: E402
 
 HERE = Path(__file__).parent
 TRUST_A = "Northbridge Hospitals"
@@ -304,17 +310,50 @@ def make_history(n=900, seed=7):
     return rows
 
 
+DEMO_START = date(2026, 10, 25)
+
+
+def wrap_core(r: dict, patient: tuple, rng: random.Random, acc: int) -> str:
+    """Turn a short core-story report into a full NHS-style report (header, indication, body, reporter)."""
+    lines = [ln for ln in r["text"].split("\n") if ln.strip()]
+    exam = lines[0].rstrip(".")
+    indication, body = "Breast cancer pathway follow-up.", []
+    for ln in lines[1:]:
+        if re.match(r"^(indication|history):", ln, re.I):
+            indication = ln.split(":", 1)[1].strip()
+            indication = indication[:1].upper() + indication[1:]
+        else:
+            body.append(ln)
+    kind = "echo" if re.search(r"echo|TTE", exam + " " + " ".join(body), re.I) else (
+        "dxa" if re.search(r"DXA", exam) else "imaging")
+    pid, name, age = patient[0], patient[1], patient[2]
+    return cohort.format_report(r["source_trust"], name, cohort.nhs_number(int(pid[1:])), age,
+                                date.fromisoformat(r["report_date"]), exam, kind, indication, "\n".join(body), rng, acc)
+
+
 def main():
+    rng = random.Random(2026)
+    extra_patients = cohort.make_cohort_patients(len(PATIENTS) + 1, 36, rng)
+    all_patients = PATIENTS + extra_patients
     with open(HERE / "patients.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
-        w.writerow(["id", "name", "age", "sex", "language", "channel", "imd_quintile", "home_trust", "phone"])
-        for p in PATIENTS:
-            w.writerow(list(p) + [TRUST_PHONE[p[7]]])
+        w.writerow(["id", "name", "age", "sex", "language", "channel", "imd_quintile", "home_trust", "phone",
+                    "nhs_number"])
+        for p in all_patients:
+            w.writerow(list(p) + [TRUST_PHONE[p[7]], cohort.nhs_number(int(p[0][1:]))])
 
-    for r in REPORTS:
+    by_id = {p[0]: p for p in all_patients}
+    core = []
+    for k, r in enumerate(REPORTS):
+        r = dict(r)
         r["processed_at_start"] = r["id"] not in UNPROCESSED_AT_START
+        r["text"] = wrap_core(r, by_id[r["patient_id"]], rng, 50 + k)
+        core.append(r)
+    cohort_reports, cohort_bookings = cohort.make_cohort_reports(extra_patients, DEMO_START, rng)
+    reports = core + cohort_reports
     with open(HERE / "reports.json", "w", encoding="utf-8") as f:
-        json.dump(REPORTS, f, indent=2, ensure_ascii=False)
+        json.dump(reports, f, indent=2, ensure_ascii=False)
+    BOOKINGS.extend(cohort_bookings)
 
     with open(HERE / "heldout_reports.json", "w", encoding="utf-8") as f:
         json.dump(HELDOUT, f, indent=2, ensure_ascii=False)
@@ -330,8 +369,8 @@ def main():
         w.writeheader()
         w.writerows(hist)
 
-    n_fu = sum(len(r["gold"]) for r in REPORTS)
-    print(f"patients={len(PATIENTS)} reports={len(REPORTS)} gold_follow_ups={n_fu} "
+    n_fu = sum(len(r["gold"]) for r in reports)
+    print(f"patients={len(all_patients)} reports={len(reports)} gold_follow_ups={n_fu} "
           f"bookings={len(BOOKINGS)} history={len(hist)}")
 
 

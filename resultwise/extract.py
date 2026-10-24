@@ -28,10 +28,14 @@ NEGATION = re.compile(
     r"|\bno (imaging )?follow[- ]?up\b", re.I)
 TRIGGER = re.compile(
     r"\brecommend|\badvised?\b|\bsuggest|\bconsider\b|\brepeat\b|\brpt\b|\bplan\b|\bwould be helpful\b"
-    r"|\bsurveillance\b|\bannual\b|\bnext\b|\bfollow[- ]?up\b|\brefer\b|\bcontinue\b", re.I)
+    r"|\bsurveillance\b|\bannual\b|\bnext\b|\bfollow[- ]?up\b|\brefer\b|\bcontinue\b|\breturn for\b", re.I)
 HEDGE = re.compile(r"\bconsider\b|\bpossibly\b|\bif clinically indicated\b|\bmay\b|\bcould\b|\blikely of no\b", re.I)
 URGENT = re.compile(r"(?<!non-)\burgent(ly)?\b", re.I)
 SUSPICIOUS = re.compile(r"\b[RMU][45]\b|\bsuspicious\b|\bmalignan", re.I)
+HEADER_LINE = re.compile(
+    r"^(indication|history|clinical details|clinical indication|patient name|patient|examination|exam|"
+    r"date of examination|accession|referred by|referrer|reported by|verified|comparison|technique|nhs number|"
+    r"(northbridge|valeford)\b)", re.I)
 NEG_BEFORE = re.compile(r"\b(no|without|not)\b[^.]{0,25}$", re.I)
 
 TEST_PATTERNS = [
@@ -87,11 +91,12 @@ def _sentences(text: str):
 
 def offline_extract(report_text: str) -> Extraction:
     suspicious = _positive_match(SUSPICIOUS, report_text)
-    sents = _sentences(report_text)
+    body = "\n".join(ln for ln in report_text.split("\n") if not HEADER_LINE.match(ln.strip()))
+    sents = _sentences(body)
     out: list[FollowUp] = []
     seen = set()
     for idx, sent in enumerate(sents):
-        if idx == 0 or re.match(r"^(indication|history|clinical details)\b", sent, re.I):
+        if HEADER_LINE.match(sent) or (idx == 0 and not re.search(r"[.:]", sent[:-1])):
             continue  # report title / clinical context, not a recommendation
         if NEGATION.search(sent):
             continue

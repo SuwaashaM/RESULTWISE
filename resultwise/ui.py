@@ -173,3 +173,64 @@ def phone(text: str, language: str, sender: str) -> str:
 def letter(text: str, language: str, name: str, trust: str) -> str:
     return (f'<div class="rw-letter" dir="{text_dir(language)}"><div style="color:{MUTED};margin-bottom:1rem">'
             f'{esc(trust)}<br>To: {esc(name)}</div>{esc(text)}</div>')
+
+
+PORTAL_CSS = """
+<style>
+.rw-portal { --fs: 1.05rem; font-size: var(--fs); }
+.rw-portal .hello { font-size: calc(var(--fs) * 1.9); font-weight:700; color:#0B2E36; margin:.2rem 0 .3rem; }
+.rw-portal .sub { color:#5B6B70; margin-bottom:1rem; }
+.rw-portal .msg { background:#fff; border:1px solid #D6E1E3; border-left:6px solid #0F7C6E; border-radius:14px;
+  padding:1.3rem 1.4rem; line-height:1.7; color:#1C2B2F; white-space:pre-line; max-width: 68ch; }
+.rw-portal .from { font-size:.85em; color:#5B6B70; margin-bottom:.5rem; }
+.rw-portal.hc .msg { background:#000; color:#FFF; border-color:#FFD400; border-left-color:#FFD400; }
+.rw-portal.hc .from, .rw-portal.hc .sub { color:#FFD400; }
+.rw-portal.hc .hello { color:#000; }
+.rw-portal .note { font-size:.85em; color:#5B6B70; margin-top:.5rem; max-width: 68ch; }
+.rw-report { background:#fff; border:1px solid #D6E1E3; border-radius:10px; padding:1rem 1.2rem;
+  font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; white-space:pre-wrap; line-height:1.55; font-size:.92rem;
+  color:#1C2B2F; max-height: 420px; overflow:auto; }
+.rw-report mark { background:#FFE89A; padding:0 .15em; border-radius:3px; }
+.rw-reply { background:#fff; border:1px solid #D6E1E3; border-left:5px solid #3B6EA8; border-radius:10px;
+  padding:.7rem 1rem; margin-bottom:.4rem; }
+</style>
+"""
+
+
+def report_html(text: str, evidence: str | None) -> str:
+    body = esc(text)
+    if evidence:
+        ev = esc(evidence)
+        if ev in body:
+            body = body.replace(ev, f"<mark>{ev}</mark>", 1)
+    return f'<div class="rw-report">{body}</div>'
+
+
+def portal_message(text: str, language: str, sender: str, size: float, high_contrast: bool, note: str = "") -> str:
+    cls = "rw-portal hc" if high_contrast else "rw-portal"
+    return (f'<div class="{cls}" style="--fs:{size}rem"><div class="msg" dir="{text_dir(language)}" lang="{esc(language)}">'
+            f'<div class="from">{esc(sender)}</div>{esc(text)}</div>'
+            + (f'<div class="note">{esc(note)}</div>' if note else "") + "</div>")
+
+
+def read_aloud_widget(text: str, lang_code: str, label: str = "Read aloud") -> str:
+    import json
+    return f"""
+<div style="font-family:'Atkinson Hyperlegible',system-ui,sans-serif">
+<button id="ra" style="font-size:1rem;padding:.55rem 1.1rem;border-radius:8px;border:1px solid #0F7C6E;
+ background:#0F7C6E;color:#fff;cursor:pointer">{esc(label)}</button>
+<button id="st" style="font-size:1rem;padding:.55rem 1.1rem;border-radius:8px;border:1px solid #D6E1E3;
+ background:#fff;color:#0B2E36;cursor:pointer;margin-left:.4rem">Stop</button>
+<span id="msg" style="margin-left:.6rem;color:#5B6B70;font-size:.9rem"></span>
+<script>
+const text = {json.dumps(text).replace("<", "\\u003c")}; const lang = {json.dumps(lang_code)};
+document.getElementById('ra').onclick = () => {{
+  if (!('speechSynthesis' in window)) {{ document.getElementById('msg').textContent = 'Read aloud is not supported in this browser.'; return; }}
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text); u.lang = lang; u.rate = 0.9;
+  const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.toLowerCase().startsWith(lang.slice(0,2).toLowerCase()));
+  if (v) u.voice = v; else document.getElementById('msg').textContent = 'No ' + lang + ' voice on this device; using the default voice.';
+  speechSynthesis.speak(u);
+}};
+document.getElementById('st').onclick = () => speechSynthesis.cancel();
+</script></div>"""

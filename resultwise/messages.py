@@ -81,31 +81,68 @@ def fact_check(text_en: str, text_tr: str, facts: dict) -> tuple[bool, list[str]
     return (not notes), notes
 
 
+TRANSLATE_RULES = ("Keep every date, phone number and the person's name exactly as written, using Western digits "
+                   "0-9 and the name in Latin letters. Do not add, remove or soften any medical detail. "
+                   "Reply with the translated text only, no notes.")
+
+# Languages offered in the patient portal (BCP-47 codes are used for read-aloud voices)
+LANGUAGES = {
+    "English": "en-GB", "Polish": "pl-PL", "Urdu": "ur-PK", "Tamil": "ta-IN", "Bengali": "bn-BD",
+    "Punjabi": "pa-IN", "Arabic": "ar-SA", "Romanian": "ro-RO", "Gujarati": "gu-IN", "Somali": "so-SO",
+    "Portuguese": "pt-PT", "Spanish": "es-ES", "French": "fr-FR", "Lithuanian": "lt-LT", "Turkish": "tr-TR",
+    "Chinese (Simplified)": "zh-CN", "Hindi": "hi-IN", "Welsh": "cy-GB",
+}
+RTL = {"Urdu", "Arabic"}
+
+
+def llm_translate(text_en: str, language: str, engine: str, key=None) -> tuple[str, str]:
+    """AI translation plus an independent back-translation into English for the clinician to read."""
+    tr = llm.complete(engine, f"Translate this NHS patient message into {language}. Plain, kind, easy to read. "
+                      + TRANSLATE_RULES, text_en, key=key, max_tokens=2000, fast=True).strip()
+    back = llm.complete(engine, "Translate this message into English literally. Reply with the translation only.",
+                        tr, key=key, max_tokens=2000, fast=True).strip()
+    return tr, back
+
+
 def translate(text_en: str, facts: dict, test: str, language: str, engine: str, key=None,
               inject_error: bool = False) -> tuple[str, str]:
-    """Return (translation, back_translation). Back-translation is only available with an LLM engine."""
-    back = ""
+    """Return (translation, back_translation). AI engines translate any language; offline uses templates."""
+    if language == "English":
+        return text_en, ""
     if engine in ("claude", "openai"):
         try:
-            tr = llm.complete(engine, (
-                f"Translate this NHS-style patient message into {language}. Plain, kind, easy to read. "
-                "Keep every date, phone number and name exactly as written. Do not add medical details. "
-                "Reply with the translation only."), text_en, key=key, max_tokens=800).strip()
-            back = llm.complete(engine, "Translate this message into English literally. Reply with the translation only.",
-                                tr, key=key, max_tokens=800).strip()
+            tr, back = llm_translate(text_en, language, engine, key)
+            return (_inject(tr, facts) if inject_error else tr), back
         except llm.LLMError:
-            tr = None
-        if tr:
-            if inject_error:
-                tr = _inject(tr, facts)
-            return tr, back
+            pass  # fall through to the offline template if there is one
     tmpl = TEMPLATES.get(language)
     if not tmpl:
-        return text_en, "(no translation needed)"
+        return text_en, f"(no offline template for {language}: add an API key for AI translation)"
     tr = tmpl.format(first_name=facts["first_name"], test=TEST_NAMES[language][test], due=facts["due"], phone=facts["phone"])
     if inject_error:
         tr = _inject(tr, facts)
     return tr, "(offline mode: fact check only, no back-translation)"
+
+
+EASY_READ_EN = ("{first_name}, you need a {test}.\n"
+                "It was due on {due}.\n"
+                "It is not booked yet.\n"
+                "Please phone {phone} to book it.\n"
+                "If you have booked it already, please tell us.")
+
+
+def easy_read(facts: dict, language: str, engine: str, key=None) -> str:
+    """Short sentences, one idea per line. Offline: English template. AI: any language."""
+    base = EASY_READ_EN.format(**facts)
+    if engine in ("claude", "openai"):
+        try:
+            return llm.complete(engine, (
+                f"Rewrite this NHS patient message as an easy-read version in {language}: very short sentences, "
+                "one idea per line, everyday words, about a reading age of 9. Keep the meaning exactly. "
+                + TRANSLATE_RULES), base, key=key, max_tokens=1500, fast=True).strip()
+        except llm.LLMError:
+            pass
+    return base
 
 
 def _inject(tr: str, facts: dict) -> str:

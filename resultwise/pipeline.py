@@ -11,9 +11,9 @@ DATA = Path(__file__).resolve().parent.parent / "data"
 DEMO_START = "2026-10-25"
 
 
-def process_report(conn, report_id: str, engine="offline", key=None, actor="system"):
+def process_report(conn, report_id: str, engine="offline", key=None, actor="system", result=None, track=True):
     rep = conn.execute("SELECT * FROM reports WHERE id=?", (report_id,)).fetchone()
-    res = run_extraction(rep["text"], engine, key)
+    res = result or run_extraction(rep["text"], engine, key)
     conn.execute("DELETE FROM tasks WHERE report_id=? AND review_state IN ('auto','needs_review') "
                  "AND status NOT IN ('completed')", (report_id,))
     created = []
@@ -40,8 +40,49 @@ def process_report(conn, report_id: str, engine="offline", key=None, actor="syst
                  f"{report_id}: {res.extraction.no_follow_up_reason or ''}")
     for issue in res.issues:
         db.audit(conn, "safety check", "Issue", None, f"{report_id}: {issue}")
-    rules.run_tracker(conn, engine, key)
+    if track:
+        rules.run_tracker(conn, engine, key)
     return res, created
+
+
+def reprocess_all(conn, engine, key=None, workers=8, progress=None):
+    """Re-read every report with the chosen engine. AI calls run in parallel; database writes stay in order."""
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    reps = conn.execute("SELECT id, text FROM reports ORDER BY id").fetchall()
+    results, done = {}, 0
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        futs = {ex.submit(run_extraction, r["text"], engine, key): r["id"] for r in reps}
+        for f in as_completed(futs):
+            results[futs[f]] = f.result()
+            done += 1
+            if progress:
+                progress(done, len(reps))
+    for rid in sorted(results):
+        process_report(conn, rid, engine, key, result=results[rid], track=False)
+    rules.run_tracker(conn, engine, key)
+    used = {r.engine_used for r in results.values()}
+    db.audit(conn, "system", "All reports re-read", None, f"{len(results)} reports, engine(s): {', '.join(sorted(used))}")
+    return results
+
+
+# ----------------------------------------------------------------------------- patient replies
+
+REPLY_KINDS = {"booked": "Patient says it is already booked", "call_me": "Patient asks for a phone call",
+               "confused": "Patient does not understand the message", "cannot_attend": "Patient cannot attend"}
+
+
+def patient_reply(conn, task_id, patient_id, kind, note=""):
+    conn.execute("INSERT INTO replies(task_id, patient_id, kind, note, created_on) VALUES(?,?,?,?,?)",
+                 (task_id, patient_id, kind, note, db.today(conn)))
+    conn.commit()
+    db.audit(conn, "patient", REPLY_KINDS[kind], task_id, note)
+
+
+def resolve_reply(conn, reply_id, outcome, who="Clinician"):
+    r = conn.execute("SELECT * FROM replies WHERE id=?", (reply_id,)).fetchone()
+    conn.execute("UPDATE replies SET status='resolved', resolved_by=? WHERE id=?", (who, reply_id))
+    conn.commit()
+    db.audit(conn, who, "Patient reply handled", r["task_id"], outcome)
 
 
 def add_pasted_report(conn, patient_id, text, modality, engine="offline", key=None):
@@ -103,16 +144,17 @@ def reject_message(conn, msg_id, who="Clinician"):
 # ----------------------------------------------------------------------------- seed / reset
 
 def reset_demo(conn, engine="offline", key=None):
-    for t in ("settings", "patients", "reports", "tasks", "bookings", "messages", "audit"):
+    for t in ("settings", "patients", "reports", "tasks", "bookings", "messages", "audit", "replies"):
         conn.execute(f"DROP TABLE IF EXISTS {t}")
     conn.commit()
     db.init(conn)
     db.set_setting(conn, "today", DEMO_START)
+    db.set_setting(conn, "schema", SCHEMA_VERSION)
     with open(DATA / "patients.csv", encoding="utf-8") as f:
         for r in csv.DictReader(f):
-            conn.execute("INSERT INTO patients VALUES(?,?,?,?,?,?,?,?,?)",
+            conn.execute("INSERT INTO patients VALUES(?,?,?,?,?,?,?,?,?,?)",
                          (r["id"], r["name"], int(r["age"]), r["sex"], r["language"], r["channel"],
-                          int(r["imd_quintile"]), r["home_trust"], r["phone"]))
+                          int(r["imd_quintile"]), r["home_trust"], r["phone"], r["nhs_number"]))
     for r in json.loads((DATA / "reports.json").read_text(encoding="utf-8")):
         conn.execute("INSERT INTO reports(id, patient_id, report_date, source_trust, follow_up_trust, modality, "
                      "difficulty, text) VALUES(?,?,?,?,?,?,?,?)",
@@ -130,7 +172,10 @@ def reset_demo(conn, engine="offline", key=None):
     rules.run_tracker(conn, engine, key)
 
 
+SCHEMA_VERSION = "2"
+
+
 def ensure_db(conn):
     db.init(conn)
-    if db.today(conn) is None:
+    if db.today(conn) is None or db.get_setting(conn, "schema") != SCHEMA_VERSION:
         reset_demo(conn)

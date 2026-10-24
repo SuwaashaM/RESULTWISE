@@ -1,14 +1,15 @@
 # Resultwise
 
-**No follow-up silently lost.** Resultwise reads radiology, echo and DXA reports, turns each recommended
-follow-up into a tracked task, checks every trust for a booking, escalates when nothing happens, and drafts a
-clinician-approved patient message in the patient's own language.
+**No follow-up silently lost.** Resultwise uses AI to read radiology, echo and bone-density reports, turns every
+recommended follow-up into a tracked task, checks every hospital for a booking, escalates when nothing happens,
+and sends a clinician-approved message the patient can read in their own language, in easy read, larger text or
+high contrast, or have read aloud.
 
 Breast cancer focus: indeterminate imaging, heart scans during HER2 treatment, bone density scans on aromatase
-inhibitors, and surveillance mammograms.
+inhibitors, surveillance mammograms, and incidental findings on staging CT.
 
-> Hackathon prototype. **All data is synthetic.** Fictional trusts, invented patients, fake phone numbers
-> (Ofcom 01632 960xxx drama range). Not a medical device, not clinically validated.
+> Hackathon MVP. **All data is synthetic.** Fictional trusts, invented patients and clinicians, NHS numbers from
+> the 999 test range, fake phone numbers (Ofcom 01632 960xxx). Not a medical device, not clinically validated.
 
 ## The problem
 
@@ -17,9 +18,7 @@ advised"*. It's free text, so someone has to read it, order the test, book it an
 breaks, especially when care moves between hospitals and GPs on different record systems, and each system only
 sees its own bookings. The patient finds out late.
 
-Breast cancer patients are especially exposed: they have many scheduled scans over years (indeterminate imaging,
-3-monthly heart scans on HER2 drugs, bone density scans on aromatase inhibitors, yearly surveillance mammograms),
-often across several organisations.
+Breast cancer patients are especially exposed: many scheduled scans over years, often across several organisations.
 
 ## Problem statement
 
@@ -32,117 +31,132 @@ Full problem statement, evidence, success measures and scope: [PROBLEM_STATEMENT
 
 ## Our solution
 
-Resultwise **follows the patient, not the hospital**. AI only reads and drafts. Plain rules do the tracking.
-Clinicians make every decision.
+Resultwise **follows the patient, not the hospital**. AI reads and drafts. Plain rules do the tracking.
+Clinicians make every decision. Patients can reply.
 
-## Run it (about 2 minutes)
+```
+report ──► Claude reads it ──► Pydantic schema check ──► evidence quote must exist in report ──► confidence check
+                                   (any failure → human review, never dropped)
+       ──► task (SQLite) ──► daily rules: booked at ANY trust? due soon? overdue? 14+ days overdue?
+                                   └► clinician alert → nurse outreach; urgent findings → phone call, never a message
+       ──► message drafted ──► Claude translates + back-translates ──► date/phone/name fact check ──► clinician approves
+       ──► patient portal: any of 18 languages, easy read, text size, high contrast, read aloud, reply buttons
+       ──► patient replies ──► clinician worklist          every step ──► audit log          tasks ──► FHIR Task export
+```
+
+## Run it locally
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+export ANTHROPIC_API_KEY=sk-ant-...   # optional; Windows: set ANTHROPIC_API_KEY=...
 streamlit run app.py
 ```
 
-It opens in your browser. No API key or internet needed: the default **Offline** engine works on its own,
-so the demo cannot fail on stage Wi-Fi.
+## Turn on the AI (Claude API)
 
-**Optional AI engine:** choose Claude or OpenAI in the sidebar and paste a key (kept in the session only), or
-set `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` before starting. If the call fails, Resultwise falls back to offline
-extraction and flags every task for human review. It never drops a task.
+- **Locally:** set `ANTHROPIC_API_KEY` as above, or paste it under *Settings* in the sidebar (kept in that browser
+  session only).
+- **Streamlit Community Cloud:** app → *Settings* → *Secrets*, and paste:
+  ```toml
+  ANTHROPIC_API_KEY = "sk-ant-..."
+  ```
+  The app restarts and the sidebar shows **AI on: claude-sonnet-5-5**.
 
-**Reset any time** with *Settings → Reset demo* in the sidebar (or delete `resultwise.db`).
+Models: `claude-sonnet-5-5` reads reports; `claude-haiku-5-5` translates, back-translates and writes easy read.
+Override with `RESULTWISE_CLAUDE_MODEL` / `RESULTWISE_CLAUDE_FAST_MODEL`. OpenAI also works (`OPENAI_API_KEY`).
+
+**Without a key** Resultwise uses transparent offline rules and pre-written Polish, Urdu and Tamil templates, so
+the demo never fails on stage Wi-Fi. If an AI call fails, it falls back to offline and flags the task for human review.
+
+Only synthetic text is ever sent to the API. Real patient data would need a contract, DPIA and IG approval first.
 
 ## What's in the app
 
+**Clinician (sidebar: I am → Clinician)**
+
 | View | What it shows |
 |---|---|
-| Worklist | Priority-sorted tasks, urgent "phone the patient" flags, AI evidence quote, confirm / correct / dismiss (reason required), messages awaiting approval |
-| Patient journey | What Northbridge's system sees, what Valeford's system sees, and what Resultwise sees for the same patient |
-| Report inbox | New reports to process, plus a box to paste any synthetic report and watch extraction live |
-| Patient view | The approved message as the patient gets it (app, letter, carer or phone script), English / translated toggle |
-| Equity | On-time follow-up rate by age, language and deprivation (synthetic history with a deliberate disparity) |
+| Worklist | The loop strip (every follow-up from closed to overdue), priority cards, urgent *Phone patient* tags, patient replies, messages to approve, CSV export |
+| Task panel | The full report with the AI's evidence sentence highlighted, who can see this follow-up at each hospital, confirm / correct / dismiss with reason, preview the patient message in any language, export as FHIR Task |
+| Patient journey | Two-hospital swimlanes: Northbridge's record, Valeford's record, Resultwise |
+| Report inbox | New reports, *Re-read all reports with Claude* (parallel), paste-your-own report |
+| Equity | Past on-time rates by age, language, deprivation, plus current tasks by group |
 | Evaluation | Recall, precision, urgent recall, timeframe and urgency accuracy, on development and held-out reports |
-| Audit log | Every AI output, rule decision and human action |
+| Audit log | Every AI output, rule decision, patient reply and human action |
 
-Sidebar: simulated date, **+1 / +2 / +4 week** buttons, and *Settings* (AI engine, *Simulate a translation error*, *Reset demo*).
-Any task's patient message can be previewed in its language from the task panel, even before it is overdue.
+**Patient (sidebar: I am → Patient)**
 
-## 3-minute demo script
+Only their own approved messages: choose any of 18 languages, easy read, text size, high contrast, read aloud
+(uses the device's voices), and reply: *I've already booked it*, *Please call me*, *I can't make it*,
+*I don't understand*. Replies appear on the clinician worklist.
 
-Start after *Reset demo* (simulated date Sun 25 Oct 2026).
+## Synthetic data
 
-1. **Worklist (20s).** "Doreen, 84, missed her annual mammogram 15 days ago. It's escalated to nurse outreach and a
-   message to her carer is waiting for approval."
-2. **Report inbox (20s).** Click *Read all 3 new reports*. Back on the Worklist, suspicious findings show a red
-   **Phone patient** tag. "Urgent results never get an automated message. A clinician calls."
-3. **Patient journey, Halina Nowak (40s).** Her echo during HER2 treatment was recommended at Northbridge, to be
-   done at Valeford. Northbridge: *handed over, not tracked*. Valeford: *no record of this request*.
-   Resultwise: *due soon*. Click **+2 wk**: Resultwise turns **Overdue · clinician alerted**. Both hospitals'
-   own systems still see nothing wrong. "This is the gap Epic can't see on its own."
-4. **Worklist, translation safety (40s).** In the sidebar open *Settings* and turn on *Simulate a translation error*, click *Regenerate* on Halina's
-   Polish message: **BLOCKED**, the date changed in translation. Turn it off, *Regenerate*, check passes,
-   *Approve and send*.
-5. **Patient view (15s).** Halina's message in Polish, toggle to English. No diagnosis in the text.
-6. **Patient journey, Susan Whitaker (15s).** Click **+2 wk** again. Northbridge's own system now says OVERDUE,
-   a false alarm, because she moved and booked at Valeford. Resultwise sees the Valeford booking: no duplicate scan.
-7. **Equity (15s).** "Patients over 80, non-English speakers and the most deprived areas miss more follow-ups.
-   Resultwise shows where to change outreach."
-8. **Evaluation (15s).** Held-out set: hand-written rules catch only 22% of follow-ups they've never seen. That's
-   why the extraction step needs an LLM, and why every output is validated and audited.
+`python data/generate_data.py` regenerates everything (fixed random seed):
 
-## How it works
+| File | Contents |
+|---|---|
+| `data/reports.json` | **104 full NHS-style reports** with gold labels: header (trust, patient, NHS test number, DOB), examination, accession, referrer, clinical indication, comparison, technique, findings, conclusion, reporter. 28 hand-written story reports + 76 generated from 17 clinical scenarios with varied phrasing (formal, abbreviated, hedged, buried in findings, negated) |
+| `data/heldout_reports.json` | 10 reports written after the offline rules, never used to tune them |
+| `data/patients.csv` | 60 patients: age, sex, language (English, Polish, Urdu, Tamil, Bengali, Punjabi, Romanian, Somali), contact channel, deprivation quintile, home trust |
+| `data/bookings.csv` | Bookings across two trusts; some deliberately missing (booking chance lower for older, non-English and deprived patients) |
+| `data/history.csv` | 900 past follow-ups with outcomes, for the equity view |
 
-```
-report ──► AI extraction (LLM or offline rules)
-             └► Pydantic schema validation ─► evidence-quote check ─► confidence check
-                    (fail → human review, never dropped)
-         ──► SQLite task ──► rules engine (daily): booked at ANY trust? due soon? overdue? 14+ days?
-                                 └► escalate: clinician alert → nurse outreach
-         ──► message drafter ─► translation ─► fact check (date, phone, name) ─► clinician approves ─► sent
-         ──► audit log for every step
-```
+## 4-minute demo script
 
-AI only reads and drafts. Plain rules do the tracking. Clinicians make every decision.
+Start with *Settings → Reset demo* (simulated date Sun 25 Oct 2026).
+
+1. **Worklist (20s).** The loop strip: 92 follow-ups tracked. "Doreen, 84, missed her mammogram; it's escalated."
+2. **Report inbox (40s).** *Read all 3 new reports*: suspicious findings get a red *Phone patient* tag. Then paste a
+   report with unusual wording ("would suggest a further scan in about a month") and show Claude extracting it,
+   with the evidence sentence.
+3. **Patient journey, Halina Nowak (40s).** Northbridge: *handed over*. Valeford: *no record*. Click **+2 wk**:
+   Resultwise turns **Overdue**. "This is the gap no single hospital's record can see."
+4. **Worklist, translation safety (40s).** *Settings → Simulate a translation error*, *Regenerate* Halina's Polish
+   message: **Blocked**, the date changed. Turn it off, *Regenerate*, *Approve and send*.
+5. **Patient (50s).** Switch *I am → Patient*, sign in as Halina. Polish message; switch to Urdu or Bengali (Claude
+   translates live), *Easy read*, *Extra large*, *High contrast*, *Read aloud*. Tap *Please call me*.
+6. **Back to Clinician (15s).** The reply is on the worklist. Every step is in the audit log.
+7. **Equity + Evaluation (25s).** Who is being missed; held-out accuracy offline vs Claude.
 
 ## Tests
 
 ```bash
 pip install pytest
-pytest -q          # 20 tests: extraction, schema validation, AI fallback, cross-trust tracking,
-                   # escalation, urgent-never-messaged, translation fact check, audit
-python eval.py     # accuracy on development and held-out reports
+pytest -q          # 27 tests: extraction, schema validation, mocked Claude path (hallucination check,
+                   # bad JSON fallback, no temperature), cross-trust tracking, escalation, urgent never messaged,
+                   # translation fact check, easy read, patient replies, FHIR export, report format
+python eval.py --engine offline    # or: --engine claude
 ```
 
-Tests and the evaluation also run automatically on every push (GitHub Actions).
+Tests and the offline evaluation run on every push (GitHub Actions).
 
 ## Files
 
 ```
 PROBLEM_STATEMENT.md       problem, evidence, statement, success measures, scope
 DEVPOST.md                 Devpost submission text
-app.py                     Streamlit app
-eval.py                    command-line evaluation (writes eval_results.json)
-resultwise/schema.py       Pydantic contracts for AI output
-resultwise/extract.py      offline + LLM extraction, safety checks
-resultwise/llm.py          tiny Claude / OpenAI client (standard library only)
+app.py                     Streamlit app (clinician + patient)
+eval.py                    command-line evaluation
+resultwise/extract.py      Claude / offline extraction + safety checks
+resultwise/llm.py          Claude / OpenAI client (standard library only)
+resultwise/messages.py     drafting, translation, back-translation, fact check, easy read, languages
 resultwise/rules.py        tracking engine, escalation, cross-trust views
-resultwise/messages.py     message templates, translation, fact check
-resultwise/pipeline.py     processing, clinician actions, demo seed
-resultwise/db.py           SQLite schema
-data/generate_data.py      regenerates every synthetic data file
-data/reports.json          28 labelled development reports
-data/heldout_reports.json  10 held-out reports (never used to tune the rules)
-tests/                     pytest safety tests
+resultwise/pipeline.py     processing (parallel re-read), clinician actions, patient replies, demo seed
+resultwise/fhir.py         FHIR R4 Task export
+resultwise/ui.py           visual components (loop strip, cards, swimlanes, portal, read aloud)
+data/                      synthetic data + generators
+tests/                     pytest suite
 ```
 
 ## Honest limits
 
-- Synthetic data only; offline rules were tuned on the development reports (100% there, 22% recall held-out).
-- LLM mode is wired up but was not run during build (no key in the build environment). Test it with your key
-  before the demo: `python eval.py --engine claude`.
-- Offline translations (Polish, Urdu, Tamil) are demo templates and must be professionally translated before
-  any real use.
+- Synthetic data only. Offline rules score 97% recall on the development reports they were tuned on, but 22% on
+  held-out reports; that gap is why the AI reads the reports. Run `python eval.py --engine claude` for Claude's numbers.
+- Offline translations (Polish, Urdu, Tamil) are demo templates; AI translations are fact-checked but would still
+  need professional review before real use. Read aloud depends on the voices installed on the patient's device.
 - Bookings are simulated; a real system would read orders from each trust's record system via FHIR / HL7.
-- Real deployment needs DPIA, Caldicott and DCB0129/0160 clinical safety work, data-sharing agreements and
-  validation on real reports.
+- Real deployment needs a DPIA, Caldicott and DCB0129/0160 clinical safety work, data-sharing agreements,
+  UK-hosted infrastructure, and validation on real reports.

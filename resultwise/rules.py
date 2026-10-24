@@ -41,7 +41,10 @@ def draft_message(conn, task, engine="offline", key=None, inject_error=False, re
         tr, back, ok, notes = None, "", True, []
     else:
         tr, back = messages.translate(text_en, facts, task["test"], patient["language"], engine, key, inject_error)
-        ok, notes = messages.fact_check(text_en, tr, facts)
+        if tr == text_en:  # no translation available (offline, no template): send English, say so
+            tr, back, ok, notes = None, "", True, []
+        else:
+            ok, notes = messages.fact_check(text_en, tr, facts)
     status = "pending_approval" if ok else "blocked"
     if replace:
         conn.execute("UPDATE messages SET status='rejected' WHERE task_id=? AND status IN ('pending_approval','blocked')",
