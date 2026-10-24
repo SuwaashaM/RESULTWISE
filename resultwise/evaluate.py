@@ -21,15 +21,21 @@ def load_set(name: str) -> list[dict]:
     return json.loads((DATA / fname).read_text(encoding="utf-8"))
 
 
-def evaluate(reports: list[dict], engine: str = "offline", key: str | None = None) -> dict:
+def evaluate(reports: list[dict], engine: str = "offline", key: str | None = None, progress=None) -> dict:
     tp = fp = fn = tf_ok = urg_ok = 0
     urgent_gold = urgent_found = 0
     rows = []
     from concurrent.futures import ThreadPoolExecutor
     from . import llm
     workers = 1 if not llm.is_ai(engine) else 2 if engine in llm.FREE_ENGINES else 8
+    from concurrent.futures import as_completed
+    results = [None] * len(reports)
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        results = list(ex.map(lambda r: run_extraction(r["text"], engine, key), reports))
+        futs = {ex.submit(run_extraction, r["text"], engine, key): i for i, r in enumerate(reports)}
+        for n, f in enumerate(as_completed(futs), 1):
+            results[futs[f]] = f.result()
+            if progress:
+                progress(n, len(reports))
     for r, res in zip(reports, results):
         preds = {f.follow_up_test: f for f in res.extraction.follow_ups}
         gold = {g["follow_up_test"]: g for g in r["gold"]}

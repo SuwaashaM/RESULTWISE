@@ -96,6 +96,10 @@ with st.sidebar:
         st.selectbox("AI engine", list(ENGINES), key="engine_label")
         if engine != "offline":
             st.text_input("API key (optional if set as a secret)", type="password", key="api_key")
+        if engine != "offline" and st.button("Test AI connection", width="stretch"):
+            with st.spinner("Asking the AI to reply..."):
+                ok_, msg_, secs_ = llm.ping(engine, key)
+            (st.success if ok_ else st.error)(f"{'Working' if ok_ else 'Failed'} ({secs_:.1f}s): {msg_}")
         st.toggle("Simulate a translation error", key="inject",
                   help="Changes the date in new translations, to show the safety check blocking it.")
         if st.button("Reset demo", width="stretch"):
@@ -588,8 +592,10 @@ elif page == "Evaluation":
                     format_func=lambda s: {"development": "Development (104 reports)",
                                            "heldout": "Held-out (10 unseen reports)"}[s])
     if b.button("Run evaluation", type="primary"):
-        with st.spinner("Scoring..."):
-            st.session_state["eval"] = evaluate(load_set(which), engine, key)
+        bar = st.progress(0.0, text="Scoring...")
+        st.session_state["eval"] = evaluate(load_set(which), engine, key,
+                                            progress=lambda d, n: bar.progress(d / n, text=f"Scored {d} of {n} reports"))
+        bar.empty()
     if which == "development":
         st.warning("The offline rules were written while looking at these reports, so their score here is optimistic. "
                    "The held-out set is the honest test.")

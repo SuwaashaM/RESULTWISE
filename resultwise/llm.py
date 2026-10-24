@@ -64,7 +64,7 @@ def default_engine() -> str:
     return "offline"
 
 
-def _post(url: str, headers: dict, payload: dict, timeout: int = 120, retries: int = 3) -> dict:
+def _post(url: str, headers: dict, payload: dict, timeout: int = 60, retries: int = 2) -> dict:
     data = json.dumps(payload).encode("utf-8")
     for attempt in range(retries + 1):
         req = urllib.request.Request(url, data=data, headers={**headers, "content-type": "application/json"},
@@ -76,7 +76,7 @@ def _post(url: str, headers: dict, payload: dict, timeout: int = 120, retries: i
             body = e.read().decode("utf-8", errors="replace")[:400]
             if e.code in (429, 500, 502, 503, 529) and attempt < retries:
                 wait = float(e.headers.get("retry-after") or 0) or 2 * (2 ** attempt)
-                time.sleep(min(wait, 20))
+                time.sleep(min(wait, 8))
                 continue
             raise LLMError(f"HTTP {e.code}: {body}") from e
         except urllib.error.URLError as e:
@@ -129,3 +129,14 @@ def parse_json(text: str) -> dict:
     if start == -1 or end == -1:
         raise LLMError("Model reply contained no JSON object.")
     return json.loads(text[start:end + 1])
+
+
+def ping(provider: str, key: str | None = None) -> tuple[bool, str, float]:
+    """One tiny request to check the key, model name and connection. Returns (ok, message, seconds)."""
+    t0 = time.time()
+    try:
+        reply = complete(provider, "You are a connection test.", "Reply with the single word OK.", key=key,
+                         max_tokens=200)
+        return True, f"{model_name(provider)} replied: {reply.strip()[:60]}", time.time() - t0
+    except LLMError as e:
+        return False, str(e)[:500], time.time() - t0
