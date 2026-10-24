@@ -50,6 +50,7 @@ def get_conn():
 
 
 conn = get_conn()
+pipeline.ensure_db(conn)  # rebuilds the demo if the database was created by an older version of the app
 
 
 def q(sql, params=()):

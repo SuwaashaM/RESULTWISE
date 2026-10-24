@@ -3,7 +3,7 @@ __pycache__/
 .venv/
 venv/
 .env
-resultwise.db
+resultwise*.db
 eval_results.json
 .pytest_cache/
 .DS_Store

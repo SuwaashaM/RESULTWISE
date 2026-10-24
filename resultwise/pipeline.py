@@ -177,5 +177,7 @@ SCHEMA_VERSION = "2"
 
 def ensure_db(conn):
     db.init(conn)
-    if db.today(conn) is None or db.get_setting(conn, "schema") != SCHEMA_VERSION:
+    cols = {r[1] for r in conn.execute("PRAGMA table_info(patients)")}
+    if (db.today(conn) is None or db.get_setting(conn, "schema") != SCHEMA_VERSION
+            or "nhs_number" not in cols):
         reset_demo(conn)

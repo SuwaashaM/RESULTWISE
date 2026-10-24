@@ -2,7 +2,7 @@
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path(__file__).resolve().parent.parent / "resultwise.db"
+DB_PATH = Path(__file__).resolve().parent.parent / "resultwise_v2.db"
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT);
