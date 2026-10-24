@@ -54,18 +54,24 @@ export ANTHROPIC_API_KEY=sk-ant-...   # optional; Windows: set ANTHROPIC_API_KEY
 streamlit run app.py
 ```
 
-## Turn on the AI (Claude API)
+## Turn on the AI
 
-- **Locally:** set `ANTHROPIC_API_KEY` as above, or paste it under *Settings* in the sidebar (kept in that browser
-  session only).
-- **Streamlit Community Cloud:** app → *Settings* → *Secrets*, and paste:
-  ```toml
-  ANTHROPIC_API_KEY = "sk-ant-..."
-  ```
-  The app restarts and the sidebar shows **AI on: claude-sonnet-5-5**.
+Add **one** of these keys (locally as an environment variable, or on Streamlit Cloud under app *Settings → Secrets*).
+The app uses the first one it finds, and you can switch under *Settings → AI engine* in the sidebar.
 
-Models: `claude-sonnet-5-5` reads reports; `claude-haiku-5-5` translates, back-translates and writes easy read.
-Override with `RESULTWISE_CLAUDE_MODEL` / `RESULTWISE_CLAUDE_FAST_MODEL`. OpenAI also works (`OPENAI_API_KEY`).
+| Provider | Cost | Secret to add | Default model |
+|---|---|---|---|
+| Google Gemini | **Free tier** (key from aistudio.google.com) | `GEMINI_API_KEY = "..."` | `gemini-3.8-flash` |
+| Groq | **Free tier** (key from console.groq.com) | `GROQ_API_KEY = "..."` | `llama-3.3-70b-versatile` |
+| Anthropic Claude | Paid | `ANTHROPIC_API_KEY = "sk-ant-..."` | `claude-sonnet-5-5` (reads), `claude-haiku-5-5` (translates) |
+| OpenAI | Paid | `OPENAI_API_KEY = "sk-..."` | `gpt-4.1-mini` |
+
+Override models with `RESULTWISE_GEMINI_MODEL`, `RESULTWISE_GROQ_MODEL`, `RESULTWISE_CLAUDE_MODEL`,
+`RESULTWISE_CLAUDE_FAST_MODEL` or `RESULTWISE_OPENAI_MODEL`. When it works, the sidebar shows **AI on: <model>**.
+
+Free tiers have low rate limits, so the app sends fewer requests at once and retries automatically when told to
+slow down; re-reading all 104 reports can take a few minutes. Free tiers may use prompts to improve their models,
+which is acceptable here only because every report is synthetic.
 
 **Without a key** Resultwise uses transparent offline rules and pre-written Polish, Urdu and Tamil templates, so
 the demo never fails on stage Wi-Fi. If an AI call fails, it falls back to offline and flags the task for human review.

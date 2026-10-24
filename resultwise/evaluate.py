@@ -26,7 +26,8 @@ def evaluate(reports: list[dict], engine: str = "offline", key: str | None = Non
     urgent_gold = urgent_found = 0
     rows = []
     from concurrent.futures import ThreadPoolExecutor
-    workers = 8 if engine != "offline" else 1
+    from . import llm
+    workers = 1 if not llm.is_ai(engine) else 2 if engine in llm.FREE_ENGINES else 8
     with ThreadPoolExecutor(max_workers=workers) as ex:
         results = list(ex.map(lambda r: run_extraction(r["text"], engine, key), reports))
     for r, res in zip(reports, results):

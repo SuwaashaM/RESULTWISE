@@ -190,7 +190,7 @@ def run_extraction(report_text: str, engine: str = "offline", key: str | None = 
     issues: list[str] = []
     engine_used = engine
     extraction = None
-    if engine in ("claude", "openai"):
+    if llm.is_ai(engine):
         for attempt in (1, 2):
             try:
                 extraction = llm_extract(report_text, engine, key)

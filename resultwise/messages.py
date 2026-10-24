@@ -112,7 +112,7 @@ def translate(text_en: str, facts: dict, test: str, language: str, engine: str, 
     """Return (translation, back_translation). AI engines translate any language; offline uses templates."""
     if language == "English":
         return text_en, ""
-    if engine in ("claude", "openai"):
+    if llm.is_ai(engine):
         try:
             tr, back = llm_translate(text_en, language, engine, key)
             return (_inject(tr, facts) if inject_error else tr), back
@@ -137,7 +137,7 @@ EASY_READ_EN = ("{first_name}, you need a {test}.\n"
 def easy_read(facts: dict, language: str, engine: str, key=None) -> str:
     """Short sentences, one idea per line. Offline: English template. AI: any language."""
     base = EASY_READ_EN.format(**facts)
-    if engine in ("claude", "openai"):
+    if llm.is_ai(engine):
         try:
             return llm.complete(engine, (
                 f"Rewrite this NHS patient message as an easy-read version in {language}: very short sentences, "

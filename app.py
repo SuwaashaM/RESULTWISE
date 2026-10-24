@@ -13,8 +13,9 @@ import streamlit as st
 
 # Streamlit Cloud: copy secrets into the environment before the AI client reads them
 try:
-    for _k in ("ANTHROPIC_API_KEY", "OPENAI_API_KEY", "RESULTWISE_CLAUDE_MODEL", "RESULTWISE_CLAUDE_FAST_MODEL",
-               "RESULTWISE_OPENAI_MODEL"):
+    for _k in ("ANTHROPIC_API_KEY", "OPENAI_API_KEY", "GEMINI_API_KEY", "GROQ_API_KEY", "RESULTWISE_CLAUDE_MODEL",
+               "RESULTWISE_CLAUDE_FAST_MODEL", "RESULTWISE_OPENAI_MODEL", "RESULTWISE_GEMINI_MODEL",
+               "RESULTWISE_GROQ_MODEL"):
         if _k in st.secrets and not os.getenv(_k):
             os.environ[_k] = str(st.secrets[_k])
 except Exception:  # no secrets file: offline mode
@@ -39,7 +40,8 @@ TEST_LABEL = {k: v[0].upper() + v[1:] for k, v in PLAIN_TEST_NAME.items()}
 DISMISS_REASONS = ["Not clinically indicated", "Already done elsewhere", "Patient declined (documented)",
                    "AI extraction error", "Duplicate task", "Other"]
 TRUSTS = ("Northbridge Hospitals", "Valeford Hospitals")
-ENGINES = {"Claude (AI)": "claude", "OpenAI (AI)": "openai", "Offline rules (no AI)": "offline"}
+ENGINES = {"Claude (AI)": "claude", "OpenAI (AI)": "openai", "Gemini (AI, free tier)": "gemini",
+           "Groq (AI, free tier)": "groq", "Offline rules (no AI)": "offline"}
 
 
 @st.cache_resource
@@ -62,8 +64,7 @@ def html(s):
 
 
 if "engine_label" not in st.session_state:
-    st.session_state["engine_label"] = {"claude": "Claude (AI)", "openai": "OpenAI (AI)"}.get(
-        llm.default_engine(), "Offline rules (no AI)")
+    st.session_state["engine_label"] = {v: k for k, v in ENGINES.items()}[llm.default_engine()]
 
 # ----------------------------------------------------------------------------- sidebar
 with st.sidebar:
@@ -103,7 +104,7 @@ with st.sidebar:
                 if k not in ("engine_label", "api_key", "role"):
                     del st.session_state[k]
             st.rerun()
-    status_txt = (f"AI on: {llm.CLAUDE_MODEL if engine == 'claude' else llm.OPENAI_MODEL}" if ai_ready
+    status_txt = (f"AI on: {llm.model_name(engine)}" if ai_ready
                   else "AI off: offline rules" if engine == "offline" else "AI key missing: offline fallback")
     st.caption(status_txt)
     st.caption("All patients, hospitals and phone numbers are invented.")

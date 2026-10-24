@@ -45,9 +45,11 @@ def process_report(conn, report_id: str, engine="offline", key=None, actor="syst
     return res, created
 
 
-def reprocess_all(conn, engine, key=None, workers=8, progress=None):
+def reprocess_all(conn, engine, key=None, workers=None, progress=None):
     """Re-read every report with the chosen engine. AI calls run in parallel; database writes stay in order."""
     from concurrent.futures import ThreadPoolExecutor, as_completed
+    from . import llm
+    workers = workers or (2 if engine in llm.FREE_ENGINES else 8)  # free tiers have low rate limits
     reps = conn.execute("SELECT id, text FROM reports ORDER BY id").fetchall()
     results, done = {}, 0
     with ThreadPoolExecutor(max_workers=workers) as ex:

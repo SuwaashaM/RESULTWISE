@@ -193,3 +193,53 @@ def test_easy_read_offline_keeps_facts():
     facts = {"first_name": "Halina", "test": "heart scan", "due": "02/11/2026", "phone": "01632 960 202"}
     text = messages.easy_read(facts, "English", "offline")
     assert "02/11/2026" in text and "01632 960 202" in text and len(text.splitlines()) >= 4
+
+
+@pytest.mark.parametrize("engine,url_part,field", [("gemini", "generativelanguage.googleapis.com", "max_tokens"),
+                                                    ("groq", "api.groq.com", "max_completion_tokens")])
+def test_free_providers_use_openai_compatible_requests(monkeypatch, engine, url_part, field):
+    from resultwise import llm
+    seen = {}
+
+    def fake_post(url, headers, payload, timeout=120):
+        seen.update(url=url, payload=payload, headers=headers)
+        return {"choices": [{"message": {"content": "hello"}}]}
+    monkeypatch.setattr(llm, "_post", fake_post)
+    assert llm.complete(engine, "sys", "hi", key="k") == "hello"
+    assert url_part in seen["url"] and seen["url"].endswith("/chat/completions")
+    assert field in seen["payload"] and "temperature" not in seen["payload"]
+    assert seen["headers"]["authorization"] == "Bearer k"
+
+
+def test_rate_limit_is_retried(monkeypatch):
+    import io
+    import urllib.error
+    from resultwise import llm
+    calls = {"n": 0}
+
+    class Resp(io.BytesIO):
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+    def fake_urlopen(req, timeout=0):
+        calls["n"] += 1
+        if calls["n"] == 1:
+            raise urllib.error.HTTPError(req.full_url, 429, "Too many", {"retry-after": "0"}, io.BytesIO(b"slow down"))
+        return Resp(b'{"choices":[{"message":{"content":"ok"}}]}')
+    monkeypatch.setattr(llm.urllib.request, "urlopen", fake_urlopen)
+    monkeypatch.setattr(llm.time, "sleep", lambda s: None)
+    assert llm.complete("groq", "s", "u", key="k") == "ok" and calls["n"] == 2
+
+
+def test_default_engine_prefers_paid_then_free(monkeypatch):
+    from resultwise import llm
+    for k in llm.KEY_ENV.values():
+        monkeypatch.delenv(k, raising=False)
+    assert llm.default_engine() == "offline"
+    monkeypatch.setenv("GROQ_API_KEY", "x")
+    assert llm.default_engine() == "groq"
+    monkeypatch.setenv("GEMINI_API_KEY", "x")
+    assert llm.default_engine() == "gemini"

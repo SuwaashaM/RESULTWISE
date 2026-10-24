@@ -15,7 +15,7 @@ from resultwise.evaluate import evaluate, load_set
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--engine", default="offline", choices=["offline", "claude", "openai"])
+    ap.add_argument("--engine", default="offline", choices=["offline", "claude", "openai", "gemini", "groq"])
     args = ap.parse_args()
     out = {}
     for name in ("development", "heldout"):
