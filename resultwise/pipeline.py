@@ -104,11 +104,15 @@ def confirm_task(conn, task_id, who="Clinician"):
     db.audit(conn, who, "Confirmed follow-up", task_id)
 
 
-def edit_task(conn, task_id, due_date, urgency, who="Clinician"):
-    conn.execute("UPDATE tasks SET due_date=?, urgency=?, requires_call=?, review_state='confirmed' WHERE id=?",
-                 (due_date, urgency, int(urgency == "urgent"), task_id))
+def edit_task(conn, task_id, due_date, urgency, who="Clinician", test=None):
+    old = conn.execute("SELECT * FROM tasks WHERE id=?", (task_id,)).fetchone()
+    test = test or old["test"]
+    conn.execute("UPDATE tasks SET test=?, due_date=?, urgency=?, requires_call=?, review_state='confirmed' WHERE id=?",
+                 (test, due_date, urgency, int(urgency == "urgent"), task_id))
     conn.commit()
-    db.audit(conn, who, "Corrected and confirmed", task_id, f"due {due_date}, {urgency}")
+    changes = [f"{k}: {old[k]} -> {v}" for k, v in (("test", test), ("due_date", due_date), ("urgency", urgency))
+               if old[k] != v]
+    db.audit(conn, who, "Corrected AI result and confirmed (feedback for model improvement)", task_id, "; ".join(changes))
     rules.run_tracker(conn)
 
 
@@ -132,6 +136,21 @@ def approve_message(conn, msg_id, who="Clinician"):
     conn.execute("UPDATE messages SET status='sent', approved_by=?, sent_on=? WHERE id=?", (who, db.today(conn), msg_id))
     conn.commit()
     db.audit(conn, who, "Message approved and sent", m["task_id"], f"{m['language']} via {m['channel']}")
+
+
+def send_message(conn, task_id, text_en, text_tr, back, ok, notes, who="Clinician", edited=False):
+    """Clinician-approved message: replaces any draft and is sent straight away."""
+    p = conn.execute("SELECT p.* FROM patients p JOIN tasks t ON t.patient_id=p.id WHERE t.id=?", (task_id,)).fetchone()
+    conn.execute("UPDATE messages SET status='rejected' WHERE task_id=? AND status IN ('pending_approval','blocked')",
+                 (task_id,))
+    conn.execute(
+        "INSERT INTO messages(task_id, patient_id, language, channel, text_en, text_translated, back_translation, "
+        "check_passed, check_notes, status, created_on, approved_by, sent_on) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        (task_id, p["id"], p["language"], p["channel"], text_en, text_tr, back, int(ok), "\n".join(notes), "sent",
+         db.today(conn), who, db.today(conn)))
+    conn.commit()
+    db.audit(conn, who, "Message " + ("edited, " if edited else "") + "approved and sent", task_id,
+             f"{p['language'] if text_tr else 'English'} via {p['channel']}")
 
 
 def reject_message(conn, msg_id, who="Clinician"):

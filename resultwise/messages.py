@@ -66,16 +66,19 @@ def draft_english(patient: dict, task: dict, phone: str) -> tuple[str, dict]:
 def fact_check(text_en: str, text_tr: str, facts: dict) -> tuple[bool, list[str]]:
     """Every number in the English message (date, phone) and the patient's name must appear in the translation."""
     notes = []
-    if facts["due"] not in text_tr:
-        notes.append(f"Due date {facts['due']} does not appear exactly in the translation.")
-    if facts["phone"] not in text_tr:
-        notes.append(f"Phone number {facts['phone']} does not appear exactly in the translation.")
+    # the date and phone number in the English the clinician approved must appear exactly in the translation
+    for label, val in (("Due date", facts["due"]), ("Phone number", facts["phone"])):
+        if val in text_en and val not in text_tr:
+            notes.append(f"{label} {val} does not appear exactly in the translation.")
+    for d in re.findall(r"\b\d{2}/\d{2}/\d{4}\b", text_en):
+        if d != facts["due"] and d not in text_tr:
+            notes.append(f"Date {d} does not appear exactly in the translation.")
     en_numbers = re.findall(r"\d+", text_en)
     tr_numbers = re.findall(r"\d+", text_tr)
     for n in en_numbers:
         if tr_numbers.count(n) < en_numbers.count(n):
             notes.append(f"Number '{n}' from the English message is missing or changed in the translation.")
-    if facts["first_name"] not in text_tr:
+    if facts["first_name"] in text_en and facts["first_name"] not in text_tr:
         notes.append("Patient name missing from translation.")
     notes = list(dict.fromkeys(notes))
     return (not notes), notes

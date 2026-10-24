@@ -234,3 +234,61 @@ document.getElementById('ra').onclick = () => {{
 }};
 document.getElementById('st').onclick = () => speechSynthesis.cancel();
 </script></div>"""
+
+
+FLOW_CSS = f"""
+<style>
+.rw-flow {{ display:grid; grid-template-columns: repeat(4, 1fr); gap:.5rem; margin-bottom:1rem; }}
+.rw-flow div {{ background:#fff; border:1px solid {LINE}; border-radius:10px; padding:.6rem .8rem; color:{INK};
+  font-size:.92rem; line-height:1.35; }}
+.rw-flow b {{ display:block; color:{TEAL}; font-size:.8rem; margin-bottom:.15rem; }}
+.rw-steps {{ display:flex; gap:0; margin:.2rem 0 1rem; flex-wrap:wrap; }}
+.rw-step {{ flex:1; min-width:150px; padding:.55rem .8rem; border:1px solid {LINE}; background:#fff; color:{MUTED};
+  font-size:.9rem; }}
+.rw-step:first-child {{ border-radius:10px 0 0 10px; }} .rw-step:last-child {{ border-radius:0 10px 10px 0; }}
+.rw-step.done {{ background:#E3F2EF; color:{TEAL}; font-weight:700; border-color:#BFE3DB; }}
+.rw-step.now {{ background:#FBF0E1; color:{AMBER}; font-weight:700; border-color:#F1D3A6; }}
+.rw-todo div {{ display:flex; justify-content:space-between; align-items:center; background:#fff; border:1px solid {LINE};
+  border-left:5px solid var(--c); border-radius:10px; padding:.6rem .9rem; margin-bottom:.45rem; color:{INK}; }}
+.rw-todo b {{ font-size:1.3rem; }}
+.rw-sum {{ background:#fff; border:1px solid {LINE}; border-radius:10px; padding:.9rem 1rem; line-height:1.6; color:#1C2B2F; }}
+.rw-sum .big {{ font-size:1.1rem; font-weight:700; color:{INK}; margin-bottom:.4rem; }}
+.rw-sum dl {{ display:grid; grid-template-columns: 9rem 1fr; gap:.2rem .6rem; margin:.4rem 0 0; }}
+.rw-sum dt {{ color:{MUTED}; }} .rw-sum dd {{ margin:0; }}
+@media (max-width: 800px) {{ .rw-flow {{ grid-template-columns: 1fr 1fr; }} }}
+</style>
+"""
+
+
+def flow_strip() -> str:
+    steps = [("Step 1", "AI reads every scan report and lists the follow-ups"),
+             ("Step 2", "You check the AI's result and approve the patient message"),
+             ("Step 3", "Rules track the booking at every hospital and escalate gaps"),
+             ("Step 4", "The patient reads the message in their language and can reply")]
+    return FLOW_CSS + '<div class="rw-flow">' + "".join(f"<div><b>{a}</b>{esc(b)}</div>" for a, b in steps) + "</div>"
+
+
+def stepper(steps: list[tuple[str, bool]]) -> str:
+    out, now_set = [], False
+    for label, done in steps:
+        cls = "done" if done else ("now" if not now_set else "")
+        if not done:
+            now_set = True
+        mark = "Done: " if done else ("Next: " if cls == "now" else "")
+        out.append(f'<div class="rw-step {cls}">{mark}{esc(label)}</div>')
+    return FLOW_CSS + '<div class="rw-steps">' + "".join(out) + "</div>"
+
+
+def todo_list(items: list[tuple[str, int, str]]) -> str:
+    rows = "".join(f'<div style="--c:{STATUS_STYLE[k][0] if n else LINE}"><span>{esc(lbl)}</span><b>{n}</b></div>'
+                   for lbl, n, k in items)
+    return FLOW_CSS + f'<div class="rw-todo">{rows}</div>'
+
+
+def plain_summary(name, test, due, urgency, trust, confidence, evidence, review_state) -> str:
+    when = {"urgent": "urgently", "soon": "soon", "routine": "routinely"}[urgency]
+    return (f'<div class="rw-sum"><div class="big">{esc(name)} needs a {esc(test.lower())} {when}, '
+            f'by {esc(due)}.</div><dl><dt>Test</dt><dd>{esc(test)}</dd><dt>Due by</dt><dd>{esc(due)}</dd>'
+            f'<dt>Urgency</dt><dd>{esc(urgency)}</dd><dt>Where</dt><dd>{esc(trust)}</dd>'
+            f'<dt>AI confidence</dt><dd>{confidence:.0%}</dd><dt>Status</dt><dd>{esc(review_state.replace("_", " "))}</dd>'
+            f'<dt>Because the report says</dt><dd>&ldquo;{esc(evidence)}&rdquo;</dd></dl></div>')

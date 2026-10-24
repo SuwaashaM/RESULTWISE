@@ -86,8 +86,8 @@ with st.sidebar:
             if col.button(lbl, width="stretch"):
                 rules.advance(conn, days, engine, key, inject)
                 st.rerun()
-        page = st.radio("View", ["Worklist", "Patient journey", "Report inbox", "Equity", "Evaluation",
-                                 "Audit log"], label_visibility="collapsed")
+        page = st.radio("View", ["Worklist", "Review and approve", "Report inbox", "Patient journey", "Equity",
+                                 "Evaluation", "Audit log"], label_visibility="collapsed")
     else:
         page = "Patient portal"
 
@@ -234,30 +234,17 @@ if page == "Patient portal":
 if page == "Worklist":
     df = tasks_df()
     html(ui.header("Today's follow-ups",
-                   "Every recommendation from every scan report, tracked until it happens. "
-                   "Act on the top of the list first."))
+                   "Every recommendation from every scan report, tracked until it happens."))
+    html(ui.flow_strip())
     counts = df.status.value_counts().to_dict() if not df.empty else {}
     html(ui.loop_strip(counts))
 
-    msgs = q("""SELECT m.*, p.name, t.test FROM messages m JOIN patients p ON p.id=m.patient_id
-                JOIN tasks t ON t.id=m.task_id WHERE m.status IN ('pending_approval','blocked') ORDER BY m.id""")
-    replies = q("""SELECT r.*, p.name, t.test FROM replies r JOIN patients p ON p.id=r.patient_id
-                   JOIN tasks t ON t.id=r.task_id WHERE r.status='open' ORDER BY r.id""")
     live = df[~df.status.isin(["completed", "dismissed"])] if not df.empty else df
     action = live[live.priority <= 4] if not live.empty else live
-
-    if len(replies):
-        st.subheader(f"Patient replies ({len(replies)})")
-        for _, r in replies.iterrows():
-            html(f'<div class="rw-reply"><b>{ui.esc(r["name"])}</b> · {ui.esc(TEST_LABEL[r["test"]])}<br>'
-                 f'{ui.esc(pipeline.REPLY_KINDS[r["kind"]])} ({ui.esc(r["created_on"])}) · {ui.esc(r["note"])}</div>')
-            a1, a2, _ = st.columns([2, 2, 4])
-            if a1.button("Called the patient", key=f"rc{r['id']}"):
-                pipeline.resolve_reply(conn, int(r["id"]), "Clinician phoned the patient")
-                st.rerun()
-            if a2.button("Checked and resolved", key=f"rr{r['id']}"):
-                pipeline.resolve_reply(conn, int(r["id"]), "Checked and resolved")
-                st.rerun()
+    n_msgs = conn.execute("SELECT COUNT(*) FROM messages WHERE status IN ('pending_approval','blocked')").fetchone()[0]
+    n_review = int((live.review_state == "needs_review").sum()) if not live.empty else 0
+    n_calls = int(((live.requires_call == 1) & (live.patient_called == 0)).sum()) if not live.empty else 0
+    n_replies = conn.execute("SELECT COUNT(*) FROM replies WHERE status='open'").fetchone()[0]
 
     left, right = st.columns([3, 2], gap="large")
     with left:
@@ -269,105 +256,199 @@ if page == "Worklist":
                               r.responsible_trust, bool(r.requires_call and not r.patient_called),
                               r.review_state == "needs_review"))
         if len(action) > 10:
-            st.caption(f"and {len(action) - 10} more; open them below.")
+            st.caption(f"and {len(action) - 10} more in Review and approve.")
     with right:
-        st.subheader(f"Messages to approve ({len(msgs)})")
-        if not (msgs.language != "English").any():
-            html('<div class="rw-hint">Translated messages appear when a non-English-speaking patient\'s follow-up '
-                 'goes overdue. Click <b>+2 wk</b>, or preview any patient\'s message from the task panel below.</div>')
-        for _, m in msgs.iterrows():
-            html(ui.message_card(m["name"], TEST_LABEL[m["test"]], m["language"], m["channel"], m["text_en"],
-                                 nz(m["text_translated"]) or None, nz(m["back_translation"]), bool(m["check_passed"]),
-                                 nz(m["check_notes"]).replace("\n", " ")))
-            b1, b2, b3 = st.columns([5, 4, 3])
-            if b1.button("Approve and send", key=f"ap{m['id']}", disabled=m["status"] == "blocked", type="primary"):
-                pipeline.approve_message(conn, m["id"])
-                st.rerun()
-            if b2.button("Regenerate", key=f"rg{m['id']}"):
-                t = conn.execute("SELECT * FROM tasks WHERE id=?", (int(m["task_id"]),)).fetchone()
-                with st.spinner("Drafting and translating..."):
-                    rules.draft_message(conn, t, engine, key, inject, replace=True)
-                st.rerun()
-            if b3.button("Reject", key=f"rj{m['id']}"):
-                pipeline.reject_message(conn, m["id"])
-                st.rerun()
-            st.write("")
+        st.subheader("Waiting for you")
+        html(ui.todo_list([("Patients to phone (urgent findings)", n_calls, "overdue"),
+                           ("AI results to check", n_review, "due_soon"),
+                           ("Patient messages to approve", n_msgs, "booked"),
+                           ("Patient replies", n_replies, "open")]))
+        st.caption("Open **Review and approve** in the sidebar to work through these one patient at a time.")
+        if not df.empty:
+            export = df[["id", "name", "nhs_number", "test", "due_date", "status", "urgency", "review_state",
+                         "responsible_trust", "confidence", "evidence"]]
+            st.download_button("Download worklist (CSV)", export.to_csv(index=False), "resultwise_worklist.csv",
+                               "text/csv", width="stretch")
 
-    st.divider()
-    h1, h2 = st.columns([3, 1])
-    h1.subheader("Open a task")
-    if not df.empty:
-        export = df[["id", "name", "nhs_number", "test", "due_date", "status", "urgency", "review_state",
-                     "responsible_trust", "confidence", "evidence"]]
-        h2.download_button("Download worklist (CSV)", export.to_csv(index=False), "resultwise_worklist.csv",
-                           "text/csv", width="stretch")
+elif page == "Review and approve":
+    html(ui.header("Review and approve",
+                   "One patient at a time: check what the AI read, correct it, then check and approve the message."))
+    replies = q("""SELECT r.*, p.name, t.test FROM replies r JOIN patients p ON p.id=r.patient_id
+                   JOIN tasks t ON t.id=r.task_id WHERE r.status='open' ORDER BY r.id""")
+    if len(replies):
+        with st.expander(f"Patient replies ({len(replies)})", expanded=True):
+            for _, r in replies.iterrows():
+                html(f'<div class="rw-reply"><b>{ui.esc(r["name"])}</b> · {ui.esc(TEST_LABEL[r["test"]])}<br>'
+                     f'{ui.esc(pipeline.REPLY_KINDS[r["kind"]])} ({ui.esc(r["created_on"])}) · {ui.esc(r["note"])}</div>')
+                a1, a2, _ = st.columns([2, 2, 4])
+                if a1.button("Called the patient", key=f"rc{r['id']}"):
+                    pipeline.resolve_reply(conn, int(r["id"]), "Clinician phoned the patient")
+                    st.rerun()
+                if a2.button("Checked and resolved", key=f"rr{r['id']}"):
+                    pipeline.resolve_reply(conn, int(r["id"]), "Checked and resolved")
+                    st.rerun()
+
+    df = tasks_df()
     if df.empty:
-        st.info("No tasks yet. Read reports in the Report inbox.")
+        st.info("No follow-ups yet. Read reports in the Report inbox.")
+        st.stop()
+    pending_msg = set(q("SELECT task_id FROM messages WHERE status IN ('pending_approval','blocked')").task_id)
+    show_all = st.toggle("Show all follow-ups (not just ones needing attention)", value=False)
+    queue = df if show_all else df[(df.priority <= 4) | df.id.isin(pending_msg)]
+    queue = queue[~queue.status.isin(["completed", "dismissed"])] if not show_all else queue
+    if queue.empty:
+        st.success("Nothing waiting. Turn on 'Show all follow-ups' to look at any patient.")
+        st.stop()
+
+    def tag(r):
+        bits = []
+        if r.requires_call and not r.patient_called:
+            bits.append("phone patient")
+        if r.review_state == "needs_review":
+            bits.append("check AI")
+        if r.id in pending_msg:
+            bits.append("message to approve")
+        return f"{r['name']} · {TEST_LABEL[r.test]} · {status_text(r)}" + (f"  [{', '.join(bits)}]" if bits else "")
+
+    labels = {int(r.id): tag(r) for _, r in queue.iterrows()}
+    if st.session_state.get("review_tid") not in labels:
+        st.session_state.pop("review_tid", None)
+    tid = st.selectbox(f"Patient ({len(labels)} in this list)", list(labels), format_func=lambda i: labels[i],
+                       key="review_tid")
+    t = df[df.id == tid].iloc[0]
+    trow = dict(conn.execute("SELECT * FROM tasks WHERE id=?", (tid,)).fetchone())
+    p = dict(conn.execute("SELECT * FROM patients WHERE id=?", (t.patient_id,)).fetchone())
+    rep = dict(conn.execute("SELECT * FROM reports WHERE id=?", (t.report_id,)).fetchone())
+    sent = conn.execute("SELECT * FROM messages WHERE task_id=? AND status='sent' ORDER BY id DESC", (tid,)).fetchone()
+    confirmed = trow["review_state"] == "confirmed"
+    html(ui.stepper([
+        ("AI read the report", True),
+        ("Clinician checked the follow-up", confirmed or trow["status"] == "dismissed"),
+        ("Phone call made" if trow["requires_call"] else "Patient message approved",
+         bool(trow["patient_called"]) if trow["requires_call"] else sent is not None),
+        ("Loop closed: test done", trow["status"] == "completed"),
+    ]))
+    html(ui.task_card(t["name"], TEST_LABEL[t.test], t.due_date, int(t.days_left), t.status, status_text(t),
+                      t.responsible_trust, bool(t.requires_call and not t.patient_called),
+                      t.review_state == "needs_review"))
+
+    # ---------------- step 1: compare the report with what the AI extracted
+    st.subheader("1. Check what the AI found")
+    c1, c2 = st.columns([1, 1], gap="large")
+    with c1:
+        st.markdown(f"**The report** · read by {nz(rep['engine'], 'offline')} · the sentence it used is highlighted")
+        html(ui.report_html(rep["text"], trow["evidence"]))
+    with c2:
+        tab1, tab2 = st.tabs(["Plain English", "FHIR Task (JSON)"])
+        with tab1:
+            html(ui.plain_summary(p["name"], TEST_LABEL[trow["test"]], trow["due_date"], trow["urgency"],
+                                  trow["responsible_trust"], trow["confidence"], trow["evidence"],
+                                  trow["review_state"]))
+        with tab2:
+            fjson = json.dumps(fhir.task_resource(trow, p, rep), indent=2)
+            st.code(fjson, language="json")
+            st.download_button("Download FHIR Task", fjson, f"resultwise_task_{tid}.json", "application/json")
+        if trow["status"] not in ("completed", "dismissed"):
+            with st.form(f"edit{tid}", border=True):
+                st.markdown("**Correct anything that's wrong, then confirm**")
+                tests = list(PLAIN_TEST_NAME)
+                f1, f2, f3 = st.columns([2.2, 1.4, 1.2])
+                new_test = f1.selectbox("Test", tests, index=tests.index(trow["test"]),
+                                        format_func=lambda k: TEST_LABEL[k])
+                new_due = f2.date_input("Due by", value=date.fromisoformat(trow["due_date"]))
+                new_urg = f3.selectbox("Urgency", ["routine", "soon", "urgent"],
+                                       index=["routine", "soon", "urgent"].index(trow["urgency"]))
+                if st.form_submit_button("Confirm follow-up", type="primary"):
+                    if (new_test, new_due.isoformat(), new_urg) == (trow["test"], trow["due_date"], trow["urgency"]):
+                        pipeline.confirm_task(conn, tid)
+                    else:
+                        pipeline.edit_task(conn, tid, new_due.isoformat(), new_urg, test=new_test)
+                    st.rerun()
+            with st.expander("Not needed? Dismiss with a reason"):
+                reason = st.selectbox("Reason", DISMISS_REASONS, key=f"rs{tid}")
+                note = st.text_input("Note", key=f"nt{tid}")
+                if st.button("Dismiss follow-up", key=f"ds{tid}"):
+                    pipeline.dismiss_task(conn, tid, reason + (f": {note}" if note else ""))
+                    st.rerun()
+
+    # ---------------- step 2: message (or phone call for urgent findings)
+    st.subheader("2. Phone the patient" if trow["requires_call"] else "2. Check and approve the patient message")
+    if trow["status"] == "dismissed":
+        st.write("Dismissed. No message will be sent.")
+    elif trow["requires_call"]:
+        st.error("Urgent finding: a clinician phones the patient. Resultwise never sends an automated message for this.")
+        st.write(f"Phone {p['name']} on the number in their record. Preferred language: {p['language']}"
+                 + (" (book an interpreter)." if p["language"] != "English" else "."))
+        if not trow["patient_called"] and st.button("Mark patient phoned", type="primary"):
+            pipeline.mark_called(conn, tid)
+            st.rerun()
+    elif sent is not None:
+        st.success(f"Sent on {sent['sent_on']} by {sent['approved_by']} ({sent['language']}, via {sent['channel']}).")
+        html(ui.message_card(p["name"], TEST_LABEL[trow["test"]], sent["language"], sent["channel"], sent["text_en"],
+                             sent["text_translated"], nz(sent["back_translation"]), bool(sent["check_passed"]),
+                             nz(sent["check_notes"])))
     else:
-        show_closed = st.toggle("Include closed and dismissed tasks", value=False)
-        view = df if show_closed else live
-        options = {f"{r['name']} · {TEST_LABEL[r.test]} · {status_text(r)}": int(r.id) for _, r in view.iterrows()}
-        choice = st.selectbox("Task", list(options), label_visibility="collapsed")
-        t = df[df.id == options[choice]].iloc[0]
-        a, b = st.columns([3, 2], gap="large")
-        with a:
-            html(ui.task_card(t["name"], TEST_LABEL[t.test], t.due_date, int(t.days_left), t.status, status_text(t),
-                              t.responsible_trust, bool(t.requires_call and not t.patient_called),
-                              t.review_state == "needs_review"))
-            if t.requires_call and not t.patient_called:
-                st.error("Urgent finding: a clinician must phone this patient. No automated message is sent.")
-            st.markdown(f"**The report**, with the sentence the AI used highlighted "
-                        f"(read by: {nz(t.read_by, 'offline')}; urgency {t.urgency}; confidence {t.confidence:.2f})")
-            html(ui.report_html(t.report_text, t.evidence))
-            views = rules.trust_views(conn, conn.execute("SELECT * FROM tasks WHERE id=?", (int(t.id),)).fetchone())
-            html(ui.lanes("Who can see this follow-up", "Each hospital's record only sees its own bookings.",
-                          [(tr.split()[0], "own record", view_state(views[tr]), views[tr]) for tr in TRUSTS]
-                          + [("Resultwise", "all trusts", t.status, status_text(t))]))
-        with b:
-            if t.status not in ("completed", "dismissed"):
-                if st.button("Confirm follow-up", key=f"cf{t.id}", type="primary", width="stretch"):
-                    pipeline.confirm_task(conn, int(t.id))
-                    st.rerun()
-                if t.requires_call and not t.patient_called and st.button("Mark patient phoned", key=f"ph{t.id}",
-                                                                           width="stretch"):
-                    pipeline.mark_called(conn, int(t.id))
-                    st.rerun()
-                with st.expander("Correct the AI"):
-                    nd = st.date_input("Due date", value=date.fromisoformat(t.due_date), key=f"nd{t.id}")
-                    nu = st.selectbox("Urgency", ["routine", "soon", "urgent"],
-                                      index=["routine", "soon", "urgent"].index(t.urgency), key=f"nu{t.id}")
-                    if st.button("Save correction", key=f"sv{t.id}"):
-                        pipeline.edit_task(conn, int(t.id), nd.isoformat(), nu)
-                        st.rerun()
-                with st.expander("Dismiss (reason required)"):
-                    reason = st.selectbox("Reason", DISMISS_REASONS, key=f"rs{t.id}")
-                    note = st.text_input("Note", key=f"nt{t.id}")
-                    if st.button("Dismiss task", key=f"ds{t.id}"):
-                        pipeline.dismiss_task(conn, int(t.id), reason + (f": {note}" if note else ""))
-                        st.rerun()
-            p = dict(conn.execute("SELECT * FROM patients WHERE id=?", (t.patient_id,)).fetchone())
-            r_row = dict(conn.execute("SELECT * FROM reports WHERE id=?", (t.report_id,)).fetchone())
-            st.download_button("Export as FHIR Task (JSON)",
-                               json.dumps(fhir.task_resource(dict(conn.execute("SELECT * FROM tasks WHERE id=?",
-                                                                               (int(t.id),)).fetchone()), p, r_row),
-                                          indent=2),
-                               f"resultwise_task_{t.id}.json", "application/json", width="stretch")
-            if t.requires_call:
-                st.caption("Urgent tasks never get an automated patient message.")
+        draft = conn.execute("SELECT * FROM messages WHERE task_id=? AND status IN ('pending_approval','blocked') "
+                             "ORDER BY id DESC", (tid,)).fetchone()
+        phone_no = rules.TRUST_PHONE.get(trow["responsible_trust"], p["phone"])
+        default_en, facts = messages.draft_english(p, trow, phone_no)
+        if draft is None:
+            st.caption("No message drafted yet (one is drafted automatically when a follow-up goes overdue). "
+                       "You can write and send a reminder now.")
+        lang = p["language"]
+        m1, m2 = st.columns(2, gap="large")
+        with m1:
+            st.markdown("**English: what you approve** (edit freely; keep the date and phone number)")
+            en = st.text_area("English message", draft["text_en"] if draft else default_en, height=210,
+                              key=f"en{tid}", label_visibility="collapsed")
+        with m2:
+            st.markdown(f"**{lang}: what {p['name'].split()[0]} reads**" if lang != "English"
+                        else "**No translation needed** (patient prefers English)")
+            ck = f"tr{tid}"
+            if lang != "English":
+                stored = (draft is not None and draft["text_en"] == en and draft["text_translated"])
+                if ck not in st.session_state and stored:
+                    st.session_state[ck] = (en, draft["text_translated"], nz(draft["back_translation"]))
+                if st.button(f"Translate into {lang} and check", key=f"tb{tid}"):
+                    if not ai_ready and en.strip() != default_en.strip():
+                        tr, back = en, ""  # offline templates can't translate edited wording
+                    else:
+                        with st.spinner("Translating and back-translating..."):
+                            tr, back = messages.translate(en, facts, trow["test"], lang, engine, key, inject)
+                    st.session_state[ck] = (en, tr, back)
+                cached = st.session_state.get(ck)
+                if cached and cached[0] == en:
+                    _, tr, back = cached
+                    if tr == en:
+                        st.warning(f"No {lang} translation available offline for this wording. Add an API key "
+                                   "(Settings) to translate any text, or send it in English.")
+                        ok, notes = True, []
+                    else:
+                        ok, notes = messages.fact_check(en, tr, facts)
+                        html(f'<div class="rw-msg"><div class="text" dir="{ui.text_dir(lang)}">{ui.esc(tr)}</div>'
+                             + (f'<div class="label" style="margin-top:.6rem">Back into English: {ui.esc(back)}</div>'
+                                if back else "") + "</div>")
+                        (st.success if ok else st.error)(
+                            "Check passed: date, phone number and name are unchanged." if ok
+                            else "Blocked: " + " ".join(notes))
+                else:
+                    tr, back, ok, notes = None, "", False, ["Translation not checked for this English text yet."]
+                    st.info("Click the button to translate this English text and run the safety check. "
+                            "If you edit the English, check again.")
             else:
-                prev_lang = st.selectbox("Preview patient message in", list(messages.LANGUAGES),
-                                         index=list(messages.LANGUAGES).index(p["language"])
-                                         if p["language"] in messages.LANGUAGES else 0, key=f"pl{t.id}")
-                if st.button("Preview patient message", key=f"pv{t.id}", width="stretch"):
-                    phone_no = rules.TRUST_PHONE.get(t.responsible_trust, p["phone"])
-                    en, facts = messages.draft_english(p, dict(t), phone_no)
-                    with st.spinner("Drafting..."):
-                        tr, back = messages.translate(en, facts, t.test, prev_lang, engine, key, inject)
-                    tr = None if prev_lang == "English" else tr
-                    ok, notes = messages.fact_check(en, tr, facts) if tr else (True, [])
-                    html(ui.message_card(p["name"], TEST_LABEL[t.test], prev_lang, p["channel"], en, tr, back, ok,
-                                         " ".join(notes)))
-                    st.caption("Preview only. Nothing is sent until the follow-up is overdue and a clinician approves it.")
+                tr, back, ok, notes = None, "", True, []
+                st.info("The English message on the left is exactly what the patient receives.")
+        ready = confirmed and ok
+        why = ("Confirm the follow-up in step 1 first." if not confirmed
+               else "Translate and pass the safety check first." if not ok else "")
+        a1, a2 = st.columns([2, 5])
+        if a1.button("Approve and send", type="primary", disabled=not ready, key=f"send{tid}"):
+            pipeline.send_message(conn, tid, en, tr if tr != en else None, back, ok, notes,
+                                  edited=(en != (draft["text_en"] if draft else default_en)))
+            st.session_state.pop(ck, None)
+            st.rerun()
+        if why:
+            a2.caption(why)
 
 elif page == "Patient journey":
     html(ui.header("One patient, two hospitals",

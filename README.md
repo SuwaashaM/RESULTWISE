@@ -78,8 +78,8 @@ Only synthetic text is ever sent to the API. Real patient data would need a cont
 
 | View | What it shows |
 |---|---|
-| Worklist | The loop strip (every follow-up from closed to overdue), priority cards, urgent *Phone patient* tags, patient replies, messages to approve, CSV export |
-| Task panel | The full report with the AI's evidence sentence highlighted, who can see this follow-up at each hospital, confirm / correct / dismiss with reason, preview the patient message in any language, export as FHIR Task |
+| Worklist | The four-step flow, the loop strip (every follow-up from closed to overdue), priority cards, what's waiting for you, CSV export |
+| **Review and approve** | One patient at a time, with a progress tracker. **Step 1:** the report (AI evidence highlighted) side by side with what the AI extracted, as plain English or as a **FHIR Task (JSON)** you can download; correct test / due date / urgency and confirm, or dismiss with a reason. **Step 2:** edit the **English message**, see the **translation and back-translation side by side**, pass the safety check, **approve and send**. Urgent findings show a phone-call step instead. Patient replies at the top |
 | Patient journey | Two-hospital swimlanes: Northbridge's record, Valeford's record, Resultwise |
 | Report inbox | New reports, *Re-read all reports with Claude* (parallel), paste-your-own report |
 | Equity | Past on-time rates by age, language, deprivation, plus current tasks by group |
@@ -114,8 +114,10 @@ Start with *Settings → Reset demo* (simulated date Sun 25 Oct 2026).
    with the evidence sentence.
 3. **Patient journey, Halina Nowak (40s).** Northbridge: *handed over*. Valeford: *no record*. Click **+2 wk**:
    Resultwise turns **Overdue**. "This is the gap no single hospital's record can see."
-4. **Worklist, translation safety (40s).** *Settings → Simulate a translation error*, *Regenerate* Halina's Polish
-   message: **Blocked**, the date changed. Turn it off, *Regenerate*, *Approve and send*.
+4. **Review and approve, Halina (60s).** Compare the highlighted report with the plain-English summary and the
+   FHIR tab, *Confirm follow-up*. Edit the English message, *Translate into Polish and check*, compare the
+   back-translation, *Approve and send*. For the safety moment: *Settings → Simulate a translation error*, translate
+   again: **Blocked**, the date changed.
 5. **Patient (50s).** Switch *I am → Patient*, sign in as Halina. Polish message; switch to Urdu or Bengali (Claude
    translates live), *Easy read*, *Extra large*, *High contrast*, *Read aloud*. Tap *Please call me*.
 6. **Back to Clinician (15s).** The reply is on the worklist. Every step is in the audit log.
