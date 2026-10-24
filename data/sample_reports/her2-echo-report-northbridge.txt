@@ -1,0 +1,16 @@
+NORTHBRIDGE HOSPITALS - CARDIOLOGY
+SYNTHETIC SAMPLE REPORT - FICTIONAL PATIENT - NOT REAL PATIENT DATA
+
+Patient: Grace Okafor (fictional)
+Age: 52
+NHS number: 999 012 3456 (test range)
+Date of report: 21 Oct 2026
+Referrer: Breast oncology, Northbridge Hospitals
+
+Transthoracic echocardiogram.
+Clinical indication: HER2-positive breast cancer on trastuzumab; 3-monthly cardiac surveillance.
+Findings: Left ventricle normal in size. LVEF 54% (baseline 60%). Global longitudinal strain -18%. No regional wall motion abnormality. No pericardial effusion.
+Conclusion: LVEF within normal limits with a modest fall from baseline. Continue trastuzumab.
+Recommendation: Repeat echocardiogram in 12 weeks; this will be performed at Valeford Hospitals cardio-oncology service.
+
+Reported by: Dr A. Example, Consultant Cardiologist (fictional)

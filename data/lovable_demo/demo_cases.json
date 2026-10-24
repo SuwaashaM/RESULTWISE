@@ -1,0 +1,116 @@
+{
+  "_about": "Synthetic seed data for the Resultwise web app (Lovable). Every person, hospital, NHS number and phone number is fictional. Exported from src/lib/seed.ts in the Lovable project. Simulated 'today' for the demo is 2026-10-25.",
+  "hospitals": {
+    "northbridge": {"name": "Northbridge Hospitals", "phone": "01632 960 101"},
+    "valeford": {"name": "Valeford Hospitals", "phone": "01632 960 202"}
+  },
+  "patients": [
+    {"id": "halina", "name": "Halina Nowak", "age": 61, "language": "pl", "contact": "app", "phone": "07700 900 311"},
+    {"id": "susan", "name": "Susan Whitaker", "age": 67, "language": "en", "contact": "app", "phone": "07700 900 412"},
+    {"id": "meena", "name": "Meena Sivakumar", "age": 53, "language": "ta", "contact": "app", "phone": "07700 900 513"},
+    {"id": "fatima", "name": "Fatima Khan", "age": 57, "language": "ur", "contact": "sms", "phone": "07700 900 614"},
+    {"id": "doreen", "name": "Doreen Walsh", "age": 84, "language": "en", "contact": "carer", "carer": "Mark Walsh (son)", "phone": "07700 900 715"},
+    {"id": "sarah", "name": "Sarah Ahmed", "age": 59, "language": "en", "contact": "phone", "phone": "07700 900 816"},
+    {"id": "rebecca", "name": "Rebecca Hall", "age": 55, "language": "en", "contact": "app", "phone": "07700 900 917"},
+    {"id": "joan", "name": "Joan Pearson", "age": 81, "language": "en", "contact": "carer", "carer": "Claire Pearson (daughter)", "phone": "07700 900 118"},
+    {"id": "linda", "name": "Linda Moore", "age": 69, "language": "en", "contact": "app", "phone": "07700 900 219"}
+  ],
+  "cases": [
+    {
+      "id": "halina", "patient_id": "halina", "teaches": "Gap between hospitals: report at Northbridge, scan due at Valeford, never booked. Translation to Polish.",
+      "report": {"hospital": "northbridge", "date": "2026-08-10", "title": "Transthoracic echocardiogram",
+        "text": "Transthoracic echocardiogram. Clinical indication: on trastuzumab, 3-monthly cardiac surveillance. Findings: Left ventricle normal in size. LVEF 57% (baseline 62%). No regional wall motion abnormality. Conclusion: LVEF within normal limits with a small fall from baseline. Continue trastuzumab. Repeat echocardiogram in 12 weeks as per surveillance protocol; this will be performed at Valeford Hospitals cardio-oncology service."},
+      "follow_up": {"finding": "Small fall in LVEF from baseline on trastuzumab", "test": "echocardiogram", "due_date": "2026-11-02", "urgency": "routine", "follow_up_at": "valeford", "confidence": 0.9,
+        "evidence": "Repeat echocardiogram in 12 weeks as per surveillance protocol; this will be performed at Valeford Hospitals cardio-oncology service."},
+      "confirmed": true, "booking": null, "escalation": "none"
+    },
+    {
+      "id": "susan", "patient_id": "susan", "teaches": "Booked at the other hospital: Resultwise sees it, so no false alarm.",
+      "report": {"hospital": "northbridge", "date": "2025-11-20", "title": "Bilateral digital mammogram",
+        "text": "Bilateral digital mammogram. Clinical indication: 3 years after wide local excision, right breast. Findings: Post-surgical changes in the right breast, stable. No new mass, distortion or calcification. Left breast unremarkable. Conclusion: No evidence of recurrence. BI-RADS 2. Annual surveillance mammography recommended in 12 months."},
+      "follow_up": {"finding": "Annual surveillance after breast surgery", "test": "mammogram", "due_date": "2026-11-20", "urgency": "routine", "follow_up_at": "northbridge", "confidence": 0.94,
+        "evidence": "Annual surveillance mammography recommended in 12 months."},
+      "confirmed": true, "booking": {"hospital": "valeford", "date": "2026-11-16"}, "escalation": "none"
+    },
+    {
+      "id": "meena", "patient_id": "meena", "teaches": "AI reads doctor shorthand ('rpt TTE 6/52'). Translation to Tamil.",
+      "report": {"hospital": "northbridge", "date": "2026-09-25", "title": "TTE (cardio-oncology)",
+        "text": "TTE: LVEF 55%, GLS -17%. Rx: T-DM1. Imp: borderline GLS reduction. Plan: rpt TTE 6/52."},
+      "follow_up": {"finding": "Borderline GLS reduction on T-DM1", "test": "echocardiogram", "due_date": "2026-11-06", "urgency": "routine", "follow_up_at": "northbridge", "confidence": 0.84,
+        "evidence": "Plan: rpt TTE 6/52."},
+      "confirmed": true, "booking": null, "escalation": "none"
+    },
+    {
+      "id": "fatima", "patient_id": "fatima", "teaches": "Right-to-left language (Urdu) and a patient reached by text message, not the app.",
+      "report": {"hospital": "northbridge", "date": "2026-08-04", "title": "Transthoracic echocardiogram",
+        "text": "Transthoracic echocardiogram. Indication: trastuzumab cardiac monitoring. LVEF 60%, unchanged. Normal valves. Conclusion: normal study. Continue 3-monthly echo surveillance until completion of trastuzumab."},
+      "follow_up": {"finding": "Ongoing heart monitoring during trastuzumab", "test": "echocardiogram", "due_date": "2026-11-03", "urgency": "routine", "follow_up_at": "northbridge", "confidence": 0.86,
+        "evidence": "Continue 3-monthly echo surveillance until completion of trastuzumab."},
+      "confirmed": true, "booking": null, "escalation": "none"
+    },
+    {
+      "id": "doreen", "patient_id": "doreen", "teaches": "Overdue past 14 days: nurse outreach. Messages go to her son as carer.",
+      "report": {"hospital": "northbridge", "date": "2025-10-10", "title": "Unilateral left mammogram",
+        "text": "Unilateral left mammogram. Clinical indication: previous right mastectomy. Findings: Fatty breast. No mass or calcification. Conclusion: Normal. Annual mammography of the left breast as per surveillance programme."},
+      "follow_up": {"finding": "Annual surveillance of remaining breast", "test": "mammogram", "due_date": "2026-10-10", "urgency": "routine", "follow_up_at": "northbridge", "confidence": 0.92,
+        "evidence": "Annual mammography of the left breast as per surveillance programme."},
+      "confirmed": true, "booking": null, "escalation": "nurse_outreach"
+    },
+    {
+      "id": "sarah", "patient_id": "sarah", "teaches": "Urgent suspicious finding: automated messages blocked, clinician must phone.",
+      "report": {"hospital": "northbridge", "date": "2026-10-22", "title": "Bilateral mammogram - screening recall",
+        "text": "Bilateral mammogram, screening recall. Findings: 14 mm irregular spiculated mass in the left breast, upper outer quadrant. Impression: M4 - suspicious. Recommend further assessment with ultrasound and core biopsy; refer to the breast clinic urgently."},
+      "follow_up": {"finding": "M4 suspicious mass, left breast", "test": "breast_biopsy", "due_date": "2026-11-05", "urgency": "urgent", "follow_up_at": "northbridge", "confidence": 0.96,
+        "evidence": "Recommend further assessment with ultrasound and core biopsy; refer to the breast clinic urgently."},
+      "confirmed": true, "booking": null, "escalation": "none"
+    },
+    {
+      "id": "rebecca", "patient_id": "rebecca", "teaches": "Follow-up hidden in the findings, not the conclusion; lower confidence, so it waits for a clinician check.",
+      "report": {"hospital": "northbridge", "date": "2026-10-08", "title": "CT chest, abdomen and pelvis (staging)",
+        "text": "CT chest, abdomen and pelvis. Indication: staging, newly diagnosed right breast cancer. Findings: No lung nodules. No enlarged lymph nodes. 12 mm low-attenuation lesion in segment 7 of the liver which is too small to characterise; MRI liver within 4 weeks would be helpful. Bones unremarkable. Conclusion: No convincing evidence of spread."},
+      "follow_up": {"finding": "12 mm liver lesion, too small to characterise", "test": "mri_liver", "due_date": "2026-11-05", "urgency": "soon", "follow_up_at": "northbridge", "confidence": 0.78,
+        "evidence": "12 mm low-attenuation lesion in segment 7 of the liver which is too small to characterise; MRI liver within 4 weeks would be helpful."},
+      "confirmed": false, "booking": {"hospital": "northbridge", "date": "2026-10-29"}, "escalation": "none"
+    },
+    {
+      "id": "joan", "patient_id": "joan", "teaches": "Two follow-ups in one report (this is the first). Messages go to her daughter as carer.",
+      "report": {"hospital": "valeford", "date": "2026-09-20", "title": "DXA bone density scan",
+        "text": "DXA scan. Indication: on letrozole. Lumbar spine T-score -2.6, total hip -2.1. Conclusion: low bone density at the lumbar spine. Bone health clinic review advised within 6 weeks. Repeat DXA in 12 months."},
+      "follow_up": {"finding": "Low bone density on aromatase inhibitor", "test": "specialist_review", "due_date": "2026-11-01", "urgency": "routine", "follow_up_at": "valeford", "confidence": 0.91,
+        "evidence": "Bone health clinic review advised within 6 weeks."},
+      "confirmed": true, "booking": null, "escalation": "none"
+    },
+    {
+      "id": "joan-dxa", "patient_id": "joan", "teaches": "Second follow-up from the same report.",
+      "report": {"hospital": "valeford", "date": "2026-09-20", "title": "DXA bone density scan", "text": "(same report as case 'joan')"},
+      "follow_up": {"finding": "Bone density monitoring on aromatase inhibitor", "test": "dexa", "due_date": "2027-09-20", "urgency": "routine", "follow_up_at": "valeford", "confidence": 0.93,
+        "evidence": "Repeat DXA in 12 months."},
+      "confirmed": true, "booking": null, "escalation": "none"
+    },
+    {
+      "id": "linda", "patient_id": "linda", "teaches": "Report says no follow-up is needed, so no task is created (no false alarm).",
+      "report": {"hospital": "valeford", "date": "2026-10-15", "title": "CT chest",
+        "text": "CT chest. Clinical indication: breast cancer survivor, 3 years after treatment; follow-up of a 4 mm right upper lobe nodule seen on her staging CT. Findings: The nodule is unchanged in size over 2 years. Conclusion: Benign appearance. No further follow-up of the nodule is required."},
+      "follow_up": null,
+      "confirmed": false, "booking": null, "escalation": "none"
+    }
+  ],
+  "prewritten_translations": {
+    "_about": "Pre-written patient reminders with literal back-translations, used instantly and as the fallback when the AI is unavailable. Should be checked by native speakers before any real use.",
+    "halina:reminder": {
+      "language": "Polish",
+      "translated": "Dzień dobry, Halina. Do 02 Nov 2026 powinna Pani mieć badanie serca (echokardiogram). Badanie odbędzie się w Valeford Hospitals. Nie widzimy jeszcze rezerwacji. Prosimy zadzwonić do Valeford Hospitals pod numer 01632 960 202, aby umówić wizytę. Jeśli wizyta jest już umówiona, prosimy dać nam znać.",
+      "back_translation": "Good day, Halina. By 02 Nov 2026 you should have a heart examination (echocardiogram). The examination will take place at Valeford Hospitals. We do not see a booking yet. Please call Valeford Hospitals on 01632 960 202 to arrange an appointment. If the appointment is already arranged, please let us know."
+    },
+    "meena:reminder": {
+      "language": "Tamil",
+      "translated": "வணக்கம் Meena. நீங்கள் 06 Nov 2026 க்குள் இதய ஸ்கேன் (எக்கோகார்டியோகிராம்) செய்துகொள்ள வேண்டும். இது Northbridge Hospitals இல் செய்யப்படும். இதுவரை எந்த முன்பதிவும் எங்களுக்குத் தெரியவில்லை. முன்பதிவு செய்ய Northbridge Hospitals ஐ 01632 960 101 என்ற எண்ணில் அழைக்கவும். நீங்கள் ஏற்கனவே முன்பதிவு செய்திருந்தால், எங்களுக்குத் தெரியப்படுத்தவும்.",
+      "back_translation": "Hello Meena. You need to have a heart scan (echocardiogram) by 06 Nov 2026. It will be done at Northbridge Hospitals. We cannot see any booking so far. To book, call Northbridge Hospitals on 01632 960 101. If you have already booked, please let us know."
+    },
+    "fatima:reminder": {
+      "language": "Urdu",
+      "translated": "السلام علیکم Fatima۔ آپ کا دل کا اسکین (ایکوکارڈیوگرام) 03 Nov 2026 تک ہونا ہے۔ یہ Northbridge Hospitals میں ہوگا۔ ہمیں ابھی تک کوئی بکنگ نظر نہیں آ رہی۔ بکنگ کے لیے براہ کرم Northbridge Hospitals کو 01632 960 101 پر فون کریں۔ اگر آپ پہلے ہی بکنگ کر چکی ہیں تو براہ کرم ہمیں بتائیں۔",
+      "back_translation": "Peace be upon you Fatima. Your heart scan (echocardiogram) is to be done by 03 Nov 2026. It will be at Northbridge Hospitals. We cannot see any booking yet. To book, please phone Northbridge Hospitals on 01632 960 101. If you have already booked, please tell us."
+    }
+  }
+}

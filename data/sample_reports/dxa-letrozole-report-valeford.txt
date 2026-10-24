@@ -1,0 +1,16 @@
+VALEFORD HOSPITALS - BONE DENSITY SERVICE
+SYNTHETIC SAMPLE REPORT - FICTIONAL PATIENT - NOT REAL PATIENT DATA
+
+Patient: Margaret Ellis (fictional)
+Age: 66
+NHS number: 999 012 3457 (test range)
+Date of report: 14 Oct 2026
+Referrer: Breast oncology, Valeford Hospitals
+
+DXA bone density scan.
+Clinical indication: Oestrogen receptor-positive breast cancer, on letrozole for 2 years.
+Findings: Lumbar spine (L1-L4) T-score -2.3. Left femoral neck T-score -1.9. Total hip T-score -1.6.
+Conclusion: Osteopenia at the lumbar spine and hip.
+Recommendation: Bone health clinic review advised within 8 weeks. Repeat DXA in 2 years.
+
+Reported by: Dr B. Example, Consultant Radiologist (fictional)

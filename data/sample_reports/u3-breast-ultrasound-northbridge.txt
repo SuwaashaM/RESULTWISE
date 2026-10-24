@@ -1,0 +1,16 @@
+NORTHBRIDGE HOSPITALS - BREAST IMAGING
+SYNTHETIC SAMPLE REPORT - FICTIONAL PATIENT - NOT REAL PATIENT DATA
+
+Patient: Priya Chandran (fictional)
+Age: 44
+NHS number: 999 012 3458 (test range)
+Date of report: 19 Oct 2026
+Referrer: Symptomatic breast clinic, Northbridge Hospitals
+
+Right breast ultrasound.
+Clinical indication: Palpable lump, right breast.
+Findings: 11 mm oval hypoechoic mass at 10 o'clock, 3 cm from the nipple, with partly indistinct margins. No abnormal axillary lymph nodes.
+Impression: U3 - indeterminate.
+Recommendation: Ultrasound-guided core biopsy is recommended.
+
+Reported by: Dr C. Example, Consultant Breast Radiologist (fictional)

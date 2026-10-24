@@ -44,6 +44,20 @@ report ──► Claude reads it ──► Pydantic schema check ──► evide
        ──► patient replies ──► clinician worklist          every step ──► audit log          tasks ──► FHIR Task export
 ```
 
+## Find your way around
+
+| | |
+|---|---|
+| **Architecture diagram + each layer explained** | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) |
+| **Synthetic data + data dictionary** | [`data/README.md`](data/README.md) |
+| **Sample reports to upload** (`.txt` / `.pdf` / `.docx`) | [`data/sample_reports/`](data/sample_reports/) |
+| **Web app demo data** (9 patients, 10 cases, pre-written translations) | [`data/lovable_demo/demo_cases.json`](data/lovable_demo/demo_cases.json) |
+| **Devpost story** | [`DEVPOST.md`](DEVPOST.md) |
+| **Problem statement + evidence** | [`PROBLEM_STATEMENT.md`](PROBLEM_STATEMENT.md) |
+
+The main product is the **web app** built with Lovable (React + Lovable Cloud). This repository holds the
+**Python test bench** where we built and measured the AI, the synthetic data, and the documentation.
+
 ## Run it locally
 
 ```bash
@@ -178,7 +192,10 @@ resultwise/rules.py        tracking engine, escalation, cross-trust views
 resultwise/pipeline.py     processing (parallel re-read), clinician actions, patient replies, demo seed
 resultwise/fhir.py         FHIR R4 Task export
 resultwise/ui.py           visual components (loop strip, cards, swimlanes, portal, read aloud)
-data/                      synthetic data + generators
+data/                      synthetic data + generators (see data/README.md)
+data/sample_reports/       sample reports as .txt / .pdf / .docx for the upload feature
+data/lovable_demo/         the web app's demo cases and pre-written translations
+docs/ARCHITECTURE.md       architecture diagrams and each layer explained
 tests/                     pytest suite
 ```
 
