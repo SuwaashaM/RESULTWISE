@@ -28,7 +28,7 @@ COMPAT = {
     "openai": ("https://api.openai.com/v1", "OPENAI_API_KEY",
                os.getenv("RESULTWISE_OPENAI_MODEL", "gpt-4.1-mini"), "max_completion_tokens"),
     "gemini": ("https://generativelanguage.googleapis.com/v1beta/openai", "GEMINI_API_KEY",
-               os.getenv("RESULTWISE_GEMINI_MODEL", "gemini-3.8-flash"), "max_tokens"),
+               os.getenv("RESULTWISE_GEMINI_MODEL", "gemini-3.5-flash-lite"), "max_tokens"),
     "groq": ("https://api.groq.com/openai/v1", "GROQ_API_KEY",
              os.getenv("RESULTWISE_GROQ_MODEL", "llama-3.3-70b-versatile"), "max_completion_tokens"),
 }
@@ -108,6 +108,8 @@ def complete(provider: str, system: str, user: str, key: str | None = None,
                    "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}]}
         if json_mode and provider == "openai":
             payload["response_format"] = {"type": "json_object"}
+        if provider == "gemini":
+            payload["reasoning_effort"] = os.getenv("RESULTWISE_GEMINI_REASONING", "low")  # keep latency down
         data = _post(f"{base}/chat/completions", {"authorization": f"Bearer {key}"}, payload)
         try:
             text = data["choices"][0]["message"]["content"] or ""

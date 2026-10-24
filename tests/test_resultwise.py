@@ -243,3 +243,12 @@ def test_default_engine_prefers_paid_then_free(monkeypatch):
     assert llm.default_engine() == "groq"
     monkeypatch.setenv("GEMINI_API_KEY", "x")
     assert llm.default_engine() == "gemini"
+
+
+def test_gemini_uses_low_latency_settings(monkeypatch):
+    from resultwise import llm
+    seen = {}
+    monkeypatch.setattr(llm, "_post", lambda url, h, payload, timeout=60: seen.update(payload) or
+                        {"choices": [{"message": {"content": "OK"}}]})
+    llm.complete("gemini", "s", "u", key="k")
+    assert seen["reasoning_effort"] == "low" and seen["model"] == llm.COMPAT["gemini"][2]

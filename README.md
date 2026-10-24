@@ -61,7 +61,7 @@ The app uses the first one it finds, and you can switch under *Settings → AI e
 
 | Provider | Cost | Secret to add | Default model |
 |---|---|---|---|
-| Google Gemini | **Free tier** (key from aistudio.google.com) | `GEMINI_API_KEY = "..."` | `gemini-3.8-flash` |
+| Google Gemini | **Free tier** (key from aistudio.google.com) | `GEMINI_API_KEY = "..."` | `gemini-3.5-flash-lite` |
 | Groq | **Free tier** (key from console.groq.com) | `GROQ_API_KEY = "..."` | `llama-3.3-70b-versatile` |
 | Anthropic Claude | Paid | `ANTHROPIC_API_KEY = "sk-ant-..."` | `claude-sonnet-5-5` (reads), `claude-haiku-5-5` (translates) |
 | OpenAI | Paid | `OPENAI_API_KEY = "sk-..."` | `gpt-4.1-mini` |
