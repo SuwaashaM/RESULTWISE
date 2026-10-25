@@ -1,4 +1,4 @@
-"""Generate the Resultwise synthetic dataset.
+"""Generate the ResultWise synthetic dataset.
 
 Everything here is invented. No real patients, reports, hospitals or phone numbers.
 Trust names are fictional; phone numbers use the Ofcom 01632 960xxx drama range.
@@ -270,7 +270,7 @@ HELDOUT = [
 UNPROCESSED_AT_START = {"R06", "R14", "R23"}
 
 # Bookings: (patient, test, trust, made_on, scheduled_for)
-# Missing bookings are deliberate: those are the gaps Resultwise should catch.
+# Missing bookings are deliberate: those are the gaps ResultWise should catch.
 BOOKINGS = [
     ("P002", "mammogram", TRUST_B, "2026-10-01", "2026-11-16"),   # booked at a different trust after moving
     ("P003", "breast_biopsy", TRUST_A, "2026-10-21", "2026-10-24"),

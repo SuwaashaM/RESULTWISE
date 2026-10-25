@@ -1,4 +1,4 @@
-# RESULTWISE
+# ResultWise
 
 **Tagline:** Reads breast cancer scan reports with AI, tracks every recommended follow-up across hospitals, and reaches the patient in her own language, with a clinician approving every step.
 
@@ -23,7 +23,7 @@ organisation. Halina's follow-up wasn't lost inside a hospital. It was lost betw
 
 We also decided early that the AI should assist, not decide. A report can carry life-changing news, and AI can't
 judge what is too sensitive to send. The opening talk's idea of *Artificial Limited Intelligence* (AI limited
-enough to be tested, regulated and trusted, not a race to AGI) is exactly how we built Resultwise.
+enough to be tested, regulated and trusted, not a race to AGI) is exactly how we built ResultWise.
 
 ## What it does
 
@@ -81,7 +81,7 @@ We followed the opening talk's **1 → 2 → FREE** method:
 ## Accomplishments that we're proud of
 
 - A full working loop from report to patient reply and back, live across two devices.
-- The two-hospital view: Northbridge says "handed over", Valeford says "no record", Resultwise says "overdue".
+- The two-hospital view: Northbridge says "handed over", Valeford says "no record", ResultWise says "overdue".
 - Designing for the patients most often missed: older people, non-English speakers, people without smartphones,
   and carers.
 - Zero real patient data, and an evaluation that shows our weak spots as well as our strengths.
@@ -95,7 +95,7 @@ We followed the opening talk's **1 → 2 → FREE** method:
 - Recall keeps patients safe; precision keeps clinicians listening.
 - In healthcare, limited AI you can test beats impressive AI you can't explain.
 
-## What's next for RESULTWISE
+## What's next for ResultWise
 
 - **Finish 1 → 2 → FREE:** swap the cloud model for a small open-source model running locally, benchmark it
   against step 1, and freeze it, so it's free to run and data never leaves the hospital.

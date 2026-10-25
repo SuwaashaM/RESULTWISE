@@ -1,4 +1,4 @@
-"""Resultwise: follow-up safety net (Streamlit MVP).
+"""ResultWise: follow-up safety net (Streamlit MVP).
 
 Run:  streamlit run app.py
 AI: set ANTHROPIC_API_KEY (environment or Streamlit secrets) and Claude reads reports, translates and writes
@@ -29,7 +29,7 @@ from resultwise import db, fhir, llm, messages, pipeline, rules, ui  # noqa: E40
 from resultwise.evaluate import evaluate, load_set  # noqa: E402
 from resultwise.schema import PLAIN_TEST_NAME  # noqa: E402
 
-st.set_page_config(page_title="Resultwise", layout="wide")
+st.set_page_config(page_title="ResultWise", layout="wide")
 st.markdown(ui.CSS + ui.PORTAL_CSS + ui.FLOW_CSS, unsafe_allow_html=True)
 
 STATUS_LABEL = {
@@ -129,7 +129,7 @@ html(ui.topbar(section, crumb))
 
 
 def footer():
-    html('<div class="rw-foot">Resultwise &middot; A human review at every handover &middot; '
+    html('<div class="rw-foot">ResultWise &middot; A human review at every handover &middot; '
          'Synthetic data only &middot; Not a clinical service</div>')
 
 
@@ -303,7 +303,7 @@ if page == "Worklist":
                                "text/csv", width="stretch")
 
 elif page == "How it works":
-    html(ui.header("How Resultwise works", "AI reads and drafts. Plain rules track. Clinicians decide. Patients can reply.",
+    html(ui.header("How ResultWise works", "AI reads and drafts. Plain rules track. Clinicians decide. Patients can reply.",
                    eyebrow="HOW IT WORKS"))
     html(ui.flow_strip())
     a, b, c = st.columns(3, gap="medium")
@@ -329,7 +329,7 @@ elif page == "How it works":
     st.subheader("Why it matters")
     st.markdown("Recommendations in scan reports are free text. When care moves between hospitals and GPs, each "
                 "record system only sees its own bookings, so a missed follow-up can go unnoticed until the "
-                "patient is harmed. Resultwise follows the **patient**, not the hospital.")
+                "patient is harmed. ResultWise follows the **patient**, not the hospital.")
 
 elif page == "Review and approve":
     html(ui.header("Review and approve",
@@ -454,7 +454,7 @@ elif page == "Review and approve":
             if trow["status"] == "dismissed":
                 st.write("Dismissed. No message will be sent.")
             elif trow["requires_call"]:
-                st.error("Urgent finding: a clinician phones the patient. Resultwise never sends an automated message "
+                st.error("Urgent finding: a clinician phones the patient. ResultWise never sends an automated message "
                          "for this.")
                 st.write(f"Phone {p['name']} on the number in their record. Preferred language: {p['language']}"
                          + (" (book an interpreter)." if p["language"] != "English" else "."))
@@ -561,7 +561,7 @@ elif page == "Review and approve":
             views = rules.trust_views(conn, conn.execute("SELECT * FROM tasks WHERE id=?", (tid,)).fetchone())
             html(ui.lanes("Who can see this follow-up", "Each hospital's own record only sees its own bookings.",
                           [(tr_, "own record only", view_state(views[tr_]), views[tr_]) for tr_ in TRUSTS]
-                          + [("Resultwise", "every hospital", t.status, status_text(t))]))
+                          + [("ResultWise", "every hospital", t.status, status_text(t))]))
             st.dataframe(q("SELECT sim_date AS date, actor AS who, action AS event, detail FROM audit WHERE task_id=? "
                            "ORDER BY id", (tid,)), hide_index=True, width="stretch")
 
@@ -575,7 +575,7 @@ elif page == "Review and approve":
 
 elif page == "Patient journey":
     html(ui.header("One patient, two hospitals",
-                   "Each hospital's own record only sees its own bookings. Resultwise follows the patient across both.", eyebrow="FOLLOW THE PATIENT"))
+                   "Each hospital's own record only sees its own bookings. ResultWise follows the patient across both.", eyebrow="FOLLOW THE PATIENT"))
     pts = q("SELECT DISTINCT p.id, p.name FROM patients p JOIN tasks t ON t.patient_id=p.id ORDER BY p.id")
     labels = {f"{r['name']} ({r['id']})": r["id"] for _, r in pts.iterrows()}
     default = next((i for i, k in enumerate(labels) if "P001" in k), 0)
@@ -590,7 +590,7 @@ elif page == "Patient journey":
                f"to be done at {rep['follow_up_trust']} by {t['due_date']}.")
         html(ui.lanes(TEST_LABEL[t["test"]], why,
                       [(tr, "own record only", view_state(views[tr]), views[tr]) for tr in TRUSTS]
-                      + [("Resultwise", "every trust", t["status"], status_text(t))]))
+                      + [("ResultWise", "every trust", t["status"], status_text(t))]))
     audit = q("""SELECT a.sim_date AS date, a.actor AS who, a.action AS event, a.detail FROM audit a
                  JOIN tasks t ON t.id=a.task_id WHERE t.patient_id=? ORDER BY a.id""", (pid,))
     st.subheader("What happened, in order")

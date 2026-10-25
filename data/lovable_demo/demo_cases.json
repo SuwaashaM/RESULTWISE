@@ -1,5 +1,5 @@
 {
-  "_about": "Synthetic seed data for the Resultwise web app (Lovable). Every person, hospital, NHS number and phone number is fictional. Exported from src/lib/seed.ts in the Lovable project. Simulated 'today' for the demo is 2026-10-25.",
+  "_about": "Synthetic seed data for the ResultWise web app (Lovable). Every person, hospital, NHS number and phone number is fictional. Exported from src/lib/seed.ts in the Lovable project. Simulated 'today' for the demo is 2026-10-25.",
   "hospitals": {
     "northbridge": {"name": "Northbridge Hospitals", "phone": "01632 960 101"},
     "valeford": {"name": "Valeford Hospitals", "phone": "01632 960 202"}
@@ -25,7 +25,7 @@
       "confirmed": true, "booking": null, "escalation": "none"
     },
     {
-      "id": "susan", "patient_id": "susan", "teaches": "Booked at the other hospital: Resultwise sees it, so no false alarm.",
+      "id": "susan", "patient_id": "susan", "teaches": "Booked at the other hospital: ResultWise sees it, so no false alarm.",
       "report": {"hospital": "northbridge", "date": "2025-11-20", "title": "Bilateral digital mammogram",
         "text": "Bilateral digital mammogram. Clinical indication: 3 years after wide local excision, right breast. Findings: Post-surgical changes in the right breast, stable. No new mass, distortion or calcification. Left breast unremarkable. Conclusion: No evidence of recurrence. BI-RADS 2. Annual surveillance mammography recommended in 12 months."},
       "follow_up": {"finding": "Annual surveillance after breast surgery", "test": "mammogram", "due_date": "2026-11-20", "urgency": "routine", "follow_up_at": "northbridge", "confidence": 0.94,

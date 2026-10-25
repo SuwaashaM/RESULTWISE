@@ -112,7 +112,7 @@ def advance(conn, days: int, engine="offline", key=None, inject_error=False):
 
 
 def trust_views(conn, task) -> dict:
-    """What each hospital's OWN system would show for this task, versus Resultwise (which sees every trust)."""
+    """What each hospital's OWN system would show for this task, versus ResultWise (which sees every trust)."""
     report = conn.execute("SELECT * FROM reports WHERE id=?", (task["report_id"],)).fetchone()
     source, target = report["source_trust"], report["follow_up_trust"]
     today = db.today(conn)

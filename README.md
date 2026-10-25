@@ -1,6 +1,6 @@
-# Resultwise
+# ResultWise
 
-**No follow-up silently lost.** Resultwise reads breast cancer scan reports with AI, tracks every recommended
+**No follow-up silently lost.** ResultWise reads breast cancer scan reports with AI, tracks every recommended
 follow-up across hospitals, and reaches the patient in her own language, with a clinician approving every step.
 
 > **All data is synthetic.** Fictional hospitals and patients, NHS numbers from the 999 test range, phone numbers

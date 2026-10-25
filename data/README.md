@@ -56,7 +56,7 @@
 
 ## Bias built in on purpose
 
-To test whether Resultwise can **spot** inequality, `history.csv` has known gaps built in. The base chance of a
+To test whether ResultWise can **spot** inequality, `history.csv` has known gaps built in. The base chance of a
 follow-up happening on time is 90%, and it drops by:
 
 | Group | Drop |

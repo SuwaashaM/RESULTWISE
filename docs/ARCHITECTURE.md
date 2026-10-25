@@ -1,6 +1,6 @@
 # Architecture
 
-Resultwise in one sentence: **AI reads and translates, plain rules track, a human decides.**
+ResultWise in one sentence: **AI reads and translates, plain rules track, a human decides.**
 
 ## The big picture
 

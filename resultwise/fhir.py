@@ -1,4 +1,4 @@
-"""Export a Resultwise task as a FHIR R4 Task resource (JSON).
+"""Export a ResultWise task as a FHIR R4 Task resource (JSON).
 
 Shows how a follow-up could travel between organisations and record systems using the standard
 health-data format, instead of living inside one hospital's record. Synthetic data only.

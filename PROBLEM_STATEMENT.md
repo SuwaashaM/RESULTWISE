@@ -58,9 +58,9 @@ systems (Epic, Oracle, Altera, MEDITECH, in-house systems and GP systems), and m
 > clinicians' workload, and without leaving behind patients who are older, don't speak English, or don't use
 > digital services?**
 
-## Our answer: Resultwise
+## Our answer: ResultWise
 
-Resultwise is a follow-up safety net that **follows the patient, not the hospital**:
+ResultWise is a follow-up safety net that **follows the patient, not the hospital**:
 
 1. **AI reads** each report and turns recommendations into structured tasks (test, due date, urgency, evidence quote).
 2. **Safety checks** validate every AI output; anything uncertain goes to a human. Nothing is silently dropped.

@@ -179,8 +179,8 @@ def header(title: str, lead: str, tag: str = "", eyebrow: str = "") -> str:
 
 def brand(compact: bool = False) -> str:
     if compact:
-        return '<div class="rw-brand" style="font-size:1.05rem"><div class="mark">&#10033;</div>Resultwise</div>'
-    return ('<div class="rw-brand"><div class="mark">&#10033;</div>Resultwise</div>'
+        return '<div class="rw-brand" style="font-size:1.05rem"><div class="mark">&#10033;</div>ResultWise</div>'
+    return ('<div class="rw-brand"><div class="mark">&#10033;</div>ResultWise</div>'
             '<div class="rw-brand-sub">No follow-up silently lost</div>')
 
 
@@ -256,7 +256,7 @@ def lanes(title: str, why: str, rows: list[tuple[str, str, str, str]]) -> str:
     out = [f'<div class="rw-lanes"><div class="what">{esc(title)}</div><div class="why">{esc(why)}</div>']
     for who, sub, key, txt in rows:
         c, bg, _ = STATUS_STYLE.get(key, STATUS_STYLE["open"])
-        cls = "rw-lane us" if who == "Resultwise" else "rw-lane"
+        cls = "rw-lane us" if who == "ResultWise" else "rw-lane"
         out.append(f'<div class="{cls}"><div class="who">{esc(who)}<small>{esc(sub)}</small></div>'
                    f'<div><span class="rw-state" style="--c:{c};--bg:{bg}">{esc(txt)}</span></div></div>')
     out.append("</div>")
