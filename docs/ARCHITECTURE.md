@@ -4,7 +4,7 @@ ResultWise in one sentence: **AI reads and translates, plain rules track, a huma
 
 ## The big picture
 
-(Same diagram as an image: [`architecture.png`](architecture.png). Journey of one report: [`report-journey.png`](report-journey.png).)
+(Simplified images: [`architecture.png`](images/architecture.png), [`report-journey.png`](images/report-journey.png).)
 
 ```mermaid
 flowchart TB
