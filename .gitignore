@@ -8,3 +8,4 @@ eval_results.json
 .pytest_cache/
 .DS_Store
 .streamlit/secrets.toml
+local_eval_results.json

@@ -101,6 +101,24 @@ python eval.py --engine offline    # or --engine gemini
 python data/generate_data.py       # regenerate the synthetic data
 ```
 
+## Run a local model (step 2 of 1 → 2 → FREE)
+
+Test a free, open-source model running **on your own computer**, so no text leaves the machine. It uses the same
+extraction code and the same 10 held-out reports, and prints its score next to Gemini and the keyword rules. The app
+itself is not changed.
+
+1. Install [Ollama](https://ollama.com/download) and open it.
+2. Download a model in a terminal: `ollama pull qwen2.5:7b` (about 4.7 GB) or, for a lighter laptop,
+   `ollama pull llama3.2:3b` (about 2 GB).
+3. In this folder:
+
+```bash
+pip install pydantic
+python local_model_eval.py                       # or: --model llama3.2:3b
+```
+
+Results are saved to `local_eval_results.json`.
+
 ## Limits
 
 - Synthetic data only, and a small held-out test set.
